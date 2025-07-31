@@ -10,232 +10,250 @@
       sizes="32x32"
       href="icons/icon_512x512.png"
     />
-    <link rel="stylesheet" href="styles/styles_02.css" />
+    <link rel="stylesheet" href="styles/styles_05.css" />
     <script src="script/ui_texts.js" defer></script>
     <script src="script/script_02.js" defer></script>
   </head>
 
   <body>
-    <div id="translatorContainer" class="translator-container">
-      <div class="row service-row" id="serviceRow">
-        <label for="serviceSelect" id="serviceLabel" class="service-label"
-          >Сервис:</label
-        >
-        <select
-          id="serviceSelect"
-          class="service-select"
-          title="Select translation service"
-        >
-          <option value="mymemory">
-            MyMemory (Free API with daily limit, basic translations)
-          </option>
-          <option value="libretranslate">
-            LibreTranslate (Open-source, no API key required, community-hosted)
-          </option>
-          <option value="google">
-            Google Cloud Translate (Paid API, high-quality translations)
-          </option>
-        </select>
-      </div>
-      <h2>Dual Translator</h2>
+    <div id="scrollContainer" class="scroll-container">
+      <h2>
+        <img
+          src="icons/icon_512x512.png"
+          alt="Icon"
+          style="
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+            margin-right: 8px;
+          "
+        />Dual Translator
+      </h2>
       <h5>Author: Oleksii Pokormiakho</h5>
-      <div class="row" id="uiLangRow">
-        <label for="uiLang" id="uiLangLabel" class="ui-lang-label"
-          >Интерфейс:</label
-        >
-        <select
-          id="uiLang"
-          class="ui-lang-select"
-          title="Select interface language"
-        >
-          <option value="de">German</option>
-          <option value="en" selected>English</option>
-          <option value="fr">French</option>
-          <option value="nl">Dutch</option>
-          <option value="pl">Polish</option>
-          <option value="pt">Portuguese</option>
-          <option value="ru">Russian</option>
-          <option value="tr">Turkish</option>
-          <option value="uk">Ukrainian</option>
-        </select>
-        <button id="resetSettingsBtn" class="icon-btn" title="Def">🔄</button>
-      </div>
-
-      <div class="translation-block" id="sourceBlock">
-        <label for="sourceLang" class="source-lang-label"
-          >Source Language</label
-        >
-        <div class="row controls-row" style="align-items: center; gap: 10px">
-          <select
-            id="sourceLang"
-            class="source-lang-select"
-            title="Source language"
+      <div class="layout">
+        <div class="row service-row" id="serviceRow">
+          <label for="serviceSelect" id="serviceLabel" class="service-label"
+            >Сервис:</label
           >
-            <option value="de">German</option>
-            <option value="en">English</option>
-            <option value="fr">French</option>
-            <option value="nl" selected>Dutch</option>
-            <option value="pl">Polish</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-            <option value="tr">Turkish</option>
-            <option value="uk">Ukrainian</option>
+          <select
+            id="serviceSelect"
+            class="service-select"
+            title="Select translation service"
+          >
+            <option value="mymemory">
+              MyMemory (Free API with daily limit, basic translations)
+            </option>
+            <option value="libretranslate">
+              LibreTranslate (Open-source, no API key required,
+              community-hosted)
+            </option>
+            <option value="google">
+              Google Cloud Translate (Paid API, high-quality translations)
+            </option>
           </select>
-          <div id="buttonContainer" class="button-container">
-            <!-- <button type="button" id="micSource" class="icon-btn" title="Speak">
+        </div>
+
+        <div class="setting-row" id="settingsRow">
+          <button id="resetSettingsBtn" class="reset-settings-btn" title="Def">
+            🔄
+          </button>
+          <div class="row ui-lang-group" id="uiLangGroup">
+            <label for="uiLang" id="uiLangLabel" class="ui-lang-label"
+              >Интерфейс:</label
+            >
+            <select
+              id="uiLang"
+              class="ui-lang-select"
+              title="Select interface language"
+            >
+              <option value="de">German</option>
+              <option value="en" selected>English</option>
+              <option value="fr">French</option>
+              <option value="nl">Dutch</option>
+              <option value="pl">Polish</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="tr">Turkish</option>
+              <option value="uk">Ukrainian</option>
+            </select>
+          </div>
+        </div>
+        <div class="translation-block" id="sourceBlock">
+          <label for="sourceLang" class="source-lang-label"
+            >Source Language</label
+          >
+          <div class="row controls-row" style="align-items: center; gap: 10px">
+            <select
+              id="sourceLang"
+              class="source-lang-select"
+              title="Source language"
+            >
+              <option value="de">German</option>
+              <option value="en">English</option>
+              <option value="fr">French</option>
+              <option value="nl" selected>Dutch</option>
+              <option value="pl">Polish</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="tr">Turkish</option>
+              <option value="uk">Ukrainian</option>
+            </select>
+            <div id="buttonContainer" class="button-container">
+              <!-- <button type="button" id="micSource" class="icon-btn" title="Speak">
               🎤
             </button> -->
+              <button
+                type="button"
+                id="pasteSource"
+                class="icon-btn"
+                title="Paste into source"
+              >
+                📥
+              </button>
+              <button
+                type="button"
+                id="copySource"
+                class="icon-btn"
+                title="Copy source text"
+              >
+                📋
+              </button>
+              <button
+                type="button"
+                id="speakSource"
+                class="icon-btn"
+                title="Play source"
+              >
+                🔊
+              </button>
+            </div>
+          </div>
+          <textarea
+            id="sourceText"
+            class="source-textarea"
+            placeholder="Enter text..."
+          ></textarea>
+        </div>
+
+        <div class="translation-block">
+          <div class="row translate-control-row" id="translateControlRow">
+            <label
+              for="autoTranslate"
+              id="autoTranslateLabel"
+              class="auto-translate-label"
+            >
+              <input
+                type="checkbox"
+                id="autoTranslate"
+                class="auto-translate-checkbox"
+              />
+              Auto-translate
+            </label>
+
             <button
               type="button"
-              id="pasteSource"
-              class="icon-btn"
-              title="Paste into source"
+              id="manualTranslateBtn"
+              class="translate-btn"
+              title="Translate manually"
             >
-              📥
-            </button>
-            <button
-              type="button"
-              id="copySource"
-              class="icon-btn"
-              title="Copy source text"
-            >
-              📋
-            </button>
-            <button
-              type="button"
-              id="speakSource"
-              class="icon-btn"
-              title="Play source"
-            >
-              🔊
+              Перевести
             </button>
           </div>
         </div>
-        <textarea
-          id="sourceText"
-          class="source-textarea"
-          placeholder="Enter text..."
-        ></textarea>
-      </div>
 
-      <div class="translation-block">
-        <div class="row translate-control-row" id="translateControlRow">
-          <label
-            for="autoTranslate"
-            id="autoTranslateLabel"
-            class="auto-translate-label"
+        <div class="translation-block" id="targetBlock1">
+          <label for="targetLang1" class="target-lang-1-label"
+            >Target Language 1</label
           >
-            <input
-              type="checkbox"
-              id="autoTranslate"
-              class="auto-translate-checkbox"
-            />
-            Auto-translate
-          </label>
-
-          <button
-            type="button"
-            id="manualTranslateBtn"
-            class="translate-btn"
-            title="Translate manually"
-          >
-            Перевести
-          </button>
-        </div>
-      </div>
-
-      <div class="translation-block" id="targetBlock1">
-        <label for="targetLang1" class="target-lang-1-label"
-          >Target Language 1</label
-        >
-        <div class="row controls-row" style="align-items: center; gap: 10px">
-          <select
-            id="targetLang1"
-            class="target-lang-1-select"
-            title="Target language 1"
-          >
-            <option value="de">German</option>
-            <option value="en" selected>English</option>
-            <option value="fr">French</option>
-            <option value="nl">Dutch</option>
-            <option value="pl">Polish</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-            <option value="tr">Turkish</option>
-            <option value="uk">Ukrainian</option>
-          </select>
-          <div id="buttonContainer" class="button-container">
-            <button
-              type="button"
-              id="copyTarget1"
-              class="icon-btn"
-              title="Copy translation 1"
+          <div class="row controls-row" style="align-items: center; gap: 10px">
+            <select
+              id="targetLang1"
+              class="target-lang-1-select"
+              title="Target language 1"
             >
-              📋
-            </button>
-            <button
-              type="button"
-              id="speakTarget1"
-              class="icon-btn"
-              title="Play translation 1"
-            >
-              🔊
-            </button>
+              <option value="de">German</option>
+              <option value="en" selected>English</option>
+              <option value="fr">French</option>
+              <option value="nl">Dutch</option>
+              <option value="pl">Polish</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="tr">Turkish</option>
+              <option value="uk">Ukrainian</option>
+            </select>
+            <div id="buttonContainer" class="button-container">
+              <button
+                type="button"
+                id="copyTarget1"
+                class="icon-btn"
+                title="Copy translation 1"
+              >
+                📋
+              </button>
+              <button
+                type="button"
+                id="speakTarget1"
+                class="icon-btn"
+                title="Play translation 1"
+              >
+                🔊
+              </button>
+            </div>
           </div>
+          <textarea
+            id="translatedText1"
+            class="translated-text-1-textarea"
+            placeholder="Translation 1"
+            readonly
+          ></textarea>
         </div>
-        <textarea
-          id="translatedText1"
-          class="translated-text-1-textarea"
-          placeholder="Translation 1"
-          readonly
-        ></textarea>
-      </div>
 
-      <div class="translation-block" id="targetBlock2">
-        <label for="targetLang2" class="target-lang-2-label"
-          >Target Language 2</label
-        >
-        <div class="row controls-row" style="align-items: center; gap: 10px">
-          <select
-            id="targetLang2"
-            class="target-lang-2-select"
-            title="Target language 2"
+        <div class="translation-block" id="targetBlock2">
+          <label for="targetLang2" class="target-lang-2-label"
+            >Target Language 2</label
           >
-            <option value="de">German</option>
-            <option value="en">English</option>
-            <option value="fr">French</option>
-            <option value="nl">Dutch</option>
-            <option value="pl">Polish</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-            <option value="tr">Turkish</option>
-            <option value="uk" selected>Ukrainian</option>
-          </select>
-          <div id="buttonContainer" class="button-container">
-            <button
-              type="button"
-              id="copyTarget2"
-              class="icon-btn"
-              title="Copy translation 2"
+          <div class="row controls-row" style="align-items: center; gap: 10px">
+            <select
+              id="targetLang2"
+              class="target-lang-2-select"
+              title="Target language 2"
             >
-              📋
-            </button>
-            <button
-              type="button"
-              id="speakTarget2"
-              class="icon-btn"
-              title="Play translation 2"
-            >
-              🔊
-            </button>
+              <option value="de">German</option>
+              <option value="en">English</option>
+              <option value="fr">French</option>
+              <option value="nl">Dutch</option>
+              <option value="pl">Polish</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="tr">Turkish</option>
+              <option value="uk" selected>Ukrainian</option>
+            </select>
+            <div id="buttonContainer" class="button-container">
+              <button
+                type="button"
+                id="copyTarget2"
+                class="icon-btn"
+                title="Copy translation 2"
+              >
+                📋
+              </button>
+              <button
+                type="button"
+                id="speakTarget2"
+                class="icon-btn"
+                title="Play translation 2"
+              >
+                🔊
+              </button>
+            </div>
           </div>
+          <textarea
+            id="translatedText2"
+            class="translated-text-2-textarea"
+            placeholder="Translation 2"
+            readonly
+          ></textarea>
         </div>
-        <textarea
-          id="translatedText2"
-          class="translated-text-2-textarea"
-          placeholder="Translation 2"
-          readonly
-        ></textarea>
       </div>
     </div>
   </body>
