@@ -11,21 +11,42 @@ body {
   width: 100%;
 }
 h2,
-h5 {
+h5,
+h6 {
   box-sizing: border-box;
   margin-bottom: 10px;
-  text-align: center;
   width: 100%;
   word-wrap: break-word;
 }
 h2 {
+  margin: 0;
   font-size: 24px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 h5 {
   font-size: 14px;
   font-style: italic;
+  text-align: right;
   margin-top: 0;
+  margin-bottom: 8px;
+}
+.version {
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 0;
+}
+.titles-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.title-icon {
+  width: 64px;
+  height: 64px;
+  margin-right: 8px;
+  flex-shrink: 0;
 }
 .button-container {
   align-items: center;
@@ -59,7 +80,6 @@ h5 {
   outline: none;
   transition: background-color 0.3s ease, color 0.3s ease;
   width: 36px;
-  margin-top: -12px;
 }
 .icon-btn:disabled {
   background-color: #eee;
@@ -89,7 +109,7 @@ h5 {
   flex-direction: column;
   margin: 0 auto;
   max-width: 800px;
-  padding: 12px;
+  padding: 6px;
   width: 100%;
 }
 .row {
@@ -157,7 +177,9 @@ h5 {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: -6px;
+  border-top: 1px solid #cfd8dc;
+  border-bottom: 1px solid #cfd8dc;
+  padding: 8px 0;
 }
 .source-lang-label,
 .target-lang-1-label,
@@ -197,9 +219,9 @@ h5 {
   pointer-events: auto;
 }
 .translation-block {
-  border-top: 1px solid #cfd8dc;
-  margin-top: 15px;
-  padding-top: 15px;
+  /* border-top: 1px solid #cfd8dc; */
+  margin-top: 14px;
+  /* padding-top: 12px; */
 }
 .translate-btn {
   background: #e3f2fd;
@@ -211,7 +233,7 @@ h5 {
   font-size: 16px;
   font-weight: 600;
   height: 36px;
-  margin-top: 6px;
+  margin-top: 8px;
   padding: 0 16px;
   transition: background-color 0.3s ease, border-color 0.3s ease,
     color 0.3s ease;

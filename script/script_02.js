@@ -4,7 +4,7 @@ let debounceTimer;
 let autoTranslateChecked = true;
 
 function updateUI() {
-  const lang = document.getElementById("uiLang").value;
+  const lang = document.getElementById("uiLangSelect").value;
   const t = uiTexts[lang] || uiTexts.en;
 
   document.getElementById("serviceLabel").textContent = t.serviceLabel;
@@ -39,7 +39,7 @@ function updateUI() {
 
 function setLoadingState(isLoading) {
   const translateBtn = document.getElementById("manualTranslateBtn");
-  const lang = document.getElementById("uiLang").value;
+  const lang = document.getElementById("uiLangSelect").value;
   const t = uiTexts[lang] || uiTexts.en;
 
   translateBtn.disabled = isLoading;
@@ -211,7 +211,7 @@ function speakText(text, langCode = "en", button = null) {
 
 function saveSettings() {
   const settings = {
-    uiLang: document.getElementById("uiLang").value,
+    uiLangSelect: document.getElementById("uiLangSelect").value,
     serviceSelect: document.getElementById("serviceSelect").value,
     sourceLang: document.getElementById("sourceLang").value,
     targetLang1: document.getElementById("targetLang1").value,
@@ -225,7 +225,8 @@ function loadSettings() {
   const saved = localStorage.getItem("translatorSettings");
   if (saved) {
     const settings = JSON.parse(saved);
-    document.getElementById("uiLang").value = settings.uiLang || "en";
+    document.getElementById("uiLangSelect").value =
+      settings.uiLangSelect || "en";
     document.getElementById("serviceSelect").value =
       settings.serviceSelect || "mymemory";
     document.getElementById("sourceLang").value = settings.sourceLang || "en";
@@ -240,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSettings();
   updateUI();
 
-  document.getElementById("uiLang").addEventListener("change", () => {
+  document.getElementById("uiLangSelect").addEventListener("change", () => {
     updateUI();
     saveSettings();
   });
@@ -274,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("resetSettingsBtn").addEventListener("click", () => {
     localStorage.removeItem("translatorSettings");
     // выставляем дефолтные значения в DOM
-    document.getElementById("uiLang").value = "en";
+    document.getElementById("uiLangSelect").value = "en";
     document.getElementById("serviceSelect").value = "mymemory";
     document.getElementById("sourceLang").value = "nl";
     document.getElementById("targetLang1").value = "en";

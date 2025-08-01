@@ -16,22 +16,23 @@
   </head>
 
   <body>
-    <div id="scrollContainer" class="scroll-container">
-      <h2>
+    <div class="scroll-container" id="scrollContainer">
+      <div class="titles-container" id="titlesContainer">
         <img
+          class="title-icon"
+          id="titleIcon"
           src="icons/icon_512x512.png"
           alt="Icon"
-          style="
-            width: 48px;
-            height: 48px;
-            vertical-align: middle;
-            margin-right: 8px;
-          "
-        />Dual Translator
-      </h2>
-      <h5>Author: Oleksii Pokormiakho</h5>
+        />
+        <div class="title-text" id="titleText">
+          <h2>Dual Translator<br /></h2>
+          <h6 id="version" class="version">version: 1.2.2</h6>
+        </div>
+      </div>
+
       <div class="layout">
-        <div class="row service-row" id="serviceRow">
+        <h5>Oleksii Pokormiakho</h5>
+        <div class="service-row" id="serviceRow">
           <label for="serviceSelect" id="serviceLabel" class="service-label"
             >Сервис:</label
           >
@@ -57,24 +58,24 @@
           <button id="resetSettingsBtn" class="reset-settings-btn" title="Def">
             🔄
           </button>
-          <div class="row ui-lang-group" id="uiLangGroup">
-            <label for="uiLang" id="uiLangLabel" class="ui-lang-label"
+          <div class="ui-lang-group" id="uiLangGroup">
+            <label for="uiLangSelect" id="uiLangLabel" class="ui-lang-label"
               >Интерфейс:</label
             >
             <select
-              id="uiLang"
               class="ui-lang-select"
+              id="uiLangSelect"
               title="Select interface language"
             >
-              <option value="de">German</option>
-              <option value="en" selected>English</option>
-              <option value="fr">French</option>
-              <option value="nl">Dutch</option>
-              <option value="pl">Polish</option>
-              <option value="pt">Portuguese</option>
-              <option value="ru">Russian</option>
-              <option value="tr">Turkish</option>
-              <option value="uk">Ukrainian</option>
+              <option value="de">Deutsch</option>
+              <option selected value="en">English</option>
+              <option value="fr">Français</option>
+              <option value="nl">Nederlands</option>
+              <option value="pl">Polski</option>
+              <option value="pt">Português</option>
+              <option value="ru">Русский</option>
+              <option value="tr">Türkçe</option>
+              <option value="uk">Українська</option>
             </select>
           </div>
         </div>
