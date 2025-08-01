@@ -250,6 +250,11 @@ h5 {
   border-color: #0059b3;
   color: #002f5e;
 }
+button:focus,
+button:focus-visible {
+  outline: none;
+  /* box-shadow: none; */
+}
 .ui-lang-group {
   align-items: center;
   display: flex;

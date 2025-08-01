@@ -1,7 +1,8 @@
 const googleApiKey = "YOUR_GOOGLE_API_KEY"; // Google API key
 
-let debounceTimer;
 let autoTranslateChecked = true;
+let debounceTimer;
+let currentUtterance = null;
 
 function updateUI() {
   const lang = document.getElementById("uiLangSelect").value;
@@ -199,28 +200,27 @@ function speakText(text, langCode = "en", button = null) {
     return;
   }
 
+  if (speechSynthesis.speaking && currentUtterance) {
+    speechSynthesis.cancel();
+    currentUtterance = null;
+    return;
+  }
+
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = langCode;
   utterance.rate = 1;
   utterance.pitch = 1;
 
-  if (button) {
-    button.disabled = true; // сделать кнопку неактивной
-  }
+  currentUtterance = utterance;
 
   utterance.onend = () => {
-    if (button) {
-      button.disabled = false; // снова активировать
-    }
+    currentUtterance = null;
   };
 
   utterance.onerror = () => {
-    if (button) {
-      button.disabled = false; // снова активировать в случае ошибки
-    }
+    currentUtterance = null;
   };
 
-  speechSynthesis.cancel(); // остановить предыдущую речь
   speechSynthesis.speak(utterance);
 }
 
