@@ -35,6 +35,21 @@ function updateUI() {
   document.getElementById("pasteSource").title = t.pasteBtnTitle;
   document.getElementById("copyTarget1").title = t.copyBtnTitle;
   document.getElementById("copyTarget2").title = t.copyBtnTitle;
+
+  updateLangSelectOptions(lang); // 👈 новый вызов
+}
+function updateLangSelectOptions(lang) {
+  const nameMap = languageNames[lang] || languageNames.en;
+
+  ["sourceLang", "targetLang1", "targetLang2"].forEach((selectId) => {
+    const select = document.getElementById(selectId);
+    Array.from(select.options).forEach((option) => {
+      const code = option.value;
+      if (nameMap[code]) {
+        option.textContent = nameMap[code];
+      }
+    });
+  });
 }
 
 function setLoadingState(isLoading) {
@@ -368,10 +383,3 @@ document.getElementById("micSource").addEventListener("click", () => {
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
-
-window.addEventListener("load", function () {
-  const sourceBlock = document.getElementById("sourceBlock");
-  if (sourceBlock) {
-    sourceBlock.scrollIntoView({ behavior: "auto", block: "start" });
-  }
-});
