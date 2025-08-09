@@ -250,8 +250,41 @@ function loadSettings() {
     document.getElementById("autoTranslate").checked =
       settings.autoTranslate ?? true;
     autoTranslateChecked = document.getElementById("autoTranslate").checked;
+  } else {
+    // Set default settings if nothing saved
+    document.getElementById("uiLangSelect").value = "en";
+    document.getElementById("serviceSelect").value = "mymemory";
+    document.getElementById("sourceLang").value = "nl";
+    document.getElementById("targetLang1").value = "en";
+    document.getElementById("targetLang2").value = "uk";
+    document.getElementById("autoTranslate").checked = true;
+    autoTranslateChecked = true;
   }
 }
+
+function resetSettings() {
+  document.getElementById("uiLangSelect").value = "en";
+  document.getElementById("serviceSelect").value = "mymemory";
+  document.getElementById("sourceLang").value = "nl";
+  document.getElementById("targetLang1").value = "en";
+  document.getElementById("targetLang2").value = "uk";
+  document.getElementById("autoTranslate").checked = true;
+  autoTranslateChecked = true;
+  clearTranslations();
+  updateUI();
+  saveSettings();
+}
+
+function onInputChanged() {
+  if (autoTranslateChecked) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      translateText();
+    }, 700);
+  }
+  saveSettings();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadSettings();
   updateUI();
@@ -266,19 +299,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (autoTranslateChecked) translateText();
   });
 
-  document.getElementById("sourceLang").addEventListener("change", () => {
-    saveSettings();
-    if (autoTranslateChecked) translateText();
-  });
-
-  document.getElementById("targetLang1").addEventListener("change", () => {
-    saveSettings();
-    if (autoTranslateChecked) translateText();
-  });
-
-  document.getElementById("targetLang2").addEventListener("change", () => {
-    saveSettings();
-    if (autoTranslateChecked) translateText();
+  ["sourceLang", "targetLang1", "targetLang2"].forEach((id) => {
+    document.getElementById(id).addEventListener("change", () => {
+      saveSettings();
+      if (autoTranslateChecked) translateText();
+    });
   });
 
   document.getElementById("autoTranslate").addEventListener("change", (e) => {
@@ -287,25 +312,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (autoTranslateChecked) translateText();
   });
 
-  document.getElementById("resetSettingsBtn").addEventListener("click", () => {
-    localStorage.removeItem("translatorSettings");
-    // выставляем дефолтные значения в DOM
-    document.getElementById("uiLangSelect").value = "en";
-    document.getElementById("serviceSelect").value = "mymemory";
-    document.getElementById("sourceLang").value = "nl";
-    document.getElementById("targetLang1").value = "en";
-    document.getElementById("targetLang2").value = "uk";
-    document.getElementById("autoTranslate").checked = true;
-    autoTranslateChecked = true;
-    saveSettings();
-    updateUI();
-  });
-
   document.getElementById("sourceText").addEventListener("input", () => {
-    if (autoTranslateChecked) {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => translateText(), 600);
-    }
+    onInputChanged();
   });
 
   document
@@ -314,72 +322,69 @@ document.addEventListener("DOMContentLoaded", () => {
       translateText();
     });
 
-  document.getElementById("copySource").addEventListener("click", () => {
-    copyToClipboard(document.getElementById("sourceText").value);
+  // Clear source text button
+  document.getElementById("clearSource").addEventListener("click", () => {
+    const source = document.getElementById("sourceText");
+    source.value = "";
+    clearTranslations();
+    saveSettings();
   });
 
+  // Copy buttons with selection or full text
+  document.getElementById("copySource").addEventListener("click", () => {
+    const source = document.getElementById("sourceText");
+    const selected = source.value.substring(
+      source.selectionStart,
+      source.selectionEnd
+    );
+    copyToClipboard(selected.length > 0 ? selected : source.value);
+  });
+  document.getElementById("copyTarget1").addEventListener("click", () => {
+    const target1 = document.getElementById("translatedText1");
+    const selected = target1.value.substring(
+      target1.selectionStart,
+      target1.selectionEnd
+    );
+    copyToClipboard(selected.length > 0 ? selected : target1.value);
+  });
+  document.getElementById("copyTarget2").addEventListener("click", () => {
+    const target2 = document.getElementById("translatedText2");
+    const selected = target2.value.substring(
+      target2.selectionStart,
+      target2.selectionEnd
+    );
+    copyToClipboard(selected.length > 0 ? selected : target2.value);
+  });
+
+  // Paste button
   document.getElementById("pasteSource").addEventListener("click", () => {
     pasteFromClipboard(document.getElementById("sourceText"));
   });
 
-  document.getElementById("copyTarget1").addEventListener("click", () => {
-    copyToClipboard(document.getElementById("translatedText1").value);
+  // Speak buttons
+  document.getElementById("speakSource").addEventListener("click", () => {
+    const source = document.getElementById("sourceText");
+    const srcLang = document.getElementById("sourceLang").value;
+    if (source.value.trim()) speakText(source.value, srcLang);
   });
 
-  document.getElementById("copyTarget2").addEventListener("click", () => {
-    copyToClipboard(document.getElementById("translatedText2").value);
+  document.getElementById("speakTarget1").addEventListener("click", () => {
+    const target1 = document.getElementById("translatedText1");
+    const tgtLang1 = document.getElementById("targetLang1").value;
+    if (target1.value.trim()) speakText(target1.value, tgtLang1);
   });
 
-  document.getElementById("speakSource").addEventListener("click", (e) => {
-    const text = document.getElementById("sourceText").value;
-    const lang = document.getElementById("sourceLang").value;
-    speakText(text, lang, e.currentTarget);
+  document.getElementById("speakTarget2").addEventListener("click", () => {
+    const target2 = document.getElementById("translatedText2");
+    const tgtLang2 = document.getElementById("targetLang2").value;
+    if (target2.value.trim()) speakText(target2.value, tgtLang2);
   });
 
-  document.getElementById("speakTarget1").addEventListener("click", (e) => {
-    const text = document.getElementById("translatedText1").value;
-    const lang = document.getElementById("targetLang1").value;
-    speakText(text, lang, e.currentTarget);
+  // Reset settings button
+  document.getElementById("resetSettingsBtn").addEventListener("click", () => {
+    resetSettings();
   });
 
-  document.getElementById("speakTarget2").addEventListener("click", (e) => {
-    const text = document.getElementById("translatedText2").value;
-    const lang = document.getElementById("targetLang2").value;
-    speakText(text, lang, e.currentTarget);
-  });
+  // Initial translation if needed
+  if (autoTranslateChecked) translateText();
 });
-document.querySelectorAll("textarea").forEach((el) => {
-  el.addEventListener("contextmenu", (e) => {
-    e.stopPropagation();
-  });
-});
-
-document.getElementById("micSource").addEventListener("click", () => {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Speech recognition is not supported in this browser.");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = document.getElementById("sourceLang").value || "en-US";
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  recognition.onresult = function (event) {
-    const transcript = event.results[0][0].transcript;
-    const sourceTextArea = document.getElementById("sourceText");
-    sourceTextArea.value = transcript;
-    sourceTextArea.dispatchEvent(new Event("input"));
-  };
-
-  recognition.onerror = function (event) {
-    alert("Speech recognition error: " + event.error);
-  };
-
-  recognition.start();
-});
-if ("scrollRestoration" in history) {
-  history.scrollRestoration = "manual";
-}

@@ -1,0 +1,322 @@
+:root {
+  --max-content-width: 425px;
+  --text-color-01: #1a2b4c;
+  --text-color-02: #1a4480;
+  --text-color-03: #0d376e;
+  --text-color-04: #2554a1;
+  --text-color-05: #026aa7;
+  --text-color-06: #0277bd;
+  --background-color-01: #fff8e1;
+  --background-color-02: #e3f2fd;
+  --background-color-03: #cfd8dc;
+  --background-color-04: #b3d4fc;
+  --background-color-05: #f7fbff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  padding: 12px;
+  overflow-x: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff8e1;
+  color: var(--text-color-01);
+}
+.scroll-container {
+  height: calc(var(--vh, 1vh) * 100);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+h2,
+h5,
+h6 {
+  width: 100%;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+h2 {
+  margin: 0;
+  font-size: 22px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+h5 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-style: italic;
+  text-align: right;
+}
+input {
+  background-color: var(--background-color-05);
+  border: 1px solid #b3d4fc;
+  border-radius: 6px;
+  width: 120px;
+  box-shadow: none;
+  padding: 4px 8px;
+  font-size: 0.95em;
+  text-align: center;
+  color: var(--text-color-01);
+  outline: none;
+}
+select {
+  background-color: var(--background-color-05);
+  border: 1px solid #b3d4fc;
+  border-radius: 6px;
+  width: 120px;
+  box-shadow: none;
+  padding: 4px 8px;
+  font-size: 0.95em;
+  text-align: center;
+  color: var(--text-color-02);
+  /* outline: none; */
+}
+select:hover {
+  border-color: #0366d6;
+}
+select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+label {
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--text-color-02);
+  margin-bottom: -5px;
+  white-space: nowrap;
+  user-select: none;
+}
+label.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+}
+textarea {
+  border: 2px solid #b3ddff;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-color-02);
+  min-height: 90px;
+  overflow-y: auto;
+  padding: 8px;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+textarea::placeholder {
+  color: var(--text-color-02);
+}
+textarea:focus {
+  border-color: #0059b3;
+  outline: none;
+}
+button {
+  width: 100%;
+  max-width: 120px;
+  padding: 4px 4px;
+  font-size: 0.95em;
+  font-weight: 600;
+  color: var(--text-color-02);
+  background: #e3f2fd;
+  border: 2px solid #b3d4fc;
+  border-radius: 6px;
+
+  cursor: pointer;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+button:hover {
+  background: #c5e6ff;
+  border-color: #0366d6;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.version {
+  display: block;
+  margin-top: 0;
+  font-size: 12px;
+  font-style: italic;
+}
+.titles-container {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+}
+.title-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  margin-right: 8px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+}
+.setting-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  margin-left: 0;
+  margin-bottom: 4px;
+  padding: 8px 0;
+  gap: 12px;
+  border-top: 1px solid #cfd8dc;
+}
+.reset-settings-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  font-size: 22px;
+  background: #f9fbe7;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(3, 64, 120, 0.2);
+  color: #0277bd;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.section-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 4px;
+  /* background: #ffffff; */
+  /* border: 2px solid #b3d4fc; */
+  /* border-radius: 15px; */
+  /* box-shadow: 0 4px 12px rgba(3, 102, 214, 0.1); */
+}
+.section-block-targets-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+.button-container {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+  margin-left: auto;
+}
+.row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.auto-translate-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.auto-translate-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.ui-lang-label,
+.ui-lang-select,
+.source-lang-label,
+.source-lang-select,
+.source-textarea,
+.source-textarea::placeholder,
+.auto-translate-label,
+.translate-btn {
+  color: var(--text-color-01);
+}
+
+.target-lang-1-label,
+.target-lang-2-label,
+.target-lang-1-select,
+.target-lang-2-select,
+.translated-text-1-textarea,
+.translated-text-1-textarea::placeholder,
+.translated-text-2-textarea,
+.translated-text-2-textarea::placeholder {
+  color: var(--text-color-05);
+  pointer-events: auto;
+}
+.translated-text-1-textarea:focus,
+.translated-text-2-textarea:focus {
+  border: 2px solid #b3ddff;
+  outline: none;
+}
+
+.service-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+.service-select {
+  width: 100%;
+}
+.developer {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  gap: 12px;
+  margin-top: 14px;
+}
+.developer button {
+  width: 80px;
+  padding: 6px 6px;
+  font-size: 0.75em;
+  background-color: #f0f9ff;
+  border: 1px solid #b3d4fc;
+  border-radius: 8px;
+  color: #5a7899;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.developer button:hover {
+  background-color: #e2f0fb;
+  border-color: #0366d6;
+}
+.service-row,
+.developer {
+  display: none;
+}
+
+@media (min-width: 768px) {
+}
