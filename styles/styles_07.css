@@ -242,13 +242,12 @@ button:disabled {
   gap: 15px;
 }
 .auto-translate-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  margin-right: auto;
 }
 .auto-translate-checkbox {
   width: 16px;
   height: 16px;
+  margin-bottom: -4px;
   cursor: pointer;
 }
 
@@ -260,7 +259,7 @@ button:disabled {
 .source-textarea::placeholder,
 .auto-translate-label,
 .translate-btn {
-  color: var(--text-color-01);
+  color: var(--text-color-02);
 }
 
 .target-lang-1-label,

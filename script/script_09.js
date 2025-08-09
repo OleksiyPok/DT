@@ -1,5 +1,19 @@
 const googleApiKey = "YOUR_GOOGLE_API_KEY"; // Google API key
 
+const PATHS = {
+  CONFIG: "script/config.json",
+};
+
+const DEFAULT_SETTINGS = {
+  uiLangSelect: "en",
+  sourceLang: "nl",
+  targetLang1: "en",
+  targetLang2: "uk",
+  serviceSelect: "mymemory",
+  autoTranslate: true,
+  developerMode: false,
+};
+
 let autoTranslateChecked = true;
 let debounceTimer;
 let currentUtterance = null;
@@ -10,9 +24,11 @@ function updateUI() {
 
   document.getElementById("serviceLabel").textContent = t.serviceLabel;
 
-  const autoLabel = document.getElementById("autoTranslateLabel");
-  if (autoLabel.childNodes.length > 1) {
-    autoLabel.childNodes[1].textContent = " " + t.autoTranslateLabel;
+  const autoLabel =
+    document.getElementById("autoTranslateLabel") ||
+    document.querySelector(".auto-translate-label");
+  if (autoLabel) {
+    autoLabel.textContent = t.autoTranslateLabel;
   }
 
   document.getElementById("autoTranslate").checked = autoTranslateChecked;
@@ -37,8 +53,9 @@ function updateUI() {
   document.getElementById("copyTarget1").title = t.copyBtnTitle;
   document.getElementById("copyTarget2").title = t.copyBtnTitle;
 
-  updateLangSelectOptions(lang); // 👈 новый вызов
+  updateLangSelectOptions(lang);
 }
+
 function updateLangSelectOptions(lang) {
   const nameMap = languageNames[lang] || languageNames.en;
 
@@ -232,6 +249,8 @@ function saveSettings() {
     targetLang1: document.getElementById("targetLang1").value,
     targetLang2: document.getElementById("targetLang2").value,
     autoTranslate: document.getElementById("autoTranslate").checked,
+    developerMode:
+      document.getElementById("developer").style.display !== "none",
   };
   localStorage.setItem("translatorSettings", JSON.stringify(settings));
 }
@@ -250,6 +269,13 @@ function loadSettings() {
     document.getElementById("autoTranslate").checked =
       settings.autoTranslate ?? true;
     autoTranslateChecked = document.getElementById("autoTranslate").checked;
+    const devMode = settings.developerMode ?? false;
+    document.getElementById("developer").style.display = devMode
+      ? "block"
+      : "none";
+    document.getElementById("serviceRow").style.display = devMode
+      ? "flex"
+      : "none";
   } else {
     // Set default settings if nothing saved
     document.getElementById("uiLangSelect").value = "en";
@@ -262,16 +288,40 @@ function loadSettings() {
   }
 }
 
-function resetSettings() {
-  document.getElementById("uiLangSelect").value = "en";
-  document.getElementById("serviceSelect").value = "mymemory";
-  document.getElementById("sourceLang").value = "nl";
-  document.getElementById("targetLang1").value = "en";
-  document.getElementById("targetLang2").value = "uk";
-  document.getElementById("autoTranslate").checked = true;
-  autoTranslateChecked = true;
+async function resetSettings() {
+  try {
+    let settings;
+    const response = await fetch(PATHS.CONFIG, { cache: "no-cache" });
+    if (response.ok) {
+      const externalSettings = await response.json();
+      settings = { ...DEFAULT_SETTINGS, ...externalSettings };
+    } else {
+      throw new Error("Config file not found");
+    }
+    applySettings(settings);
+  } catch (error) {
+    applySettings(DEFAULT_SETTINGS);
+  }
+}
+
+function applySettings(settings) {
+  document.getElementById("uiLangSelect").value = settings.uiLangSelect || "en";
+  document.getElementById("serviceSelect").value =
+    settings.serviceSelect || "mymemory";
+  document.getElementById("sourceLang").value = settings.sourceLang || "en";
+  document.getElementById("targetLang1").value = settings.targetLang1 || "en";
+  document.getElementById("targetLang2").value = settings.targetLang2 || "uk";
+  document.getElementById("autoTranslate").checked =
+    settings.autoTranslate ?? true;
+  autoTranslateChecked = document.getElementById("autoTranslate").checked;
   clearTranslations();
   updateUI();
+  document.getElementById("serviceRow").style.display = settings.developerMode
+    ? "flex"
+    : "none";
+  document.getElementById("developer").style.display = settings.developerMode
+    ? "block"
+    : "none";
   saveSettings();
 }
 
