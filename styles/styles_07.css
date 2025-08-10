@@ -11,6 +11,20 @@
   --background-color-03: #cfd8dc;
   --background-color-04: #b3d4fc;
   --background-color-05: #f7fbff;
+  --highlight-background-color-01: #e3f2fd;
+  --highlight-background-color-02: #cfd8dc;
+  --highlight-background-color-03: #b3d4fc;
+  --highlight-background-color-04: #f9fbe7;
+  --highlight-background-color-05: #ffffcc;
+  --highlight-color-01: #1a2b4c;
+  --highlight-color-02: #1a4480;
+  --highlight-color-03: #0d376e;
+  --highlight-color-04: #026aa7;
+  --highlight-color-05: #0277bd;
+  --overlay-background-color-transparent-00: rgba(255, 248, 225, 0);
+  --overlay-background-color-transparent-03: rgba(255, 248, 225, 0.3);
+  --overlay-background-color-transparent-08: rgba(255, 248, 225, 0.8);
+  --overlay-background-color-transparent-10: rgba(255, 248, 225, 1);
 }
 
 *,
@@ -245,9 +259,9 @@ button:disabled {
   margin-right: auto;
 }
 .auto-translate-checkbox {
-  width: 16px;
-  height: 16px;
-  margin-bottom: -4px;
+  width: 24px;
+  height: 24px;
+  margin-bottom: -43x;
   cursor: pointer;
 }
 
