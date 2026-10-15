@@ -5,5 +5,5 @@
   "targetLang2": "en",
   "serviceSelect": "mymemory",
   "autoTranslate": true,
-  "developerMode": true
+  "developerMode": false
 }

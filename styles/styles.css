@@ -268,10 +268,10 @@ button:disabled {
   gap: 8px;
 }
 .controls-row select {
-  flex: 0 0 100px;
-  width: 100px;
+  flex: 0 0 120px;
+  width: 120px;
   min-width: 100px;
-  max-width: 100px;
+  max-width: 120px;
 }
 .translate-control-row {
   flex-direction: row;
