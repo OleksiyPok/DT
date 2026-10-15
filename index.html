@@ -11,6 +11,12 @@
       href="icons/icon_DT_16x16.png"
     />
     <link rel="stylesheet" href="styles/styles_07.css" />
+    <link rel="manifest" href="manifest.json" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js");
+      }
+    </script>
     <script src="script/ui_DT_texts.js" defer></script>
     <script src="script/script_09.js" defer></script>
   </head>
@@ -83,9 +89,14 @@
               <option value="uk">Ukrainian</option>
             </select>
             <div id="buttonContainer" class="button-container">
-              <!-- <button type="button" id="micSource" class="icon-btn" title="Speak">
-              🎤
-            </button> -->
+              <button
+                type="button"
+                id="micSource"
+                class="icon-btn"
+                title="Speak"
+              >
+                🎤
+              </button>
               <button
                 type="button"
                 id="clearSource"

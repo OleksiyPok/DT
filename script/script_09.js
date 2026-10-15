@@ -17,6 +17,8 @@ const DEFAULT_SETTINGS = {
 let autoTranslateChecked = true;
 let debounceTimer;
 let currentUtterance = null;
+let recognition = null;
+let isRecording = false;
 
 function updateUI() {
   const lang = document.getElementById("uiLangSelect").value;
@@ -50,6 +52,7 @@ function updateUI() {
 
   document.getElementById("copySource").title = t.copyBtnTitle;
   document.getElementById("pasteSource").title = t.pasteBtnTitle;
+  document.getElementById("micSource").title = t.micBtnTitle;
   document.getElementById("copyTarget1").title = t.copyBtnTitle;
   document.getElementById("copyTarget2").title = t.copyBtnTitle;
 
@@ -241,6 +244,93 @@ function speakText(text, langCode = "en", button = null) {
   speechSynthesis.speak(utterance);
 }
 
+function initSpeechRecognition() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert(
+      "Speech recognition is not supported in this browser.\n\n" +
+        "Please use Chrome or Edge on Android."
+    );
+    return null;
+  }
+
+  // Web Speech API requires a secure context (HTTPS or localhost)
+  if (!window.isSecureContext) {
+    alert(
+      "Speech recognition requires a secure connection (HTTPS).\n\n" +
+        "Please serve this app over HTTPS or open it via localhost.\n" +
+        "On Android, install it as a PWA or use a local server."
+    );
+    return null;
+  }
+
+  const rec = new SpeechRecognition();
+  rec.continuous = false;
+  rec.interimResults = false;
+  rec.lang = document.getElementById("sourceLang").value;
+
+  rec.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const source = document.getElementById("sourceText");
+    // Append to existing text (or set if empty) so multiple phrases accumulate
+    source.value = source.value.trim()
+      ? source.value.trim() + " " + transcript.trim()
+      : transcript.trim();
+    source.dispatchEvent(new Event("input"));
+  };
+
+  rec.onerror = (event) => {
+    console.error("Speech recognition error:", event.error);
+    if (event.error === "not-allowed") {
+      alert(
+        "Microphone access was denied.\n\n" +
+          "Please allow microphone permission in your browser settings " +
+          "and ensure the page is served over HTTPS."
+      );
+    } else if (event.error === "no-speech") {
+      // Silent — user just didn't speak
+    } else if (event.error === "aborted") {
+      // Silent — user stopped recording
+    } else {
+      alert("Speech recognition error: " + event.error);
+    }
+  };
+
+  rec.onend = () => {
+    isRecording = false;
+    const micBtn = document.getElementById("micSource");
+    if (micBtn) micBtn.classList.remove("mic-active");
+  };
+
+  return rec;
+}
+
+function startSpeechRecognition() {
+  if (isRecording) {
+    if (recognition) recognition.abort();
+    return;
+  }
+
+  if (!recognition) {
+    recognition = initSpeechRecognition();
+    if (!recognition) return;
+  }
+
+  // Update language in case it changed since initialization
+  recognition.lang = document.getElementById("sourceLang").value;
+
+  try {
+    recognition.start();
+    isRecording = true;
+    const micBtn = document.getElementById("micSource");
+    if (micBtn) micBtn.classList.add("mic-active");
+  } catch (err) {
+    console.error("Failed to start speech recognition:", err);
+    alert("Failed to start speech recognition: " + err.message);
+  }
+}
+
 function saveSettings() {
   const settings = {
     uiLangSelect: document.getElementById("uiLangSelect").value,
@@ -320,7 +410,7 @@ function applySettings(settings) {
     ? "flex"
     : "none";
   document.getElementById("developer").style.display = settings.developerMode
-    ? "block"
+    ? "flex"
     : "none";
   saveSettings();
 }
@@ -428,6 +518,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const target2 = document.getElementById("translatedText2");
     const tgtLang2 = document.getElementById("targetLang2").value;
     if (target2.value.trim()) speakText(target2.value, tgtLang2);
+  });
+
+  // Mic button - speech recognition
+  document.getElementById("micSource").addEventListener("click", () => {
+    startSpeechRecognition();
   });
 
   // Reset settings button

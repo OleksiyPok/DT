@@ -196,7 +196,7 @@ button:disabled {
 }
 .setting-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: stretch;
   width: 100%;
   margin-left: 0;
@@ -207,6 +207,7 @@ button:disabled {
 }
 .ui-language-wrapper {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -288,6 +289,23 @@ button:disabled {
   height: 36px;
   font-size: 14px;
   padding: 4px;
+}
+.icon-btn.mic-active {
+  background-color: #ffcdd2;
+  border-color: #f44336;
+  color: #c62828;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(244, 67, 54, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
 }
 .translate-btn {
   width: 100%;
