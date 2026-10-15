@@ -1,5 +1,7 @@
 :root {
   --max-content-width: 425px;
+  --breakpoint-tablet: 576px;
+  --breakpoint-desktop: 992px;
   --text-color-01: #1a2b4c;
   --text-color-02: #1a4480;
   --text-color-03: #0d376e;
@@ -67,6 +69,7 @@ body {
   align-items: center;
   max-width: var(--max-content-width);
   margin: 0 auto;
+  width: 100%;
 }
 h2,
 h5,
@@ -103,13 +106,13 @@ select {
   background-color: var(--background-color-05);
   border: 1px solid #b3d4fc;
   border-radius: 6px;
-  width: 120px;
+  width: 100%;
+  max-width: 120px;
   box-shadow: none;
   padding: 4px 8px;
   font-size: 0.95em;
   text-align: center;
   color: var(--text-color-02);
-  /* outline: none; */
 }
 select:hover {
   border-color: #0366d6;
@@ -163,7 +166,6 @@ button {
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s;
-  cursor: pointer;
 }
 button:hover {
   background: #c5e6ff;
@@ -194,15 +196,20 @@ button:disabled {
 }
 .setting-row {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
   margin-left: 0;
   margin-bottom: 4px;
   padding: 8px 0;
   gap: 12px;
   border-top: 1px solid #cfd8dc;
+}
+.ui-language-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
 }
 .reset-settings-btn {
   display: flex;
@@ -227,10 +234,6 @@ button:disabled {
   width: 100%;
   margin-top: 8px;
   padding: 4px;
-  /* background: #ffffff; */
-  /* border: 2px solid #b3d4fc; */
-  /* border-radius: 15px; */
-  /* box-shadow: 0 4px 12px rgba(3, 102, 214, 0.1); */
 }
 .section-block-targets-wrapper {
   display: flex;
@@ -244,7 +247,9 @@ button:disabled {
   display: flex;
   flex-shrink: 0;
   gap: 8px;
-  margin-left: auto;
+  width: 100%;
+  justify-content: flex-end;
+  margin-left: 0;
 }
 .row {
   align-items: center;
@@ -253,14 +258,40 @@ button:disabled {
   flex-wrap: wrap;
   gap: 15px;
 }
+.controls-row {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.controls-row select {
+  max-width: none;
+}
+.translate-control-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
 .auto-translate-label {
-  margin-right: auto;
+  margin-right: 0;
 }
 .auto-translate-checkbox {
   width: 24px;
   height: 24px;
-  margin-bottom: -43x;
   cursor: pointer;
+}
+.icon-btn {
+  width: 36px;
+  max-width: 36px;
+  height: 36px;
+  font-size: 14px;
+  padding: 4px;
+}
+.translate-btn {
+  width: 100%;
+  max-width: none;
 }
 
 .ui-lang-label,
@@ -298,7 +329,7 @@ button:disabled {
 
 .service-row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   width: 100%;
   margin-top: 8px;
@@ -308,13 +339,15 @@ button:disabled {
 }
 .developer {
   display: flex;
+  flex-direction: column;
   justify-content: left;
   width: 100%;
   gap: 12px;
   margin-top: 14px;
 }
 .developer button {
-  width: 80px;
+  width: 100%;
+  max-width: 120px;
   padding: 6px 6px;
   font-size: 0.75em;
   background-color: #f0f9ff;
@@ -334,5 +367,126 @@ button:disabled {
   display: none;
 }
 
-@media (min-width: 768px) {
+/* ========================================
+   TABLET BREAKPOINT (576px - 991px)
+   ======================================== */
+@media (min-width: 576px) {
+  :root {
+    --max-content-width: 576px;
+  }
+
+  .layout {
+    max-width: var(--max-content-width);
+  }
+
+  .setting-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .controls-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .controls-row select {
+    max-width: 120px;
+  }
+
+  .button-container {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .translate-control-row {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .auto-translate-label {
+    margin-right: auto;
+  }
+
+  .translate-btn {
+    width: 100%;
+    max-width: 120px;
+  }
+
+  .section-block-targets-wrapper {
+    flex-direction: row;
+  }
+
+  .section-block-targets-wrapper .section-block {
+    flex: 1;
+  }
+
+  .service-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .developer {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .developer button {
+    width: 80px;
+  }
+}
+
+/* ========================================
+   DESKTOP BREAKPOINT (992px+)
+   ======================================== */
+@media (min-width: 992px) {
+  :root {
+    --max-content-width: 992px;
+  }
+
+  .layout {
+    max-width: var(--max-content-width);
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  h5 {
+    font-size: 15px;
+  }
+
+  .title-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .section-block {
+    gap: 12px;
+  }
+
+  .section-block-targets-wrapper {
+    gap: 16px;
+  }
+
+  .row {
+    gap: 20px;
+  }
+
+  .setting-row {
+    gap: 16px;
+  }
+
+  .controls-row {
+    gap: 12px;
+  }
+
+  .translate-control-row {
+    gap: 15px;
+  }
+
+  .developer button {
+    width: 90px;
+  }
 }
