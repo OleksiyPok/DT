@@ -275,10 +275,12 @@ button:disabled {
 }
 .translate-control-row {
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
 }
 .auto-translate-label {
   margin-right: 0;
@@ -313,8 +315,12 @@ button:disabled {
   }
 }
 .translate-btn {
-  width: 100%;
-  max-width: none;
+  flex: 0 0 100px;
+  width: 100px;
+  min-width: 0;
+  max-width: 100px;
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .ui-lang-label,
@@ -432,10 +438,10 @@ button:disabled {
     margin-right: auto;
   }
 
-  .translate-btn {
+  /* .translate-btn {
     width: 100%;
     max-width: 120px;
-  }
+  } */
 
   .section-block-targets-wrapper {
     flex-direction: row;
