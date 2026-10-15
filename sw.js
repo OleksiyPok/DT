@@ -1,4 +1,4 @@
-const CACHE_NAME = "dual-translator-v1.2.11";
+const CACHE_NAME = "dual-translator-v1.2.12";
 const urlsToCache = [
   "./",
   "./index.html",
@@ -16,15 +16,47 @@ const urlsToCache = [
 ];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
 });
 
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((name) => {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
+          }
+        })
+      );
     })
   );
+});
+
+self.addEventListener("fetch", (event) => {
+  // Network-first strategy: try network first, fall back to cache
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        // Cache the fresh response for future use
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+        return response;
+      })
+      .catch(() => {
+        // Network failed — serve from cache
+        return caches.match(event.request);
+      })
+  );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.action === "skipWaiting") {
+    self.skipWaiting();
+  }
 });
