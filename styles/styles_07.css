@@ -21,9 +21,11 @@
   --highlight-color-03: #0d376e;
   --highlight-color-04: #026aa7;
   --highlight-color-05: #0277bd;
+  --highlight-color-10: #bd0202;
   --overlay-background-color-transparent-00: rgba(255, 248, 225, 0);
   --overlay-background-color-transparent-03: rgba(255, 248, 225, 0.3);
   --overlay-background-color-transparent-08: rgba(255, 248, 225, 0.8);
+  --overlay-background-color-transparent-09: rgba(255, 248, 225, 0.9);
   --overlay-background-color-transparent-10: rgba(255, 248, 225, 1);
 }
 
@@ -120,7 +122,6 @@ label {
   font-weight: 600;
   font-size: 0.95em;
   color: var(--text-color-02);
-  margin-bottom: -5px;
   white-space: nowrap;
   user-select: none;
 }
@@ -160,7 +161,6 @@ button {
   background: #e3f2fd;
   border: 2px solid #b3d4fc;
   border-radius: 6px;
-
   cursor: pointer;
   transition: background 0.3s;
   cursor: pointer;
@@ -286,6 +286,11 @@ button:disabled {
 .translated-text-2-textarea::placeholder {
   color: var(--text-color-05);
   pointer-events: auto;
+}
+.source-lang-label,
+.target-lang-1-label,
+.target-lang-2-label {
+  margin-bottom: -5px;
 }
 .translated-text-1-textarea:focus,
 .translated-text-2-textarea:focus {
