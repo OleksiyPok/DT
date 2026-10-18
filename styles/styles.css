@@ -247,7 +247,7 @@ button:disabled {
   align-items: center;
   display: flex;
   flex-shrink: 1;
-  gap: 4px;
+  gap: 8px;
   width: auto;
   min-width: 0;
   justify-content: flex-end;
@@ -329,7 +329,7 @@ button:disabled {
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
 }
 .source-input-row textarea {
