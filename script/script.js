@@ -34,7 +34,7 @@ function updateUI() {
   }
 
   document.getElementById("autoTranslate").checked = autoTranslateChecked;
-
+  updateTranslateButtonVisibility();
   document.getElementById("uiLangLabel").textContent = t.interfaceLabel;
   document.querySelector(".source-lang-label").textContent = t.sourceLangLabel;
   document.querySelector(".target-lang-1-label").textContent =
@@ -80,6 +80,11 @@ function setLoadingState(isLoading) {
 
   translateBtn.disabled = isLoading;
   translateBtn.textContent = isLoading ? "..." : t.translateButtonText;
+}
+
+function updateTranslateButtonVisibility() {
+  const btn = document.getElementById("manualTranslateBtn");
+  btn.style.display = autoTranslateChecked ? "none" : "";
 }
 
 async function translateText() {
@@ -453,6 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("autoTranslate").addEventListener("change", (e) => {
     autoTranslateChecked = e.target.checked;
+    updateTranslateButtonVisibility();
     saveSettings();
     if (autoTranslateChecked) translateText();
   });
