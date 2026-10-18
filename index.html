@@ -27,7 +27,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 1.3.1</h6>
+            <h6 id="version" class="version">version: 1.3.2</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -85,22 +85,6 @@
             <div id="buttonContainer" class="button-container">
               <button
                 type="button"
-                id="micSource"
-                class="icon-btn"
-                title="Speak"
-              >
-                🎤
-              </button>
-              <button
-                type="button"
-                id="clearSource"
-                class="icon-btn"
-                title="Clear source text"
-              >
-                ❌
-              </button>
-              <button
-                type="button"
                 id="pasteSource"
                 class="icon-btn"
                 title="Paste into source"
@@ -125,11 +109,31 @@
               </button>
             </div>
           </div>
-          <textarea
-            id="sourceText"
-            class="source-textarea"
-            placeholder="Enter text..."
-          ></textarea>
+          <div class="source-input-row">
+            <textarea
+              id="sourceText"
+              class="source-textarea"
+              placeholder="Enter text..."
+            ></textarea>
+            <div class="side-buttons">
+              <button
+                type="button"
+                id="micSource"
+                class="icon-btn"
+                title="Speak"
+              >
+                🎤
+              </button>
+              <button
+                type="button"
+                id="clearSource"
+                class="icon-btn"
+                title="Clear source text"
+              >
+                ❌
+              </button>
+            </div>
+          </div>
 
           <div class="row translate-control-row" id="translateControlRow">
             <input

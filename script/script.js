@@ -299,11 +299,17 @@ function initSpeechRecognition() {
 
   rec.onend = () => {
     isRecording = false;
-    const micBtn = document.getElementById("micSource");
-    if (micBtn) micBtn.classList.remove("mic-active");
+    setMicActive(false);
   };
 
   return rec;
+}
+
+function setMicActive(active) {
+  const micBtn = document.getElementById("micSource");
+  if (!micBtn) return;
+  micBtn.classList.toggle("mic-active", active);
+  micBtn.textContent = active ? "⏹️" : "🎤";
 }
 
 function startSpeechRecognition() {
@@ -323,8 +329,7 @@ function startSpeechRecognition() {
   try {
     recognition.start();
     isRecording = true;
-    const micBtn = document.getElementById("micSource");
-    if (micBtn) micBtn.classList.add("mic-active");
+    setMicActive(true);
   } catch (err) {
     console.error("Failed to start speech recognition:", err);
     alert("Failed to start speech recognition: " + err.message);
