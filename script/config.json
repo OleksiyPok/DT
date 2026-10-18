@@ -1,8 +1,8 @@
 {
   "uiLangSelect": "en",
   "sourceLang": "nl",
-  "targetLang1": "uk",
-  "targetLang2": "en",
+  "targetLang1": "en",
+  "targetLang2": "uk",
   "serviceSelect": "mymemory",
   "autoTranslate": true,
   "developerMode": false
