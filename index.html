@@ -6,12 +6,12 @@
     <title>Dual Translator</title>
 
     <!-- Applies the saved theme before first paint (no flash) -->
-    <script src="script/themeRegistry.js?v=2.1.2"></script>
+    <script src="script/themeRegistry.js?v=2.2.0"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.1.2" defer></script>
-    <script src="script/script.js?v=2.1.2" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.1.2" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.1.2" />
+    <script src="script/ui_DT_texts.js?v=2.2.0" defer></script>
+    <script src="script/script.js?v=2.2.0" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.2.0" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.2.0" />
   </head>
   <!-- DT -->
   <body>
@@ -26,7 +26,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.1.2</h6>
+            <h6 id="version" class="version">version: 2.2.0</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -138,7 +138,7 @@
               <button
                 type="button"
                 id="clearSource"
-                class="icon-btn"
+                class="icon-btn clear-btn"
                 title="Clear source text"
               >
                 ❌
@@ -324,7 +324,7 @@
       </div>
     </div>
 
-    <!-- Settings modal: theme palette, interface language, reset to defaults -->
+    <!-- Settings modal: theme palette, interface language, visible buttons, reset to defaults -->
     <div
       id="settingsAppModal"
       class="app-modal hidden"
@@ -376,6 +376,17 @@
                 <option value="uk">Українська</option>
               </select>
             </div>
+          </div>
+
+          <!-- Per-section visibility of the buttons (checkboxes are built in script.js) -->
+          <div class="buttons-settings-wrapper" id="buttonsSettingsWrapper">
+            <div class="buttons-settings-title" id="labelVisibleButtons">
+              Visible buttons
+            </div>
+            <div
+              class="button-visibility-groups"
+              id="buttonVisibilityGroups"
+            ></div>
           </div>
 
           <div class="reset-settings-group" id="resetSettingsGroup">

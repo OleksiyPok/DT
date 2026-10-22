@@ -220,6 +220,11 @@ button:disabled {
   filter: drop-shadow(1px 1px 2px var(--shadow-light));
 }
 
+/* Hidden by the "visible buttons" settings; beats any display rule */
+.is-hidden {
+  display: none !important;
+}
+
 /* ---------- Top row: help / settings buttons + theme mode ---------- */
 .setting-row {
   display: flex;
@@ -307,7 +312,7 @@ button:disabled {
   margin-top: 0;
 }
 
-/* ---------- Settings modal content: theme, interface language, reset ---------- */
+/* ---------- Settings modal content: theme, interface language, buttons, reset ---------- */
 .settings-app-content {
   display: flex;
   flex-direction: column;
@@ -318,7 +323,8 @@ button:disabled {
   padding-top: 8px;
 }
 .thema-wrapper,
-.interface-wrapper {
+.interface-wrapper,
+.buttons-settings-wrapper {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -340,6 +346,59 @@ button:disabled {
   max-width: none;
   text-align: left;
 }
+
+/* Visible buttons: one group of checkboxes per section */
+.buttons-settings-title {
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--text-muted);
+  user-select: none;
+}
+.button-visibility-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.button-visibility-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.button-visibility-title {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--text-color);
+  user-select: none;
+}
+.button-visibility-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.button-visibility-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.button-visibility-checkbox {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+.button-visibility-text {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
 .reset-settings-group {
   display: flex;
   flex-direction: row;
@@ -469,6 +528,10 @@ button:disabled {
   justify-content: space-between;
   flex: 0 0 36px;
   width: 36px;
+}
+/* Keeps "clear" at the bottom even when the mic button is hidden */
+.side-buttons .clear-btn {
+  margin-top: auto;
 }
 
 .source-lang-label,

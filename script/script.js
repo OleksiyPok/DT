@@ -4,6 +4,50 @@ const PATHS = {
   CONFIG: "script/config.json",
 };
 
+/* Buttons that can be shown/hidden per section (settings modal).
+   `id` is the button element on the main page, `textKey` is the key in uiTexts
+   used for the localized name (same text as the button tooltip). */
+const BUTTON_SECTIONS = [
+  {
+    key: "source",
+    labelKey: "sourceLangLabel",
+    buttons: [
+      { key: "paste", id: "pasteSource", icon: "📥", textKey: "pasteBtnTitle" },
+      { key: "copy", id: "copySource", icon: "📋", textKey: "copyBtnTitle" },
+      { key: "speak", id: "speakSource", icon: "🔊", textKey: "speakBtnTitle" },
+      { key: "mic", id: "micSource", icon: "🎤", textKey: "micBtnTitle" },
+      { key: "clear", id: "clearSource", icon: "❌", textKey: "clearBtnTitle" },
+    ],
+  },
+  {
+    key: "target1",
+    labelKey: "targetLang1Label",
+    buttons: [
+      { key: "copy", id: "copyTarget1", icon: "📋", textKey: "copyBtnTitle" },
+      { key: "speak", id: "speakTarget1", icon: "🔊", textKey: "speakBtnTitle" },
+    ],
+  },
+  {
+    key: "target2",
+    labelKey: "targetLang2Label",
+    buttons: [
+      { key: "copy", id: "copyTarget2", icon: "📋", textKey: "copyBtnTitle" },
+      { key: "speak", id: "speakTarget2", icon: "🔊", textKey: "speakBtnTitle" },
+    ],
+  },
+];
+
+function buildDefaultButtons() {
+  const result = {};
+  BUTTON_SECTIONS.forEach((section) => {
+    result[section.key] = {};
+    section.buttons.forEach((btn) => {
+      result[section.key][btn.key] = true;
+    });
+  });
+  return result;
+}
+
 const DEFAULT_SETTINGS = {
   uiLangSelect: "en",
   sourceLang: "nl",
@@ -13,6 +57,7 @@ const DEFAULT_SETTINGS = {
   autoTranslate: true,
   developerMode: false,
   thema: "theme-yellowblue-normal",
+  buttons: buildDefaultButtons(),
 };
 
 const themeRegistry = window.DTThemeRegistry || null;
@@ -23,6 +68,7 @@ let debounceTimer;
 let currentUtterance = null;
 let recognition = null;
 let isRecording = false;
+let buttonVisibility = buildDefaultButtons();
 
 /* ---------- Theme ---------- */
 
@@ -60,6 +106,112 @@ function applyThema(value) {
     document.getElementById("themaModeSelect").value = parsed.mode;
   }
   return chosen;
+}
+
+/* ---------- Button visibility (per section) ---------- */
+
+// Builds a full {section: {button: boolean}} object, missing/invalid values = true
+function normalizeButtonVisibility(raw) {
+  const result = buildDefaultButtons();
+  if (!raw || typeof raw !== "object") return result;
+  BUTTON_SECTIONS.forEach((section) => {
+    const src = raw[section.key];
+    if (!src || typeof src !== "object") return;
+    section.buttons.forEach((btn) => {
+      if (typeof src[btn.key] === "boolean") {
+        result[section.key][btn.key] = src[btn.key];
+      }
+    });
+  });
+  return result;
+}
+
+// Creates the checkbox groups in the settings modal (texts are set in updateUI)
+function renderButtonVisibilityOptions() {
+  const container = document.getElementById("buttonVisibilityGroups");
+  if (!container) return;
+  container.innerHTML = "";
+
+  BUTTON_SECTIONS.forEach((section) => {
+    const group = document.createElement("div");
+    group.className = "button-visibility-group";
+
+    const title = document.createElement("div");
+    title.className = "button-visibility-title";
+    title.dataset.sectionTitle = section.key;
+    group.appendChild(title);
+
+    const list = document.createElement("div");
+    list.className = "button-visibility-list";
+
+    section.buttons.forEach((btn) => {
+      const label = document.createElement("label");
+      label.className = "button-visibility-option";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "button-visibility-checkbox";
+      checkbox.dataset.section = section.key;
+      checkbox.dataset.button = btn.key;
+
+      const text = document.createElement("span");
+      text.className = "button-visibility-text";
+      text.dataset.section = section.key;
+      text.dataset.button = btn.key;
+
+      label.appendChild(checkbox);
+      label.appendChild(text);
+      list.appendChild(label);
+    });
+
+    group.appendChild(list);
+    container.appendChild(group);
+  });
+}
+
+// Localized section titles and button names in the settings modal
+function updateButtonVisibilityTexts(t) {
+  BUTTON_SECTIONS.forEach((section) => {
+    const title = document.querySelector(
+      `.button-visibility-title[data-section-title="${section.key}"]`
+    );
+    if (title) title.textContent = t[section.labelKey] || "";
+
+    section.buttons.forEach((btn) => {
+      const text = document.querySelector(
+        `.button-visibility-text[data-section="${section.key}"][data-button="${btn.key}"]`
+      );
+      if (text) text.textContent = `${btn.icon} ${t[btn.textKey] || ""}`;
+    });
+  });
+}
+
+// Shows/hides the buttons on the main page and syncs the checkboxes
+function applyButtonVisibility() {
+  BUTTON_SECTIONS.forEach((section) => {
+    section.buttons.forEach((btn) => {
+      const visible = buttonVisibility[section.key][btn.key];
+      document.getElementById(btn.id)?.classList.toggle("is-hidden", !visible);
+
+      const checkbox = document.querySelector(
+        `.button-visibility-checkbox[data-section="${section.key}"][data-button="${btn.key}"]`
+      );
+      if (checkbox) checkbox.checked = visible;
+    });
+  });
+
+  // Hide button containers that have no visible buttons left
+  document
+    .querySelectorAll(".side-buttons, .button-container")
+    .forEach((container) => {
+      const hasVisible = !!container.querySelector(".icon-btn:not(.is-hidden)");
+      container.classList.toggle("is-hidden", !hasVisible);
+    });
+
+  // Stop recording if the microphone button was hidden meanwhile
+  if (!buttonVisibility.source.mic && isRecording && recognition) {
+    recognition.abort();
+  }
 }
 
 /* ---------- Modals (help, settings) ---------- */
@@ -151,6 +303,10 @@ function updateUI() {
   document.getElementById("micSource").title = t.micBtnTitle;
   document.getElementById("copyTarget1").title = t.copyBtnTitle;
   document.getElementById("copyTarget2").title = t.copyBtnTitle;
+  setTitle("clearSource", t.clearBtnTitle);
+  setTitle("speakSource", t.speakBtnTitle);
+  setTitle("speakTarget1", t.speakBtnTitle);
+  setTitle("speakTarget2", t.speakBtnTitle);
 
   // Top row, theme and bottom block
   setTitle("helpAppBtn", t.helpBtnTitle);
@@ -159,8 +315,11 @@ function updateUI() {
   setTitle("settingsAppCloseBtn", t.closeBtnTitle);
   setText("labelThemaMode", t.labelThemaMode);
   setText("labelThema", t.labelThema);
+  setText("labelVisibleButtons", t.labelVisibleButtons);
   setText("resetSettingsText", t.defaultSettings);
   setTitle("resetSettingsBtn", t.defaultSettings);
+
+  updateButtonVisibilityTexts(t);
 
   const modeTexts = {
     contrast: t.themaModeContrast,
@@ -483,6 +642,7 @@ function saveSettings() {
     autoTranslate: document.getElementById("autoTranslate").checked,
     developerMode: isDeveloperPanelVisible(),
     thema: getThemaFromSelects(),
+    buttons: buttonVisibility,
   };
   localStorage.setItem("translatorSettings", JSON.stringify(settings));
 }
@@ -502,6 +662,8 @@ function loadSettings() {
       settings.autoTranslate ?? true;
     autoTranslateChecked = document.getElementById("autoTranslate").checked;
     applyThema(settings.thema || THEME_FALLBACK);
+    buttonVisibility = normalizeButtonVisibility(settings.buttons);
+    applyButtonVisibility();
     const devMode = settings.developerMode ?? false;
     document.getElementById("developer").style.display = devMode
       ? "flex"
@@ -519,6 +681,8 @@ function loadSettings() {
     document.getElementById("autoTranslate").checked = true;
     autoTranslateChecked = true;
     applyThema(THEME_FALLBACK);
+    buttonVisibility = buildDefaultButtons();
+    applyButtonVisibility();
   }
 }
 
@@ -549,6 +713,8 @@ function applySettings(settings) {
     settings.autoTranslate ?? true;
   autoTranslateChecked = document.getElementById("autoTranslate").checked;
   applyThema(settings.thema || THEME_FALLBACK);
+  buttonVisibility = normalizeButtonVisibility(settings.buttons);
+  applyButtonVisibility();
   clearTranslations();
   updateUI();
   document.getElementById("serviceRow").style.display = settings.developerMode
@@ -572,6 +738,7 @@ function onInputChanged() {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderThemePaletteOptions();
+  renderButtonVisibilityOptions();
   loadSettings();
   updateUI();
   initModals();
@@ -588,6 +755,21 @@ document.addEventListener("DOMContentLoaded", () => {
       saveSettings();
     });
   });
+
+  // Button visibility checkboxes (settings modal)
+  document
+    .getElementById("buttonVisibilityGroups")
+    .addEventListener("change", (e) => {
+      const cb = e.target;
+      if (!cb.classList || !cb.classList.contains("button-visibility-checkbox"))
+        return;
+      const { section, button } = cb.dataset;
+      if (buttonVisibility[section] && button in buttonVisibility[section]) {
+        buttonVisibility[section][button] = cb.checked;
+        applyButtonVisibility();
+        saveSettings();
+      }
+    });
 
   document.getElementById("serviceSelect").addEventListener("change", () => {
     saveSettings();
