@@ -6,12 +6,12 @@
     <title>Dual Translator</title>
 
     <!-- Applies the saved theme before first paint (no flash) -->
-    <script src="script/themeRegistry.js?v=2.1.1"></script>
+    <script src="script/themeRegistry.js?v=2.1.2"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.1.1" defer></script>
-    <script src="script/script.js?v=2.1.1" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.1.1" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.1.1" />
+    <script src="script/ui_DT_texts.js?v=2.1.2" defer></script>
+    <script src="script/script.js?v=2.1.2" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.1.2" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.1.2" />
   </head>
   <!-- DT -->
   <body>
@@ -26,7 +26,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.1.1</h6>
+            <h6 id="version" class="version">version: 2.1.2</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -267,59 +267,6 @@
           </div>
         </div>
 
-        <!-- Bottom block: theme palette, interface language, reset -->
-        <div class="section-block section-block-footer">
-          <div class="thema-wrapper">
-            <div class="thema-group" id="themaGroup">
-              <label for="themaSelect" id="labelThema" class="label-thema"
-                >Theme</label
-              >
-              <select
-                id="themaSelect"
-                class="thema-select"
-                title="Select theme"
-              ></select>
-            </div>
-          </div>
-
-          <div class="interface-wrapper">
-            <div class="interface-group" id="uiLanguageWrapper">
-              <label for="uiLangSelect" id="uiLangLabel" class="label-interface"
-                >Interface:</label
-              >
-              <select
-                class="interface-select"
-                id="uiLangSelect"
-                title="Select interface language"
-              >
-                <option value="de">Deutsch</option>
-                <option selected value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="nl">Nederlands</option>
-                <option value="pl">Polski</option>
-                <option value="pt">Português</option>
-                <option value="ru">Русский</option>
-                <option value="tr">Türkçe</option>
-                <option value="uk">Українська</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="reset-settings-group" id="resetSettingsGroup">
-            <button
-              type="button"
-              class="reset-settings-btn"
-              id="resetSettingsBtn"
-              title="Reset to default settings"
-            >
-              <span class="reset-icon">🔄</span>
-            </button>
-            <span class="reset-settings-text" id="resetSettingsText"
-              >Reset defaults</span
-            >
-          </div>
-        </div>
-
         <div class="row service-row" id="serviceRow">
           <label for="serviceSelect" id="serviceLabel" class="service-label"
             >Сервис:</label
@@ -377,7 +324,7 @@
       </div>
     </div>
 
-    <!-- Settings modal (content to be added later) -->
+    <!-- Settings modal: theme palette, interface language, reset to defaults -->
     <div
       id="settingsAppModal"
       class="app-modal hidden"
@@ -394,7 +341,57 @@
         >
           ✕
         </button>
-        <div id="settingsAppContent"></div>
+        <div id="settingsAppContent" class="settings-app-content">
+          <div class="thema-wrapper">
+            <div class="thema-group" id="themaGroup">
+              <label for="themaSelect" id="labelThema" class="label-thema"
+                >Theme</label
+              >
+              <select
+                id="themaSelect"
+                class="thema-select"
+                title="Select theme"
+              ></select>
+            </div>
+          </div>
+
+          <div class="interface-wrapper">
+            <div class="interface-group" id="uiLanguageWrapper">
+              <label for="uiLangSelect" id="uiLangLabel" class="label-interface"
+                >Interface:</label
+              >
+              <select
+                class="interface-select"
+                id="uiLangSelect"
+                title="Select interface language"
+              >
+                <option value="de">Deutsch</option>
+                <option selected value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="nl">Nederlands</option>
+                <option value="pl">Polski</option>
+                <option value="pt">Português</option>
+                <option value="ru">Русский</option>
+                <option value="tr">Türkçe</option>
+                <option value="uk">Українська</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="reset-settings-group" id="resetSettingsGroup">
+            <button
+              type="button"
+              class="reset-settings-btn"
+              id="resetSettingsBtn"
+              title="Reset to default settings"
+            >
+              <span class="reset-icon">🔄</span>
+            </button>
+            <span class="reset-settings-text" id="resetSettingsText"
+              >Reset defaults</span
+            >
+          </div>
+        </div>
       </div>
     </div>
   </body>

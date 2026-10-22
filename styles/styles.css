@@ -43,7 +43,7 @@
   --selection-bg: #b3daff;
   --selection-text: #000000;
   --overlay-clear: rgba(0, 0, 0, 0);
-  --overlay-bg: rgba(0, 0, 0, 1);
+  --overlay-bg: rgba(0, 0, 0, 0.4);
   --tooltip-bg: var(--text-color);
   --tooltip-text: var(--text-inverted);
   --shadow-light: rgba(0, 0, 0, 0.1);
@@ -307,9 +307,15 @@ button:disabled {
   margin-top: 0;
 }
 
-/* ---------- Bottom block: theme, interface language, reset ---------- */
-.section-block-footer {
+/* ---------- Settings modal content: theme, interface language, reset ---------- */
+.settings-app-content {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
+  width: 100%;
+  max-width: 576px;
+  margin: 0 auto;
+  padding-top: 8px;
 }
 .thema-wrapper,
 .interface-wrapper {
