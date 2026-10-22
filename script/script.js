@@ -12,7 +12,11 @@ const DEFAULT_SETTINGS = {
   serviceSelect: "mymemory",
   autoTranslate: true,
   developerMode: false,
+  thema: "theme-yellowblue-normal",
 };
+
+const themeRegistry = window.DTThemeRegistry || null;
+const THEME_FALLBACK = themeRegistry?.defaultTheme || DEFAULT_SETTINGS.thema;
 
 let autoTranslateChecked = true;
 let debounceTimer;
@@ -20,9 +24,101 @@ let currentUtterance = null;
 let recognition = null;
 let isRecording = false;
 
+/* ---------- Theme ---------- */
+
+function renderThemePaletteOptions() {
+  const select = document.getElementById("themaSelect");
+  if (!select || !themeRegistry) return;
+  select.innerHTML = "";
+  themeRegistry.getPaletteOptions().forEach(({ palette, label }) => {
+    const option = document.createElement("option");
+    option.value = palette;
+    option.textContent = label;
+    select.appendChild(option);
+  });
+}
+
+// Full theme key (e.g. "theme-delftware-night") from the palette + mode selects
+function getThemaFromSelects() {
+  if (!themeRegistry) return THEME_FALLBACK;
+  const palette = document.getElementById("themaSelect").value;
+  const mode = document.getElementById("themaModeSelect").value;
+  return themeRegistry.composeThema(palette, mode) || THEME_FALLBACK;
+}
+
+// Applies the theme class to <html> and syncs both selects with it
+function applyThema(value) {
+  if (!themeRegistry) return THEME_FALLBACK;
+  const chosen = themeRegistry.applyThemeClass(
+    document.documentElement,
+    value,
+    THEME_FALLBACK
+  );
+  const parsed = themeRegistry.parseThema(chosen);
+  if (parsed) {
+    document.getElementById("themaSelect").value = parsed.palette;
+    document.getElementById("themaModeSelect").value = parsed.mode;
+  }
+  return chosen;
+}
+
+/* ---------- Modals (help, settings) ---------- */
+
+function openModal(id) {
+  document.getElementById(id)?.classList.remove("hidden");
+}
+
+function closeAllModals() {
+  document
+    .querySelectorAll(".app-modal")
+    .forEach((m) => m.classList.add("hidden"));
+}
+
+function isAnyModalOpen() {
+  return !!document.querySelector(".app-modal:not(.hidden)");
+}
+
+function initModals() {
+  document
+    .getElementById("helpAppBtn")
+    .addEventListener("click", () => openModal("helpAppModal"));
+  document
+    .getElementById("settingsAppBtn")
+    .addEventListener("click", () => openModal("settingsAppModal"));
+
+  document
+    .querySelectorAll(".app-modal-close-btn")
+    .forEach((btn) => btn.addEventListener("click", closeAllModals));
+
+  // Click on the dark backdrop closes the modal
+  document.querySelectorAll(".app-modal").forEach((modal) => {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeAllModals();
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isAnyModalOpen()) closeAllModals();
+  });
+}
+
+/* ---------- UI texts ---------- */
+
 function updateUI() {
   const lang = document.getElementById("uiLangSelect").value;
   const t = uiTexts[lang] || uiTexts.en;
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el && value) el.textContent = value;
+  };
+  const setTitle = (id, value) => {
+    const el = document.getElementById(id);
+    if (el && value) {
+      el.title = value;
+      el.setAttribute("aria-label", value);
+    }
+  };
 
   document.getElementById("serviceLabel").textContent = t.serviceLabel;
 
@@ -34,7 +130,7 @@ function updateUI() {
   }
 
   document.getElementById("autoTranslate").checked = autoTranslateChecked;
-
+  updateTranslateButtonVisibility();
   document.getElementById("uiLangLabel").textContent = t.interfaceLabel;
   document.querySelector(".source-lang-label").textContent = t.sourceLangLabel;
   document.querySelector(".target-lang-1-label").textContent =
@@ -55,6 +151,28 @@ function updateUI() {
   document.getElementById("micSource").title = t.micBtnTitle;
   document.getElementById("copyTarget1").title = t.copyBtnTitle;
   document.getElementById("copyTarget2").title = t.copyBtnTitle;
+
+  // Top row, theme and bottom block
+  setTitle("helpAppBtn", t.helpBtnTitle);
+  setTitle("settingsAppBtn", t.settingsBtnTitle);
+  setTitle("helpAppCloseBtn", t.closeBtnTitle);
+  setTitle("settingsAppCloseBtn", t.closeBtnTitle);
+  setText("labelThemaMode", t.labelThemaMode);
+  setText("labelThema", t.labelThema);
+  setText("resetSettingsText", t.defaultSettings);
+  setTitle("resetSettingsBtn", t.defaultSettings);
+
+  const modeTexts = {
+    contrast: t.themaModeContrast,
+    normal: t.themaModeNormal,
+    evening: t.themaModeEvening,
+    night: t.themaModeNight,
+  };
+  Array.from(document.getElementById("themaModeSelect").options).forEach(
+    (option) => {
+      if (modeTexts[option.value]) option.textContent = modeTexts[option.value];
+    }
+  );
 
   updateLangSelectOptions(lang);
 }
@@ -81,6 +199,13 @@ function setLoadingState(isLoading) {
   translateBtn.disabled = isLoading;
   translateBtn.textContent = isLoading ? "..." : t.translateButtonText;
 }
+
+function updateTranslateButtonVisibility() {
+  const btn = document.getElementById("manualTranslateBtn");
+  btn.style.display = autoTranslateChecked ? "none" : "";
+}
+
+/* ---------- Translation ---------- */
 
 async function translateText() {
   const text = document.getElementById("sourceText").value.trim();
@@ -195,6 +320,8 @@ async function translateGoogle(q, source, target) {
   }
 }
 
+/* ---------- Clipboard, speech ---------- */
+
 function copyToClipboard(text) {
   if (!navigator.clipboard) {
     alert("Clipboard API not supported");
@@ -299,11 +426,17 @@ function initSpeechRecognition() {
 
   rec.onend = () => {
     isRecording = false;
-    const micBtn = document.getElementById("micSource");
-    if (micBtn) micBtn.classList.remove("mic-active");
+    setMicActive(false);
   };
 
   return rec;
+}
+
+function setMicActive(active) {
+  const micBtn = document.getElementById("micSource");
+  if (!micBtn) return;
+  micBtn.classList.toggle("mic-active", active);
+  micBtn.textContent = active ? "⏹️" : "🎤";
 }
 
 function startSpeechRecognition() {
@@ -323,12 +456,21 @@ function startSpeechRecognition() {
   try {
     recognition.start();
     isRecording = true;
-    const micBtn = document.getElementById("micSource");
-    if (micBtn) micBtn.classList.add("mic-active");
+    setMicActive(true);
   } catch (err) {
     console.error("Failed to start speech recognition:", err);
     alert("Failed to start speech recognition: " + err.message);
   }
+}
+
+/* ---------- Settings ---------- */
+
+function isDeveloperPanelVisible() {
+  // getComputedStyle: the panel is hidden by CSS, so inline style.display is
+  // empty until the script sets it
+  return (
+    getComputedStyle(document.getElementById("developer")).display !== "none"
+  );
 }
 
 function saveSettings() {
@@ -339,8 +481,8 @@ function saveSettings() {
     targetLang1: document.getElementById("targetLang1").value,
     targetLang2: document.getElementById("targetLang2").value,
     autoTranslate: document.getElementById("autoTranslate").checked,
-    developerMode:
-      document.getElementById("developer").style.display !== "none",
+    developerMode: isDeveloperPanelVisible(),
+    thema: getThemaFromSelects(),
   };
   localStorage.setItem("translatorSettings", JSON.stringify(settings));
 }
@@ -359,9 +501,10 @@ function loadSettings() {
     document.getElementById("autoTranslate").checked =
       settings.autoTranslate ?? true;
     autoTranslateChecked = document.getElementById("autoTranslate").checked;
+    applyThema(settings.thema || THEME_FALLBACK);
     const devMode = settings.developerMode ?? false;
     document.getElementById("developer").style.display = devMode
-      ? "block"
+      ? "flex"
       : "none";
     document.getElementById("serviceRow").style.display = devMode
       ? "flex"
@@ -375,6 +518,7 @@ function loadSettings() {
     document.getElementById("targetLang2").value = "uk";
     document.getElementById("autoTranslate").checked = true;
     autoTranslateChecked = true;
+    applyThema(THEME_FALLBACK);
   }
 }
 
@@ -404,6 +548,7 @@ function applySettings(settings) {
   document.getElementById("autoTranslate").checked =
     settings.autoTranslate ?? true;
   autoTranslateChecked = document.getElementById("autoTranslate").checked;
+  applyThema(settings.thema || THEME_FALLBACK);
   clearTranslations();
   updateUI();
   document.getElementById("serviceRow").style.display = settings.developerMode
@@ -426,12 +571,22 @@ function onInputChanged() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  renderThemePaletteOptions();
   loadSettings();
   updateUI();
+  initModals();
 
   document.getElementById("uiLangSelect").addEventListener("change", () => {
     updateUI();
     saveSettings();
+  });
+
+  // Theme: palette and mode both recompose the full theme key
+  ["themaSelect", "themaModeSelect"].forEach((id) => {
+    document.getElementById(id).addEventListener("change", () => {
+      applyThema(getThemaFromSelects());
+      saveSettings();
+    });
   });
 
   document.getElementById("serviceSelect").addEventListener("change", () => {
@@ -448,6 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("autoTranslate").addEventListener("change", (e) => {
     autoTranslateChecked = e.target.checked;
+    updateTranslateButtonVisibility();
     saveSettings();
     if (autoTranslateChecked) translateText();
   });

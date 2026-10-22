@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-yellowblue-normal">
   <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta charset="UTF-8" />
     <title>Dual Translator</title>
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="icons/icon_DT_16x16.png"
-    />
-    <link rel="stylesheet" href="styles/styles.css" />
-    <script src="script/ui_DT_texts.js" defer></script>
-    <script src="script/script.js" defer></script>
+
+    <!-- Applies the saved theme before first paint (no flash) -->
+    <script src="script/themeRegistry.js?v=2.1.1"></script>
+
+    <script src="script/ui_DT_texts.js?v=2.1.1" defer></script>
+    <script src="script/script.js?v=2.1.1" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.1.1" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.1.1" />
   </head>
   <!-- DT -->
   <body>
@@ -27,37 +26,49 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 1.3.1</h6>
+            <h6 id="version" class="version">version: 2.1.1</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
 
+        <!-- Top row: help + settings buttons, theme mode -->
         <div class="setting-row" id="settingsRow">
-          <button
-            id="resetSettingsBtn"
-            class="reset-settings-btn"
-            title="Reset to default settings"
-          >
-            🔄
-          </button>
-          <div class="ui-language-wrapper" id="uiLanguageWrapper">
-            <label for="uiLangSelect" id="uiLangLabel" class="ui-lang-label"
-              >Интерфейс:</label
+          <div class="setting-buttons">
+            <button
+              type="button"
+              class="help-app-btn"
+              id="helpAppBtn"
+              title="Help"
+              aria-label="Help"
+            >
+              <span class="i-icon">ℹ️</span>
+            </button>
+            <button
+              type="button"
+              class="settings-app-btn"
+              id="settingsAppBtn"
+              title="Settings"
+              aria-label="Settings"
+            >
+              <span class="gear-icon">⚙️</span>
+            </button>
+          </div>
+          <div class="ui-language-wrapper" id="themaModeWrapper">
+            <label
+              for="themaModeSelect"
+              id="labelThemaMode"
+              class="ui-lang-label"
+              >Mode</label
             >
             <select
               class="ui-lang-select"
-              id="uiLangSelect"
-              title="Select interface language"
+              id="themaModeSelect"
+              title="Select theme mode"
             >
-              <option value="de">Deutsch</option>
-              <option selected value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="nl">Nederlands</option>
-              <option value="pl">Polski</option>
-              <option value="pt">Português</option>
-              <option value="ru">Русский</option>
-              <option value="tr">Türkçe</option>
-              <option value="uk">Українська</option>
+              <option value="contrast">Contrast</option>
+              <option value="normal" selected>Normal</option>
+              <option value="evening">Evening</option>
+              <option value="night">Night</option>
             </select>
           </div>
         </div>
@@ -82,23 +93,7 @@
               <option value="tr">Turkish</option>
               <option value="uk">Ukrainian</option>
             </select>
-            <div id="buttonContainer" class="button-container">
-              <button
-                type="button"
-                id="micSource"
-                class="icon-btn"
-                title="Speak"
-              >
-                🎤
-              </button>
-              <button
-                type="button"
-                id="clearSource"
-                class="icon-btn"
-                title="Clear source text"
-              >
-                ❌
-              </button>
+            <div class="button-container">
               <button
                 type="button"
                 id="pasteSource"
@@ -125,11 +120,31 @@
               </button>
             </div>
           </div>
-          <textarea
-            id="sourceText"
-            class="source-textarea"
-            placeholder="Enter text..."
-          ></textarea>
+          <div class="source-input-row">
+            <textarea
+              id="sourceText"
+              class="source-textarea"
+              placeholder="Enter text..."
+            ></textarea>
+            <div class="side-buttons">
+              <button
+                type="button"
+                id="micSource"
+                class="icon-btn"
+                title="Speak"
+              >
+                🎤
+              </button>
+              <button
+                type="button"
+                id="clearSource"
+                class="icon-btn"
+                title="Clear source text"
+              >
+                ❌
+              </button>
+            </div>
+          </div>
 
           <div class="row translate-control-row" id="translateControlRow">
             <input
@@ -177,7 +192,7 @@
                 <option value="tr">Turkish</option>
                 <option value="uk">Ukrainian</option>
               </select>
-              <div id="buttonContainer" class="button-container">
+              <div class="button-container">
                 <button
                   type="button"
                   id="copyTarget1"
@@ -224,7 +239,7 @@
                 <option value="tr">Turkish</option>
                 <option value="uk" selected>Ukrainian</option>
               </select>
-              <div id="buttonContainer" class="button-container">
+              <div class="button-container">
                 <button
                   type="button"
                   id="copyTarget2"
@@ -249,6 +264,59 @@
               placeholder="Translation 2"
               readonly
             ></textarea>
+          </div>
+        </div>
+
+        <!-- Bottom block: theme palette, interface language, reset -->
+        <div class="section-block section-block-footer">
+          <div class="thema-wrapper">
+            <div class="thema-group" id="themaGroup">
+              <label for="themaSelect" id="labelThema" class="label-thema"
+                >Theme</label
+              >
+              <select
+                id="themaSelect"
+                class="thema-select"
+                title="Select theme"
+              ></select>
+            </div>
+          </div>
+
+          <div class="interface-wrapper">
+            <div class="interface-group" id="uiLanguageWrapper">
+              <label for="uiLangSelect" id="uiLangLabel" class="label-interface"
+                >Interface:</label
+              >
+              <select
+                class="interface-select"
+                id="uiLangSelect"
+                title="Select interface language"
+              >
+                <option value="de">Deutsch</option>
+                <option selected value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="nl">Nederlands</option>
+                <option value="pl">Polski</option>
+                <option value="pt">Português</option>
+                <option value="ru">Русский</option>
+                <option value="tr">Türkçe</option>
+                <option value="uk">Українська</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="reset-settings-group" id="resetSettingsGroup">
+            <button
+              type="button"
+              class="reset-settings-btn"
+              id="resetSettingsBtn"
+              title="Reset to default settings"
+            >
+              <span class="reset-icon">🔄</span>
+            </button>
+            <span class="reset-settings-text" id="resetSettingsText"
+              >Reset defaults</span
+            >
           </div>
         </div>
 
@@ -285,6 +353,48 @@
             Clear LS
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Help modal (content to be added later) -->
+    <div
+      id="helpAppModal"
+      class="app-modal hidden"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="app-modal-content">
+        <button
+          type="button"
+          id="helpAppCloseBtn"
+          class="app-modal-close-btn"
+          title="Close"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <div id="helpAppContent"></div>
+      </div>
+    </div>
+
+    <!-- Settings modal (content to be added later) -->
+    <div
+      id="settingsAppModal"
+      class="app-modal hidden"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="app-modal-content">
+        <button
+          type="button"
+          id="settingsAppCloseBtn"
+          class="app-modal-close-btn"
+          title="Close"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <div id="settingsAppContent"></div>
       </div>
     </div>
   </body>
