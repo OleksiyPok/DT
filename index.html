@@ -31,7 +31,7 @@
         </div>
         <h5>Oleksii Pokormiakho</h5>
 
-        <!-- Top row: help + settings + preset buttons, theme mode -->
+        <!-- Top row: help + settings buttons, theme mode -->
         <div class="setting-row" id="settingsRow">
           <div class="setting-buttons">
             <button
@@ -52,36 +52,6 @@
             >
               <span class="gear-icon">⚙️</span>
             </button>
-            <!-- Preset buttons: load the saved configuration 1 / 2 / 3 -->
-            <div class="preset-buttons" id="presetButtons" role="group">
-              <button
-                type="button"
-                class="preset-btn active"
-                id="presetBtn1"
-                data-preset="1"
-                aria-pressed="true"
-              >
-                1
-              </button>
-              <button
-                type="button"
-                class="preset-btn"
-                id="presetBtn2"
-                data-preset="2"
-                aria-pressed="false"
-              >
-                2
-              </button>
-              <button
-                type="button"
-                class="preset-btn"
-                id="presetBtn3"
-                data-preset="3"
-                aria-pressed="false"
-              >
-                3
-              </button>
-            </div>
           </div>
           <div class="ui-language-wrapper" id="themaModeWrapper">
             <label
@@ -100,6 +70,39 @@
               <option value="evening">Evening</option>
               <option value="night">Night</option>
             </select>
+          </div>
+        </div>
+
+        <!-- Separate row: preset buttons load the saved configuration 1 / 2 / 3 -->
+        <div class="preset-row" id="presetRow">
+          <div class="preset-buttons" id="presetButtons" role="group">
+            <button
+              type="button"
+              class="preset-btn active"
+              id="presetBtn1"
+              data-preset="1"
+              aria-pressed="true"
+            >
+              1
+            </button>
+            <button
+              type="button"
+              class="preset-btn"
+              id="presetBtn2"
+              data-preset="2"
+              aria-pressed="false"
+            >
+              2
+            </button>
+            <button
+              type="button"
+              class="preset-btn"
+              id="presetBtn3"
+              data-preset="3"
+              aria-pressed="false"
+            >
+              3
+            </button>
           </div>
         </div>
 
