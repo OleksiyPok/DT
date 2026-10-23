@@ -225,7 +225,7 @@ button:disabled {
   display: none !important;
 }
 
-/* ---------- Top row: help / settings / preset buttons + theme mode ---------- */
+/* ---------- Top row: help button + theme mode (divider line below) ---------- */
 .setting-row {
   display: flex;
   flex-direction: row;
@@ -236,6 +236,7 @@ button:disabled {
   padding: 8px 0;
   gap: 12px;
   border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 .setting-buttons {
   display: flex;
@@ -280,17 +281,18 @@ button:disabled {
   line-height: 1;
 }
 
-/* Separate row under the top row: preset buttons 1 / 2 / 3, pressed to the left.
-   The active one is bigger, the others are smaller. One button is always
-   active, so the width of the group and the row height never change. */
+/* Separate row under the divider line: preset buttons 1 / 2 / 3 pressed to the
+   left, settings button pressed to the right. The active preset button is
+   bigger, the others are smaller. One button is always active, so the width
+   of the group and the row height never change. */
 .preset-row {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 44px;
-  padding-bottom: 8px;
+  min-height: 52px;
+  padding: 8px 0;
 }
 .preset-buttons {
   display: flex;
@@ -311,16 +313,16 @@ button:disabled {
   line-height: 1;
 }
 .preset-btn {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   font-size: 10px;
   opacity: 0.8;
   transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease,
     opacity 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 .preset-btn.active {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   font-size: 16px;
   opacity: 1;
 }
@@ -374,7 +376,10 @@ button:disabled {
   margin-top: 0;
 }
 
-/* ---------- Settings modal content: theme, interface language, configurations, reset ---------- */
+/* ---------- Settings modal content: theme, interface language, configurations, reset ----------
+   Deliberately plainer than the main window: no cards, no rounded boxes, no
+   shadows; sections are separated by thin lines. Only theme variables are used,
+   so the colours still follow the selected theme. */
 .settings-app-content {
   display: flex;
   flex-direction: column;
@@ -384,17 +389,26 @@ button:disabled {
   margin: 0 auto;
   padding-top: 8px;
 }
+.settings-app-content {
+  gap: 0;
+}
 .thema-wrapper,
 .interface-wrapper,
 .preset-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   min-width: 0;
-  padding: 8px;
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
+  padding: 14px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
+}
+.settings-app-content select {
+  border-radius: 0;
+  border-color: var(--border-strong);
+  box-shadow: none;
 }
 .thema-group,
 .interface-group,
@@ -418,16 +432,31 @@ button:disabled {
   color: var(--text-muted);
   user-select: none;
 }
+/* Tabs 1-3 as a flat joined segmented control */
 .preset-tabs {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 0;
   margin-bottom: 4px;
 }
 .preset-tab {
   width: 44px;
-  height: 36px;
+  height: 34px;
   font-size: 16px;
+  border-radius: 0;
+  border-width: 1px;
+  border-color: var(--border-strong);
+  background: none;
+  box-shadow: none;
+}
+.preset-tab + .preset-tab {
+  margin-left: -1px;
+}
+.preset-tab:hover {
+  background: var(--surface-hover);
+}
+.preset-tab.active {
+  border-width: 1px;
 }
 
 /* Visible buttons: one group of checkboxes per section */
@@ -453,10 +482,11 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 8px;
-  background: var(--background-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  padding: 8px 0 0;
+  background: none;
+  border: none;
+  border-top: 1px dotted var(--border-strong);
+  border-radius: 0;
 }
 .button-visibility-title {
   font-weight: 600;
@@ -503,11 +533,14 @@ button:disabled {
   align-items: center;
   width: 100%;
   gap: 12px;
+  padding-top: 14px;
   opacity: 0.75;
 }
 .reset-settings-btn {
   font-size: 18px;
-  background: var(--surface-color);
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 0;
 }
 .reset-settings-btn:hover {
   background: var(--surface-hover);
