@@ -31,7 +31,7 @@
         </div>
         <h5>Oleksii Pokormiakho</h5>
 
-        <!-- Top row: help button, theme mode -->
+        <!-- Top row: help + settings buttons, theme mode -->
         <div class="setting-row" id="settingsRow">
           <div class="setting-buttons">
             <button
@@ -42,6 +42,15 @@
               aria-label="Help"
             >
               <span class="i-icon">ℹ️</span>
+            </button>
+            <button
+              type="button"
+              class="settings-app-btn"
+              id="settingsAppBtn"
+              title="Settings"
+              aria-label="Settings"
+            >
+              <span class="gear-icon">⚙️</span>
             </button>
           </div>
           <div class="ui-language-wrapper" id="themaModeWrapper">
@@ -64,8 +73,7 @@
           </div>
         </div>
 
-        <!-- Separate row: preset buttons (left) load the saved configuration 1 / 2 / 3;
-             settings button (right) -->
+        <!-- Separate row: segmented switch, loads the saved configuration 1 / 2 / 3 -->
         <div class="preset-row" id="presetRow">
           <div class="preset-buttons" id="presetButtons" role="group">
             <button
@@ -96,15 +104,6 @@
               3
             </button>
           </div>
-          <button
-            type="button"
-            class="settings-app-btn"
-            id="settingsAppBtn"
-            title="Settings"
-            aria-label="Settings"
-          >
-            <span class="gear-icon">⚙️</span>
-          </button>
         </div>
 
         <div class="section-block section-block-source">

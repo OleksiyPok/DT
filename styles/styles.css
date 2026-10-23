@@ -281,25 +281,22 @@ button:disabled {
   line-height: 1;
 }
 
-/* Separate row under the divider line: preset buttons 1 / 2 / 3 pressed to the
-   left, settings button pressed to the right. The active preset button is
-   bigger, the others are smaller. One button is always active, so the width
-   of the group and the row height never change. */
+/* Separate row under the divider line: segmented switch 1 / 2 / 3 across the
+   full width. The active segment is filled and a little wider, the others are
+   narrower. The segments always fill the row, so its width and height never change. */
 .preset-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 52px;
   padding: 8px 0;
 }
 .preset-buttons {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 14px;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 0;
 }
 .preset-btn,
 .preset-tab {
@@ -313,18 +310,29 @@ button:disabled {
   line-height: 1;
 }
 .preset-btn {
-  width: 24px;
-  height: 24px;
-  font-size: 10px;
-  opacity: 0.8;
-  transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease,
-    opacity 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  height: 36px;
+  font-size: 14px;
+  border-radius: 0;
+  transition: flex-grow 0.2s ease, font-size 0.2s ease,
+    background-color 0.3s ease, border-color 0.3s ease;
+}
+.preset-btn + .preset-btn {
+  margin-left: -2px;
+}
+.preset-btn:first-child {
+  border-radius: 6px 0 0 6px;
+}
+.preset-btn:last-child {
+  border-radius: 0 6px 6px 0;
 }
 .preset-btn.active {
-  width: 28px;
-  height: 28px;
-  font-size: 16px;
-  opacity: 1;
+  flex-grow: 1.6;
+  font-size: 17px;
+  position: relative;
+  z-index: 1;
 }
 .preset-btn.active,
 .preset-tab.active {
@@ -377,9 +385,9 @@ button:disabled {
 }
 
 /* ---------- Settings modal content: theme, interface language, configurations, reset ----------
-   Deliberately plainer than the main window: no cards, no rounded boxes, no
-   shadows; sections are separated by thin lines. Only theme variables are used,
-   so the colours still follow the selected theme. */
+   Deliberately plainer than the main window: no rounded cards, no shadows.
+   Sections are flat tonal panels with an accent bar on the left, separated by
+   empty space. Only theme variables are used, so the colours follow the theme. */
 .settings-app-content {
   display: flex;
   flex-direction: column;
@@ -390,7 +398,7 @@ button:disabled {
   padding-top: 8px;
 }
 .settings-app-content {
-  gap: 0;
+  gap: 16px;
 }
 .thema-wrapper,
 .interface-wrapper,
@@ -399,10 +407,10 @@ button:disabled {
   flex-direction: column;
   gap: 8px;
   min-width: 0;
-  padding: 14px 0;
-  background: none;
+  padding: 12px;
+  background: var(--surface-color);
   border: none;
-  border-bottom: 1px solid var(--border-color);
+  border-left: 5px solid var(--primary-border);
   border-radius: 0;
 }
 .settings-app-content select {
@@ -482,10 +490,9 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 8px 0 0;
-  background: none;
+  padding: 8px;
+  background: var(--background-color);
   border: none;
-  border-top: 1px dotted var(--border-strong);
   border-radius: 0;
 }
 .button-visibility-title {
@@ -533,7 +540,7 @@ button:disabled {
   align-items: center;
   width: 100%;
   gap: 12px;
-  padding-top: 14px;
+  padding-top: 0;
   opacity: 0.75;
 }
 .reset-settings-btn {
@@ -579,6 +586,8 @@ button:disabled {
   justify-content: space-between;
   flex-wrap: nowrap;
   gap: 8px;
+  /* same height as with the 36px icon buttons, even if all of them are hidden */
+  min-height: 36px;
 }
 .controls-row select {
   flex: 0 0 120px;
@@ -669,14 +678,15 @@ button:disabled {
 .target-lang-2-label {
   margin-bottom: -5px;
 }
+/* Calm background: the block colour with a slight grey shift (follows the theme) */
 .translated-text-1-textarea,
 .translated-text-2-textarea {
-  background-color: var(--surface-alt-color);
-  border-color: var(--primary-border);
+  background-color: var(--surface-color);
+  background-color: color-mix(in srgb, var(--surface-color) 92%, var(--text-color) 8%);
 }
 .translated-text-1-textarea:focus,
 .translated-text-2-textarea:focus {
-  border-color: var(--primary-border);
+  border-color: var(--border-color);
   outline: none;
 }
 
