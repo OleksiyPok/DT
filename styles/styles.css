@@ -225,7 +225,7 @@ button:disabled {
   display: none !important;
 }
 
-/* ---------- Top row: help button + theme mode (divider line below) ---------- */
+/* ---------- Top row: help button + theme mode ---------- */
 .setting-row {
   display: flex;
   flex-direction: row;
@@ -233,10 +233,9 @@ button:disabled {
   align-items: center;
   width: 100%;
   margin-left: 0;
-  padding: 8px 0;
+  padding: 8px 4px;
   gap: 12px;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  border: none;
 }
 .setting-buttons {
   display: flex;
@@ -281,10 +280,7 @@ button:disabled {
   line-height: 1;
 }
 
-/* Separate row under the divider line: preset buttons 1 / 2 / 3 pressed to the
-   left, settings button pressed to the right. The active preset button is
-   bigger, the others are smaller. One button is always active, so the width
-   of the group and the row height never change. */
+/* Preset buttons and settings action share the help button's horizontal inset. */
 .preset-row {
   display: flex;
   flex-direction: row;
@@ -292,7 +288,7 @@ button:disabled {
   align-items: center;
   width: 100%;
   min-height: 52px;
-  padding: 8px 0;
+  padding: 8px 4px;
 }
 .preset-buttons {
   display: flex;
@@ -376,10 +372,7 @@ button:disabled {
   margin-top: 0;
 }
 
-/* ---------- Settings modal content: theme, interface language, configurations, reset ----------
-   Deliberately plainer than the main window: no cards, no rounded boxes, no
-   shadows; sections are separated by thin lines. Only theme variables are used,
-   so the colours still follow the selected theme. */
+/* ---------- Settings modal content: grouped cards follow the active theme ---------- */
 .settings-app-content {
   display: flex;
   flex-direction: column;
@@ -389,8 +382,8 @@ button:disabled {
   margin: 0 auto;
   padding-top: 8px;
 }
-.settings-app-content {
-  gap: 0;
+ .settings-app-content {
+  gap: 12px;
 }
 .thema-wrapper,
 .interface-wrapper,
@@ -399,15 +392,15 @@ button:disabled {
   flex-direction: column;
   gap: 8px;
   min-width: 0;
-  padding: 14px 0;
-  background: none;
-  border: none;
-  border-bottom: 1px solid var(--border-color);
-  border-radius: 0;
+  padding: 14px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px var(--shadow-light);
 }
 .settings-app-content select {
-  border-radius: 0;
-  border-color: var(--border-strong);
+  border-radius: 6px;
+  border-color: var(--border-color);
   box-shadow: none;
 }
 .thema-group,
@@ -443,10 +436,10 @@ button:disabled {
   width: 44px;
   height: 34px;
   font-size: 16px;
-  border-radius: 0;
+  border-radius: 6px;
   border-width: 1px;
-  border-color: var(--border-strong);
-  background: none;
+  border-color: var(--border-color);
+  background: var(--background-color);
   box-shadow: none;
 }
 .preset-tab + .preset-tab {
@@ -482,11 +475,10 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 8px 0 0;
-  background: none;
-  border: none;
-  border-top: 1px dotted var(--border-strong);
-  border-radius: 0;
+  padding: 10px;
+  background: var(--surface-alt-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
 }
 .button-visibility-title {
   font-weight: 600;
@@ -533,8 +525,8 @@ button:disabled {
   align-items: center;
   width: 100%;
   gap: 12px;
-  padding-top: 14px;
-  opacity: 0.75;
+  padding: 12px 4px 4px;
+  opacity: 0.85;
 }
 .reset-settings-btn {
   font-size: 18px;
@@ -671,7 +663,7 @@ button:disabled {
 }
 .translated-text-1-textarea,
 .translated-text-2-textarea {
-  background-color: var(--surface-alt-color);
+  background-color: color-mix(in srgb, var(--background-color) 94%, var(--text-color) 6%);
   border-color: var(--primary-border);
 }
 .translated-text-1-textarea:focus,
