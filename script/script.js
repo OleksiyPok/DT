@@ -24,7 +24,12 @@ const BUTTON_SECTIONS = [
     labelKey: "targetLang1Label",
     buttons: [
       { key: "copy", id: "copyTarget1", icon: "📋", textKey: "copyBtnTitle" },
-      { key: "speak", id: "speakTarget1", icon: "🔊", textKey: "speakBtnTitle" },
+      {
+        key: "speak",
+        id: "speakTarget1",
+        icon: "🔊",
+        textKey: "speakBtnTitle",
+      },
     ],
   },
   {
@@ -32,7 +37,12 @@ const BUTTON_SECTIONS = [
     labelKey: "targetLang2Label",
     buttons: [
       { key: "copy", id: "copyTarget2", icon: "📋", textKey: "copyBtnTitle" },
-      { key: "speak", id: "speakTarget2", icon: "🔊", textKey: "speakBtnTitle" },
+      {
+        key: "speak",
+        id: "speakTarget2",
+        icon: "🔊",
+        textKey: "speakBtnTitle",
+      },
     ],
   },
 ];
@@ -48,6 +58,35 @@ function buildDefaultButtons() {
   return result;
 }
 
+/* ---------- Presets (configurations 1-3) ----------
+   A preset stores the languages (source, target 1, target 2) and the
+   visibility of the buttons. Presets are edited ONLY in the settings modal.
+   The language selects on the main window are a "live" state: changing them
+   never writes into a preset. Clicking a preset button loads that preset. */
+
+const LANG_CODES = ["de", "en", "fr", "nl", "pl", "pt", "ru", "tr", "uk"];
+const PRESET_COUNT = 3;
+
+// Language fields of a preset. The keys are also the ids of the main-window selects.
+const PRESET_LANG_FIELDS = {
+  presetSourceLang: "sourceLang",
+  presetTargetLang1: "targetLang1",
+  presetTargetLang2: "targetLang2",
+};
+
+const DEFAULT_PRESET_LANGS = [
+  { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
+  { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
+  { sourceLang: "ru", targetLang1: "en", targetLang2: "nl" },
+];
+
+function buildDefaultPresets() {
+  return DEFAULT_PRESET_LANGS.map((langs) => ({
+    ...langs,
+    buttons: buildDefaultButtons(),
+  }));
+}
+
 const DEFAULT_SETTINGS = {
   uiLangSelect: "en",
   sourceLang: "nl",
@@ -57,7 +96,8 @@ const DEFAULT_SETTINGS = {
   autoTranslate: true,
   developerMode: false,
   thema: "theme-yellowblue-normal",
-  buttons: buildDefaultButtons(),
+  presets: buildDefaultPresets(),
+  activePreset: 1,
 };
 
 const themeRegistry = window.DTThemeRegistry || null;
@@ -68,7 +108,9 @@ let debounceTimer;
 let currentUtterance = null;
 let recognition = null;
 let isRecording = false;
-let buttonVisibility = buildDefaultButtons();
+let presets = buildDefaultPresets();
+let activePreset = 1; // applied on the main window
+let editPreset = 1; // shown in the settings modal
 
 /* ---------- Theme ---------- */
 
@@ -108,7 +150,12 @@ function applyThema(value) {
   return chosen;
 }
 
-/* ---------- Button visibility (per section) ---------- */
+/* ---------- Presets: data helpers ---------- */
+
+function clampPreset(value) {
+  const n = Number(value);
+  return Number.isInteger(n) && n >= 1 && n <= PRESET_COUNT ? n : 1;
+}
 
 // Builds a full {section: {button: boolean}} object, missing/invalid values = true
 function normalizeButtonVisibility(raw) {
@@ -124,6 +171,95 @@ function normalizeButtonVisibility(raw) {
     });
   });
   return result;
+}
+
+function pickLang(value, fallback) {
+  return LANG_CODES.includes(value) ? value : fallback;
+}
+
+function normalizePreset(raw, fallback) {
+  const src = raw && typeof raw === "object" ? raw : {};
+  return {
+    sourceLang: pickLang(src.sourceLang, fallback.sourceLang),
+    targetLang1: pickLang(src.targetLang1, fallback.targetLang1),
+    targetLang2: pickLang(src.targetLang2, fallback.targetLang2),
+    buttons: normalizeButtonVisibility(src.buttons),
+  };
+}
+
+function normalizePresets(raw) {
+  const list = Array.isArray(raw) ? raw : [];
+  return buildDefaultPresets().map((fallback, i) =>
+    normalizePreset(list[i], fallback)
+  );
+}
+
+function getActiveButtons() {
+  return presets[activePreset - 1].buttons;
+}
+
+/* ---------- Presets: main window ---------- */
+
+function updatePresetButtons() {
+  document.querySelectorAll(".preset-btn").forEach((btn) => {
+    const on = Number(btn.dataset.preset) === activePreset;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-pressed", String(on));
+  });
+}
+
+// Loads preset n into the main window (languages + visible buttons)
+function setActivePreset(n) {
+  activePreset = clampPreset(n);
+  const p = presets[activePreset - 1];
+  Object.values(PRESET_LANG_FIELDS).forEach((field) => {
+    document.getElementById(field).value = p[field];
+  });
+  applyButtonVisibility();
+  updatePresetButtons();
+  saveSettings();
+  if (autoTranslateChecked) translateText();
+}
+
+/* ---------- Presets: settings modal ---------- */
+
+// Fills the three language selects of the preset editor (names are set in updateUI)
+function renderPresetLanguageOptions() {
+  Object.keys(PRESET_LANG_FIELDS).forEach((selectId) => {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    select.innerHTML = "";
+    LANG_CODES.forEach((code) => {
+      const option = document.createElement("option");
+      option.value = code;
+      option.textContent = code;
+      select.appendChild(option);
+    });
+  });
+}
+
+// Shows the preset being edited: tabs, language selects and checkboxes
+function syncPresetEditor() {
+  const p = presets[editPreset - 1];
+
+  document.querySelectorAll(".preset-tab").forEach((tab) => {
+    const on = Number(tab.dataset.preset) === editPreset;
+    tab.classList.toggle("active", on);
+    tab.setAttribute("aria-pressed", String(on));
+  });
+
+  Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
+    document.getElementById(selectId).value = p[field];
+  });
+
+  BUTTON_SECTIONS.forEach((section) => {
+    section.buttons.forEach((btn) => {
+      const checkbox = document.querySelector(
+        `.button-visibility-checkbox[data-section="${section.key}"][data-button="${btn.key}"]`
+      );
+      if (checkbox) checkbox.checked = p.buttons[section.key][btn.key];
+    });
+  });
 }
 
 // Creates the checkbox groups in the settings modal (texts are set in updateUI)
@@ -186,17 +322,14 @@ function updateButtonVisibilityTexts(t) {
   });
 }
 
-// Shows/hides the buttons on the main page and syncs the checkboxes
+// Shows/hides the buttons on the main page according to the ACTIVE preset
 function applyButtonVisibility() {
+  const visibility = getActiveButtons();
+
   BUTTON_SECTIONS.forEach((section) => {
     section.buttons.forEach((btn) => {
-      const visible = buttonVisibility[section.key][btn.key];
+      const visible = visibility[section.key][btn.key];
       document.getElementById(btn.id)?.classList.toggle("is-hidden", !visible);
-
-      const checkbox = document.querySelector(
-        `.button-visibility-checkbox[data-section="${section.key}"][data-button="${btn.key}"]`
-      );
-      if (checkbox) checkbox.checked = visible;
     });
   });
 
@@ -209,7 +342,7 @@ function applyButtonVisibility() {
     });
 
   // Stop recording if the microphone button was hidden meanwhile
-  if (!buttonVisibility.source.mic && isRecording && recognition) {
+  if (!visibility.source.mic && isRecording && recognition) {
     recognition.abort();
   }
 }
@@ -234,9 +367,12 @@ function initModals() {
   document
     .getElementById("helpAppBtn")
     .addEventListener("click", () => openModal("helpAppModal"));
-  document
-    .getElementById("settingsAppBtn")
-    .addEventListener("click", () => openModal("settingsAppModal"));
+  document.getElementById("settingsAppBtn").addEventListener("click", () => {
+    // The editor starts on the configuration that is currently active
+    editPreset = activePreset;
+    syncPresetEditor();
+    openModal("settingsAppModal");
+  });
 
   document
     .querySelectorAll(".app-modal-close-btn")
@@ -319,6 +455,17 @@ function updateUI() {
   setText("resetSettingsText", t.defaultSettings);
   setTitle("resetSettingsBtn", t.defaultSettings);
 
+  // Configurations: main-window buttons, modal tabs, modal language labels
+  setText("labelPresets", t.presetsLabel);
+  setText("labelPresetSourceLang", t.sourceLangLabel);
+  setText("labelPresetTargetLang1", t.targetLang1Label);
+  setText("labelPresetTargetLang2", t.targetLang2Label);
+  document.querySelectorAll(".preset-btn, .preset-tab").forEach((el) => {
+    const title = `${t.presetBtnTitle} ${el.dataset.preset}`;
+    el.title = title;
+    el.setAttribute("aria-label", title);
+  });
+
   updateButtonVisibilityTexts(t);
 
   const modeTexts = {
@@ -339,7 +486,14 @@ function updateUI() {
 function updateLangSelectOptions(lang) {
   const nameMap = languageNames[lang] || languageNames.en;
 
-  ["sourceLang", "targetLang1", "targetLang2"].forEach((selectId) => {
+  [
+    "sourceLang",
+    "targetLang1",
+    "targetLang2",
+    "presetSourceLang",
+    "presetTargetLang1",
+    "presetTargetLang2",
+  ].forEach((selectId) => {
     const select = document.getElementById(selectId);
     Array.from(select.options).forEach((option) => {
       const code = option.value;
@@ -632,6 +786,8 @@ function isDeveloperPanelVisible() {
   );
 }
 
+// sourceLang / targetLang1 / targetLang2 are the LIVE values of the main
+// window; the saved configurations are stored separately in `presets`.
 function saveSettings() {
   const settings = {
     uiLangSelect: document.getElementById("uiLangSelect").value,
@@ -642,87 +798,110 @@ function saveSettings() {
     autoTranslate: document.getElementById("autoTranslate").checked,
     developerMode: isDeveloperPanelVisible(),
     thema: getThemaFromSelects(),
-    buttons: buttonVisibility,
+    presets,
+    activePreset,
   };
   localStorage.setItem("translatorSettings", JSON.stringify(settings));
 }
 
-function loadSettings() {
-  const saved = localStorage.getItem("translatorSettings");
-  if (saved) {
-    const settings = JSON.parse(saved);
-    document.getElementById("uiLangSelect").value =
-      settings.uiLangSelect || "en";
-    document.getElementById("serviceSelect").value =
-      settings.serviceSelect || "mymemory";
-    document.getElementById("sourceLang").value = settings.sourceLang || "en";
-    document.getElementById("targetLang1").value = settings.targetLang1 || "en";
-    document.getElementById("targetLang2").value = settings.targetLang2 || "uk";
-    document.getElementById("autoTranslate").checked =
-      settings.autoTranslate ?? true;
-    autoTranslateChecked = document.getElementById("autoTranslate").checked;
-    applyThema(settings.thema || THEME_FALLBACK);
-    buttonVisibility = normalizeButtonVisibility(settings.buttons);
-    applyButtonVisibility();
-    const devMode = settings.developerMode ?? false;
-    document.getElementById("developer").style.display = devMode
-      ? "flex"
-      : "none";
-    document.getElementById("serviceRow").style.display = devMode
-      ? "flex"
-      : "none";
+// Puts a full settings object into the page (used by load and by reset)
+function applyState(settings) {
+  const $ = (id) => document.getElementById(id);
+
+  $("uiLangSelect").value = settings.uiLangSelect || "en";
+  $("serviceSelect").value = settings.serviceSelect || "mymemory";
+
+  if (Array.isArray(settings.presets)) {
+    presets = normalizePresets(settings.presets);
   } else {
-    // Set default settings if nothing saved
-    document.getElementById("uiLangSelect").value = "en";
-    document.getElementById("serviceSelect").value = "mymemory";
-    document.getElementById("sourceLang").value = "nl";
-    document.getElementById("targetLang1").value = "en";
-    document.getElementById("targetLang2").value = "uk";
-    document.getElementById("autoTranslate").checked = true;
-    autoTranslateChecked = true;
-    applyThema(THEME_FALLBACK);
-    buttonVisibility = buildDefaultButtons();
-    applyButtonVisibility();
+    // Older saved settings: their languages and buttons become configuration 1
+    presets = buildDefaultPresets();
+    presets[0] = normalizePreset(
+      {
+        sourceLang: settings.sourceLang,
+        targetLang1: settings.targetLang1,
+        targetLang2: settings.targetLang2,
+        buttons: settings.buttons,
+      },
+      presets[0]
+    );
   }
+  activePreset = clampPreset(settings.activePreset);
+  editPreset = activePreset;
+
+  const active = presets[activePreset - 1];
+  Object.values(PRESET_LANG_FIELDS).forEach((field) => {
+    $(field).value = pickLang(settings[field], active[field]);
+  });
+
+  $("autoTranslate").checked = settings.autoTranslate ?? true;
+  autoTranslateChecked = $("autoTranslate").checked;
+  applyThema(settings.thema || THEME_FALLBACK);
+
+  const devMode = settings.developerMode ?? false;
+  $("developer").style.display = devMode ? "flex" : "none";
+  $("serviceRow").style.display = devMode ? "flex" : "none";
+
+  applyButtonVisibility();
+  updatePresetButtons();
+  syncPresetEditor();
+}
+
+function loadSettings() {
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem("translatorSettings"));
+  } catch {
+    saved = null;
+  }
+  applyState(
+    saved && typeof saved === "object" ? saved : buildResetSettings({})
+  );
+}
+
+// Defaults + (optional) values from config.json. Without a `presets` array in
+// config.json, its sourceLang / targetLang1 / targetLang2 go into configuration 1.
+function buildResetSettings(external) {
+  const ext = external && typeof external === "object" ? external : {};
+  const settings = { ...DEFAULT_SETTINGS, ...ext };
+
+  if (Array.isArray(ext.presets)) {
+    settings.presets = normalizePresets(ext.presets);
+  } else {
+    settings.presets = buildDefaultPresets();
+    settings.presets[0] = normalizePreset(
+      {
+        sourceLang: ext.sourceLang,
+        targetLang1: ext.targetLang1,
+        targetLang2: ext.targetLang2,
+      },
+      settings.presets[0]
+    );
+  }
+
+  settings.activePreset = clampPreset(ext.activePreset);
+  const active = settings.presets[settings.activePreset - 1];
+  Object.values(PRESET_LANG_FIELDS).forEach((field) => {
+    settings[field] = active[field];
+  });
+  return settings;
 }
 
 async function resetSettings() {
+  let external = {};
   try {
-    let settings;
     const response = await fetch(PATHS.CONFIG, { cache: "no-cache" });
-    if (response.ok) {
-      const externalSettings = await response.json();
-      settings = { ...DEFAULT_SETTINGS, ...externalSettings };
-    } else {
-      throw new Error("Config file not found");
-    }
-    applySettings(settings);
+    if (response.ok) external = await response.json();
   } catch (error) {
-    applySettings(DEFAULT_SETTINGS);
+    external = {};
   }
+  applySettings(buildResetSettings(external));
 }
 
 function applySettings(settings) {
-  document.getElementById("uiLangSelect").value = settings.uiLangSelect || "en";
-  document.getElementById("serviceSelect").value =
-    settings.serviceSelect || "mymemory";
-  document.getElementById("sourceLang").value = settings.sourceLang || "en";
-  document.getElementById("targetLang1").value = settings.targetLang1 || "en";
-  document.getElementById("targetLang2").value = settings.targetLang2 || "uk";
-  document.getElementById("autoTranslate").checked =
-    settings.autoTranslate ?? true;
-  autoTranslateChecked = document.getElementById("autoTranslate").checked;
-  applyThema(settings.thema || THEME_FALLBACK);
-  buttonVisibility = normalizeButtonVisibility(settings.buttons);
-  applyButtonVisibility();
+  applyState(settings);
   clearTranslations();
   updateUI();
-  document.getElementById("serviceRow").style.display = settings.developerMode
-    ? "flex"
-    : "none";
-  document.getElementById("developer").style.display = settings.developerMode
-    ? "flex"
-    : "none";
   saveSettings();
 }
 
@@ -739,6 +918,7 @@ function onInputChanged() {
 document.addEventListener("DOMContentLoaded", () => {
   renderThemePaletteOptions();
   renderButtonVisibilityOptions();
+  renderPresetLanguageOptions();
   loadSettings();
   updateUI();
   initModals();
@@ -756,7 +936,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Button visibility checkboxes (settings modal)
+  // Main window: preset buttons load the saved configuration
+  document.querySelectorAll(".preset-btn").forEach((btn) => {
+    btn.addEventListener("click", () => setActivePreset(btn.dataset.preset));
+  });
+
+  // Settings modal: tabs choose which configuration is edited
+  document.querySelectorAll(".preset-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      editPreset = clampPreset(tab.dataset.preset);
+      syncPresetEditor();
+    });
+  });
+
+  // Settings modal: languages of the edited configuration
+  Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
+    document.getElementById(selectId).addEventListener("change", (e) => {
+      presets[editPreset - 1][field] = e.target.value;
+      if (editPreset === activePreset) {
+        // The active configuration is applied right away to the main window
+        // (the main select has the same id as the preset field)
+        document.getElementById(field).value = e.target.value;
+        if (autoTranslateChecked) translateText();
+      }
+      saveSettings();
+    });
+  });
+
+  // Settings modal: button visibility of the edited configuration
   document
     .getElementById("buttonVisibilityGroups")
     .addEventListener("change", (e) => {
@@ -764,9 +971,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!cb.classList || !cb.classList.contains("button-visibility-checkbox"))
         return;
       const { section, button } = cb.dataset;
-      if (buttonVisibility[section] && button in buttonVisibility[section]) {
-        buttonVisibility[section][button] = cb.checked;
-        applyButtonVisibility();
+      const buttons = presets[editPreset - 1].buttons;
+      if (buttons[section] && button in buttons[section]) {
+        buttons[section][button] = cb.checked;
+        if (editPreset === activePreset) applyButtonVisibility();
         saveSettings();
       }
     });
@@ -776,6 +984,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (autoTranslateChecked) translateText();
   });
 
+  // Main-window language selects only change the live state, never a preset
   ["sourceLang", "targetLang1", "targetLang2"].forEach((id) => {
     document.getElementById(id).addEventListener("change", () => {
       saveSettings();

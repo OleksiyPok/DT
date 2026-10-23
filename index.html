@@ -6,12 +6,12 @@
     <title>Dual Translator</title>
 
     <!-- Applies the saved theme before first paint (no flash) -->
-    <script src="script/themeRegistry.js?v=2.2.0"></script>
+    <script src="script/themeRegistry.js?v=2.3.0"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.2.0" defer></script>
-    <script src="script/script.js?v=2.2.0" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.2.0" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.2.0" />
+    <script src="script/ui_DT_texts.js?v=2.3.0" defer></script>
+    <script src="script/script.js?v=2.3.0" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.3.0" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.3.0" />
   </head>
   <!-- DT -->
   <body>
@@ -26,12 +26,12 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.2.0</h6>
+            <h6 id="version" class="version">version: 2.3.0</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
 
-        <!-- Top row: help + settings buttons, theme mode -->
+        <!-- Top row: help + settings + preset buttons, theme mode -->
         <div class="setting-row" id="settingsRow">
           <div class="setting-buttons">
             <button
@@ -52,6 +52,36 @@
             >
               <span class="gear-icon">⚙️</span>
             </button>
+            <!-- Preset buttons: load the saved configuration 1 / 2 / 3 -->
+            <div class="preset-buttons" id="presetButtons" role="group">
+              <button
+                type="button"
+                class="preset-btn active"
+                id="presetBtn1"
+                data-preset="1"
+                aria-pressed="true"
+              >
+                1
+              </button>
+              <button
+                type="button"
+                class="preset-btn"
+                id="presetBtn2"
+                data-preset="2"
+                aria-pressed="false"
+              >
+                2
+              </button>
+              <button
+                type="button"
+                class="preset-btn"
+                id="presetBtn3"
+                data-preset="3"
+                aria-pressed="false"
+              >
+                3
+              </button>
+            </div>
           </div>
           <div class="ui-language-wrapper" id="themaModeWrapper">
             <label
@@ -324,7 +354,8 @@
       </div>
     </div>
 
-    <!-- Settings modal: theme palette, interface language, visible buttons, reset to defaults -->
+    <!-- Settings modal: theme palette, interface language, configurations 1-3
+         (languages + visible buttons), reset to defaults -->
     <div
       id="settingsAppModal"
       class="app-modal hidden"
@@ -378,15 +409,78 @@
             </div>
           </div>
 
-          <!-- Per-section visibility of the buttons (checkboxes are built in script.js) -->
-          <div class="buttons-settings-wrapper" id="buttonsSettingsWrapper">
-            <div class="buttons-settings-title" id="labelVisibleButtons">
-              Visible buttons
+          <!-- Configurations 1-3: the tabs pick which one is edited here.
+               Changes on the main window never write into these. -->
+          <div class="preset-wrapper" id="presetWrapper">
+            <div class="preset-title" id="labelPresets">Configurations</div>
+            <div class="preset-tabs" id="presetTabs" role="group">
+              <button
+                type="button"
+                class="preset-tab active"
+                data-preset="1"
+                aria-pressed="true"
+              >
+                1
+              </button>
+              <button
+                type="button"
+                class="preset-tab"
+                data-preset="2"
+                aria-pressed="false"
+              >
+                2
+              </button>
+              <button
+                type="button"
+                class="preset-tab"
+                data-preset="3"
+                aria-pressed="false"
+              >
+                3
+              </button>
             </div>
-            <div
-              class="button-visibility-groups"
-              id="buttonVisibilityGroups"
-            ></div>
+
+            <div class="preset-lang-group">
+              <label for="presetSourceLang" id="labelPresetSourceLang"
+                >Source Language</label
+              >
+              <select
+                id="presetSourceLang"
+                class="preset-lang-select"
+                title="Source language"
+              ></select>
+            </div>
+            <div class="preset-lang-group">
+              <label for="presetTargetLang1" id="labelPresetTargetLang1"
+                >Target Language 1</label
+              >
+              <select
+                id="presetTargetLang1"
+                class="preset-lang-select"
+                title="Target language 1"
+              ></select>
+            </div>
+            <div class="preset-lang-group">
+              <label for="presetTargetLang2" id="labelPresetTargetLang2"
+                >Target Language 2</label
+              >
+              <select
+                id="presetTargetLang2"
+                class="preset-lang-select"
+                title="Target language 2"
+              ></select>
+            </div>
+
+            <!-- Per-section visibility of the buttons (checkboxes are built in script.js) -->
+            <div class="buttons-settings-wrapper" id="buttonsSettingsWrapper">
+              <div class="buttons-settings-title" id="labelVisibleButtons">
+                Visible buttons
+              </div>
+              <div
+                class="button-visibility-groups"
+                id="buttonVisibilityGroups"
+              ></div>
+            </div>
           </div>
 
           <div class="reset-settings-group" id="resetSettingsGroup">
