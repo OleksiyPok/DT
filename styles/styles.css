@@ -2,6 +2,8 @@
    and override these variables via the class on <html>. */
 :root {
   --max-content-width: 425px;
+  /* One vertical gap: line -> 1/2/3, 1/2/3 -> block, block -> block */
+  --block-gap: 12px;
 
   --text-color: #1a1a1a;
   --text-muted: #555555;
@@ -282,14 +284,14 @@ button:disabled {
 }
 
 /* Separate row under the divider line: segmented switch 1 / 2 / 3 across the
-   full width. The active segment is filled and a little wider, the others are
-   narrower. The segments always fill the row, so its width and height never change. */
+   full width. All segments have the same fixed width; the active one is only
+   filled with the theme colour. */
 .preset-row {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  padding: 8px 0;
+  padding: var(--block-gap) 0 0;
 }
 .preset-buttons {
   display: flex;
@@ -314,10 +316,9 @@ button:disabled {
   min-width: 0;
   width: auto;
   height: 36px;
-  font-size: 14px;
+  font-size: 16px;
   border-radius: 0;
-  transition: flex-grow 0.2s ease, font-size 0.2s ease,
-    background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .preset-btn + .preset-btn {
   margin-left: -2px;
@@ -329,8 +330,6 @@ button:disabled {
   border-radius: 0 6px 6px 0;
 }
 .preset-btn.active {
-  flex-grow: 1.6;
-  font-size: 17px;
   position: relative;
   z-index: 1;
 }
@@ -366,7 +365,7 @@ button:disabled {
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  margin-top: 8px;
+  margin-top: var(--block-gap);
   padding: 10px;
   background: var(--surface-color);
   border: 2px solid var(--border-color);
@@ -376,9 +375,9 @@ button:disabled {
 .section-block-targets-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--block-gap);
   width: 100%;
-  margin-top: 8px;
+  margin-top: var(--block-gap);
 }
 .section-block-targets-wrapper .section-block {
   margin-top: 0;
@@ -608,8 +607,8 @@ button:disabled {
   margin-right: 0;
 }
 .auto-translate-checkbox {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   accent-color: var(--primary);
 }
@@ -682,7 +681,11 @@ button:disabled {
 .translated-text-1-textarea,
 .translated-text-2-textarea {
   background-color: var(--surface-color);
-  background-color: color-mix(in srgb, var(--surface-color) 92%, var(--text-color) 8%);
+  background-color: color-mix(
+    in srgb,
+    var(--surface-color) 92%,
+    var(--text-color) 8%
+  );
 }
 .translated-text-1-textarea:focus,
 .translated-text-2-textarea:focus {
@@ -866,10 +869,6 @@ button:disabled {
 
   .section-block {
     gap: 12px;
-  }
-
-  .section-block-targets-wrapper {
-    gap: 16px;
   }
 
   .row {

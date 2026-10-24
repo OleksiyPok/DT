@@ -471,7 +471,6 @@ function updateUI() {
   const modeTexts = {
     contrast: t.themaModeContrast,
     normal: t.themaModeNormal,
-    evening: t.themaModeEvening,
     night: t.themaModeNight,
   };
   Array.from(document.getElementById("themaModeSelect").options).forEach(

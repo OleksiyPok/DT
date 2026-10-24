@@ -8,39 +8,30 @@
   var THEME_DEFS = [
     { value: "theme-oceanamber-contrast", label: "Ocean Amber - Contrast" },
     { value: "theme-oceanamber-normal", label: "Ocean Amber - Normal" },
-    { value: "theme-oceanamber-evening", label: "Ocean Amber - Evening" },
     { value: "theme-oceanamber-night", label: "Ocean Amber - Night" },
     { value: "theme-yellowblue-contrast", label: "Yellow Blue - Contrast" },
     { value: "theme-yellowblue-normal", label: "Yellow Blue - Normal" },
-    { value: "theme-yellowblue-evening", label: "Yellow Blue - Evening" },
     { value: "theme-yellowblue-night", label: "Yellow Blue - Night" },
     { value: "theme-skycoral-contrast", label: "Sky Coral - Contrast" },
     { value: "theme-skycoral-normal", label: "Sky Coral - Normal" },
-    { value: "theme-skycoral-evening", label: "Sky Coral - Evening" },
     { value: "theme-skycoral-night", label: "Sky Coral - Night" },
     { value: "theme-malachite-contrast", label: "Malachite - Contrast" },
     { value: "theme-malachite-normal", label: "Malachite - Normal" },
-    { value: "theme-malachite-evening", label: "Malachite - Evening" },
     { value: "theme-malachite-night", label: "Malachite - Night" },
     { value: "theme-warmorange-contrast", label: "Warm Orange - Contrast" },
     { value: "theme-warmorange-normal", label: "Warm Orange - Normal" },
-    { value: "theme-warmorange-evening", label: "Warm Orange - Evening" },
     { value: "theme-warmorange-night", label: "Warm Orange - Night" },
     { value: "theme-amberglow-contrast", label: "Amber Glow - Contrast" },
     { value: "theme-amberglow-normal", label: "Amber Glow - Normal" },
-    { value: "theme-amberglow-evening", label: "Amber Glow - Evening" },
     { value: "theme-amberglow-night", label: "Amber Glow - Night" },
     { value: "theme-delftware-contrast", label: "Delftware - Contrast" },
     { value: "theme-delftware-normal", label: "Delftware - Normal" },
-    { value: "theme-delftware-evening", label: "Delftware - Evening" },
     { value: "theme-delftware-night", label: "Delftware - Night" },
     { value: "theme-tropical-contrast", label: "Tropical / Caribbean - Contrast" },
     { value: "theme-tropical-normal", label: "Tropical / Caribbean - Normal" },
-    { value: "theme-tropical-evening", label: "Tropical / Caribbean - Evening" },
     { value: "theme-tropical-night", label: "Tropical / Caribbean - Night" },
     { value: "theme-autumnforest-contrast", label: "Autumn Forest - Contrast" },
     { value: "theme-autumnforest-normal", label: "Autumn Forest - Normal" },
-    { value: "theme-autumnforest-evening", label: "Autumn Forest - Evening" },
     { value: "theme-autumnforest-night", label: "Autumn Forest - Night" },
   ];
 
@@ -49,7 +40,13 @@
   }).filter(Boolean);
 
   /** Suffix order must stay in sync with <select id="themaModeSelect"> option values. */
-  var THEME_MODES = Object.freeze(["contrast", "normal", "evening", "night"]);
+  var THEME_MODES = Object.freeze(["contrast", "normal", "night"]);
+
+  /** Removed mode: a theme saved earlier with "-evening" becomes "-normal" of the same palette. */
+  function migrateThema(value) {
+    var v = String(value || "");
+    return /-evening$/.test(v) ? v.replace(/-evening$/, "-normal") : v;
+  }
 
   function parseThema(value) {
     var v = String(value || "");
@@ -96,9 +93,10 @@
 
   function applyThemeClass(htmlEl, value, fallback) {
     var safeFallback = fallback || DEFAULT_THEME;
-    var wanted = String(value || "");
+    var wanted = migrateThema(value);
     var chosen = THEME_VALUES.indexOf(wanted) >= 0 ? wanted : safeFallback;
     if (!htmlEl) return chosen;
+    // Also removes a stale "-evening" class that may still be on <html>
     for (var i = 0; i < THEME_VALUES.length; i++) htmlEl.classList.remove(THEME_VALUES[i]);
     htmlEl.classList.add(chosen);
     return chosen;
