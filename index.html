@@ -383,7 +383,15 @@
             ✕
           </button>
         </div>
-        <!-- Only this part scrolls; the header above stays fixed -->
+        <!-- Only this part scrolls; the header above stays fixed.
+             The small triangles show in which directions it can still scroll. -->
+        <div class="app-modal-body-wrap">
+          <div class="scroll-hint scroll-hint-left" id="scrollHintLeft" aria-hidden="true">
+            <span class="hint-up"></span><span class="hint-down"></span>
+          </div>
+          <div class="scroll-hint scroll-hint-right" id="scrollHintRight" aria-hidden="true">
+            <span class="hint-up"></span><span class="hint-down"></span>
+          </div>
         <div class="app-modal-body" id="settingsBody">
         <div id="settingsAppContent" class="settings-app-content">
           <div class="thema-wrapper">
@@ -520,6 +528,7 @@
         </div>
         <!-- Empty space below the last block (height calculated in script.js) -->
         <div class="snap-spacer" id="settingsSnapSpacer" aria-hidden="true"></div>
+        </div>
         </div>
       </div>
     </div>

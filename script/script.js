@@ -848,6 +848,26 @@ function updateModalSnap() {
     document.getElementById("settingsSnapSpacer"),
     blocks && blocks.lastElementChild
   );
+  updateScrollHints();
+}
+
+// Triangles in the settings window: where can the body still scroll?
+function updateScrollHints() {
+  const body = document.getElementById("settingsBody");
+  if (!body || !body.clientHeight) return; // modal is closed
+  const canUp = body.scrollTop > 2;
+  const canDown = body.scrollTop + body.clientHeight < body.scrollHeight - 2;
+  // Keeps the right triangle clear of a classic (non-overlay) scrollbar
+  body.parentElement.style.setProperty(
+    "--scrollbar-w",
+    body.offsetWidth - body.clientWidth + "px"
+  );
+  ["scrollHintLeft", "scrollHintRight"].forEach((id) => {
+    const hint = document.getElementById(id);
+    if (!hint) return;
+    hint.classList.toggle("can-up", canUp);
+    hint.classList.toggle("can-down", canDown);
+  });
 }
 
 function updateSnap() {
@@ -857,6 +877,9 @@ function updateSnap() {
 
 function initSnap() {
   updateSnap();
+  document
+    .getElementById("settingsBody")
+    ?.addEventListener("scroll", updateScrollHints, { passive: true });
   window.addEventListener("resize", updateSnap);
   window.addEventListener("orientationchange", updateSnap);
   window.addEventListener("load", updateSnap);

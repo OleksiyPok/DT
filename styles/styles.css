@@ -990,6 +990,13 @@ button:disabled {
   padding: 0;
   overflow: hidden;
 }
+.app-modal-body-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 .app-modal-body {
   flex: 1 1 auto;
   min-height: 0;
@@ -1005,4 +1012,45 @@ button:disabled {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   scroll-margin-top: 12px; /* = the body's top padding */
+}
+
+/* Scroll hints in the settings window: two small triangles on each side, under the
+   header. Up = can scroll up, down = can scroll down. In the middle of the content
+   both show (a small rhombus with a gap), at the top only "down", at the bottom
+   only "up". script.js toggles .can-up / .can-down. */
+.scroll-hint {
+  position: absolute;
+  top: 8px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 10px;
+  pointer-events: none;
+}
+.scroll-hint-left {
+  left: 3px;
+}
+.scroll-hint-right {
+  right: calc(3px + var(--scrollbar-w, 0px));
+}
+.scroll-hint span {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.scroll-hint .hint-up {
+  border-bottom: 6px solid var(--primary);
+}
+.scroll-hint .hint-down {
+  border-top: 6px solid var(--primary);
+}
+.scroll-hint.can-up .hint-up,
+.scroll-hint.can-down .hint-down {
+  opacity: 0.85;
 }
