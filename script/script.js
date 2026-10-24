@@ -65,7 +65,8 @@ function buildDefaultButtons() {
    never writes into a preset. Clicking a preset button loads that preset. */
 
 const LANG_CODES = ["de", "en", "fr", "nl", "pl", "pt", "ru", "tr", "uk"];
-const PRESET_COUNT = 3;
+const PRESET_MAX = 6; // configurations that are prepared (data is always kept for all)
+const DEFAULT_PRESET_COUNT = 3; // how many of them are shown by default
 
 // Language fields of a preset. The keys are also the ids of the main-window selects.
 const PRESET_LANG_FIELDS = {
@@ -78,11 +79,15 @@ const DEFAULT_PRESET_LANGS = [
   { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
   { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
   { sourceLang: "nl", targetLang1: "en", targetLang2: "de" },
+  { sourceLang: "de", targetLang1: "en", targetLang2: "nl" },
+  { sourceLang: "fr", targetLang1: "en", targetLang2: "nl" },
+  { sourceLang: "pl", targetLang1: "en", targetLang2: "uk" },
 ];
 
 function buildDefaultPresets() {
-  return DEFAULT_PRESET_LANGS.map((langs) => ({
+  return DEFAULT_PRESET_LANGS.slice(0, PRESET_MAX).map((langs) => ({
     ...langs,
+    overwriteLangs: false, // write languages chosen on the main window into the preset
     buttons: buildDefaultButtons(),
   }));
 }
@@ -98,6 +103,7 @@ const DEFAULT_SETTINGS = {
   developerMode: false,
   thema: "theme-yellowblue-normal",
   presets: buildDefaultPresets(),
+  presetCount: DEFAULT_PRESET_COUNT,
   activePreset: 1,
 };
 
@@ -110,8 +116,10 @@ let currentUtterance = null;
 let recognition = null;
 let isRecording = false;
 let presets = buildDefaultPresets();
+let presetCount = DEFAULT_PRESET_COUNT; // configurations shown (1..PRESET_MAX)
 let activePreset = 1; // applied on the main window
-let editPreset = 1; // shown in the settings modal
+let editLangPreset = 1; // shown in the "Languages" block of the settings modal
+let editBtnPreset = 1; // shown in the "Visible buttons" block of the settings modal
 
 /* ---------- Theme ---------- */
 
@@ -153,9 +161,16 @@ function applyThema(value) {
 
 /* ---------- Presets: data helpers ---------- */
 
-function clampPreset(value) {
+function clampPreset(value, max = presetCount) {
   const n = Number(value);
-  return Number.isInteger(n) && n >= 1 && n <= PRESET_COUNT ? n : 1;
+  return Number.isInteger(n) && n >= 1 && n <= max ? n : 1;
+}
+
+function clampCount(value) {
+  const n = Number(value);
+  return Number.isInteger(n) && n >= 1 && n <= PRESET_MAX
+    ? n
+    : DEFAULT_PRESET_COUNT;
 }
 
 // Builds a full {section: {button: boolean}} object, missing/invalid values = true
@@ -184,6 +199,7 @@ function normalizePreset(raw, fallback) {
     sourceLang: pickLang(src.sourceLang, fallback.sourceLang),
     targetLang1: pickLang(src.targetLang1, fallback.targetLang1),
     targetLang2: pickLang(src.targetLang2, fallback.targetLang2),
+    overwriteLangs: src.overwriteLangs === true,
     buttons: normalizeButtonVisibility(src.buttons),
   };
 }
@@ -201,12 +217,82 @@ function getActiveButtons() {
 
 /* ---------- Presets: main window ---------- */
 
+// Buttons and tabs show language codes instead of numbers. On the main window the
+// active button shows the source language currently selected there, the others
+// show the source language saved in their configuration. Tabs in the settings
+// window always show the saved language. (The number stays in the tooltip.)
 function updatePresetButtons() {
+  const liveSource = document.getElementById("sourceLang").value;
+  const codeOf = (n, live) =>
+    String((live && liveSource) || presets[n - 1]?.sourceLang || "").toUpperCase();
+
   document.querySelectorAll(".preset-btn").forEach((btn) => {
-    const on = Number(btn.dataset.preset) === activePreset;
+    const n = Number(btn.dataset.preset);
+    const on = n === activePreset;
+    btn.textContent = codeOf(n, on);
     btn.classList.toggle("active", on);
     btn.setAttribute("aria-pressed", String(on));
   });
+
+  document.querySelectorAll(".preset-tab").forEach((tab) => {
+    const n = Number(tab.dataset.preset);
+    const editing = tab.dataset.group === "btn" ? editBtnPreset : editLangPreset;
+    tab.textContent = codeOf(n, false);
+    tab.classList.toggle("active", n === editing);
+    tab.setAttribute("aria-pressed", String(n === editing));
+  });
+}
+
+// Tooltips "Configuration N" for buttons and tabs
+function updatePresetTitles(t) {
+  const texts =
+    t || uiTexts[document.getElementById("uiLangSelect").value] || uiTexts.en;
+  document.querySelectorAll(".preset-btn, .preset-tab").forEach((el) => {
+    const title = `${texts.presetBtnTitle} ${el.dataset.preset}`;
+    el.title = title;
+    el.setAttribute("aria-label", title);
+  });
+}
+
+// Creates the main-window buttons and the tabs of both settings blocks for the
+// first `presetCount` configurations
+function renderPresetControls() {
+  const fill = (container, className, group, onClick) => {
+    if (!container) return;
+    container.replaceChildren();
+    for (let n = 1; n <= presetCount; n++) {
+      const el = document.createElement("button");
+      el.type = "button";
+      el.className = className;
+      el.dataset.preset = String(n);
+      if (group) el.dataset.group = group;
+      el.addEventListener("click", () => onClick(n));
+      container.appendChild(el);
+    }
+  };
+
+  editLangPreset = clampPreset(editLangPreset);
+  editBtnPreset = clampPreset(editBtnPreset);
+
+  fill(document.getElementById("presetButtons"), "preset-btn", "", (n) =>
+    setActivePreset(n)
+  );
+  fill(document.getElementById("langPresetTabs"), "preset-tab", "lang", (n) => {
+    editLangPreset = n;
+    syncLangEditor();
+    updatePresetButtons();
+  });
+  fill(document.getElementById("btnPresetTabs"), "preset-tab", "btn", (n) => {
+    editBtnPreset = n;
+    syncBtnEditor();
+    updatePresetButtons();
+  });
+
+  const countSelect = document.getElementById("presetCountSelect");
+  if (countSelect) countSelect.value = String(presetCount);
+
+  updatePresetTitles();
+  updatePresetButtons();
 }
 
 // Loads preset n into the main window (languages + visible buttons)
@@ -239,20 +325,18 @@ function renderPresetLanguageOptions() {
   });
 }
 
-// Shows the preset being edited: tabs, language selects and checkboxes
-function syncPresetEditor() {
-  const p = presets[editPreset - 1];
-
-  document.querySelectorAll(".preset-tab").forEach((tab) => {
-    const on = Number(tab.dataset.preset) === editPreset;
-    tab.classList.toggle("active", on);
-    tab.setAttribute("aria-pressed", String(on));
-  });
-
+// "Languages" block: selects and checkbox of the configuration being edited
+function syncLangEditor() {
+  const p = presets[editLangPreset - 1];
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
     document.getElementById(selectId).value = p[field];
   });
+  document.getElementById("overwriteLangs").checked = p.overwriteLangs === true;
+}
 
+// "Visible buttons" block: checkboxes of the configuration being edited
+function syncBtnEditor() {
+  const p = presets[editBtnPreset - 1];
   BUTTON_SECTIONS.forEach((section) => {
     section.buttons.forEach((btn) => {
       const checkbox = document.querySelector(
@@ -261,6 +345,12 @@ function syncPresetEditor() {
       if (checkbox) checkbox.checked = p.buttons[section.key][btn.key];
     });
   });
+}
+
+function syncPresetEditor() {
+  syncLangEditor();
+  syncBtnEditor();
+  updatePresetButtons();
 }
 
 // Creates the checkbox groups in the settings modal (texts are set in updateUI)
@@ -370,7 +460,8 @@ function initModals() {
     .addEventListener("click", () => openModal("helpAppModal"));
   document.getElementById("settingsAppBtn").addEventListener("click", () => {
     // The editor starts on the configuration that is currently active
-    editPreset = activePreset;
+    editLangPreset = activePreset;
+    editBtnPreset = activePreset;
     syncPresetEditor();
     openModal("settingsAppModal");
     updateModalSnap();
@@ -459,16 +550,15 @@ function updateUI() {
 
   // Configurations: main-window buttons, modal tabs, modal language labels
   setText("labelPresets", t.presetsLabel);
+  setText("labelPresetCount", t.labelPresetCount);
+  setText("labelPresetLanguages", t.labelPresetLanguages);
+  setText("labelOverwriteLangs", t.labelOverwriteLangs);
   setText("labelClearOnMic", t.clearOnMicLabel);
   setText("settingsTitle", t.settingsTitle);
   setText("labelPresetSourceLang", t.sourceLangLabel);
   setText("labelPresetTargetLang1", t.targetLang1Label);
   setText("labelPresetTargetLang2", t.targetLang2Label);
-  document.querySelectorAll(".preset-btn, .preset-tab").forEach((el) => {
-    const title = `${t.presetBtnTitle} ${el.dataset.preset}`;
-    el.title = title;
-    el.setAttribute("aria-label", title);
-  });
+  updatePresetTitles(t);
 
   updateButtonVisibilityTexts(t);
 
@@ -918,6 +1008,7 @@ function saveSettings() {
     developerMode: isDeveloperPanelVisible(),
     thema: getThemaFromSelects(),
     presets,
+    presetCount,
     activePreset,
   };
   localStorage.setItem("translatorSettings", JSON.stringify(settings));
@@ -945,8 +1036,11 @@ function applyState(settings) {
       presets[0]
     );
   }
+  presetCount = clampCount(settings.presetCount);
   activePreset = clampPreset(settings.activePreset);
-  editPreset = activePreset;
+  editLangPreset = activePreset;
+  editBtnPreset = activePreset;
+  renderPresetControls();
 
   const active = presets[activePreset - 1];
   Object.values(PRESET_LANG_FIELDS).forEach((field) => {
@@ -999,7 +1093,8 @@ function buildResetSettings(external) {
     );
   }
 
-  settings.activePreset = clampPreset(ext.activePreset);
+  settings.presetCount = clampCount(ext.presetCount ?? DEFAULT_PRESET_COUNT);
+  settings.activePreset = clampPreset(ext.activePreset, settings.presetCount);
   const active = settings.presets[settings.activePreset - 1];
   Object.values(PRESET_LANG_FIELDS).forEach((field) => {
     settings[field] = active[field];
@@ -1056,31 +1151,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Main window: preset buttons load the saved configuration
-  document.querySelectorAll(".preset-btn").forEach((btn) => {
-    btn.addEventListener("click", () => setActivePreset(btn.dataset.preset));
-  });
-
-  // Settings modal: tabs choose which configuration is edited
-  document.querySelectorAll(".preset-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      editPreset = clampPreset(tab.dataset.preset);
-      syncPresetEditor();
-    });
+  // Settings modal: number of configurations
+  document.getElementById("presetCountSelect").addEventListener("change", (e) => {
+    presetCount = clampCount(e.target.value);
+    renderPresetControls();
+    // If the active configuration is no longer shown, switch to the last one
+    if (activePreset > presetCount) setActivePreset(presetCount);
+    syncPresetEditor();
+    saveSettings();
   });
 
   // Settings modal: languages of the edited configuration
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
     document.getElementById(selectId).addEventListener("change", (e) => {
-      presets[editPreset - 1][field] = e.target.value;
-      if (editPreset === activePreset) {
+      presets[editLangPreset - 1][field] = e.target.value;
+      if (editLangPreset === activePreset) {
         // The active configuration is applied right away to the main window
         // (the main select has the same id as the preset field)
         document.getElementById(field).value = e.target.value;
         if (autoTranslateChecked) translateText();
       }
+      updatePresetButtons();
       saveSettings();
     });
+  });
+
+  // Settings modal: "remember languages chosen on the main window"
+  document.getElementById("overwriteLangs").addEventListener("change", (e) => {
+    presets[editLangPreset - 1].overwriteLangs = e.target.checked;
+    saveSettings();
   });
 
   // Settings modal: button visibility of the edited configuration
@@ -1091,10 +1190,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!cb.classList || !cb.classList.contains("button-visibility-checkbox"))
         return;
       const { section, button } = cb.dataset;
-      const buttons = presets[editPreset - 1].buttons;
+      const buttons = presets[editBtnPreset - 1].buttons;
       if (buttons[section] && button in buttons[section]) {
         buttons[section][button] = cb.checked;
-        if (editPreset === activePreset) applyButtonVisibility();
+        if (editBtnPreset === activePreset) applyButtonVisibility();
         saveSettings();
       }
     });
@@ -1106,7 +1205,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Main-window language selects only change the live state, never a preset
   ["sourceLang", "targetLang1", "targetLang2"].forEach((id) => {
-    document.getElementById(id).addEventListener("change", () => {
+    document.getElementById(id).addEventListener("change", (e) => {
+      // Option "remember main-screen languages": write the choice into the active
+      // configuration (the main select has the same id as the preset field)
+      const p = presets[activePreset - 1];
+      if (p.overwriteLangs) {
+        p[id] = e.target.value;
+        if (editLangPreset === activePreset) syncLangEditor();
+      }
+      updatePresetButtons(); // the active button shows the live source language
       saveSettings();
       if (autoTranslateChecked) translateText();
     });

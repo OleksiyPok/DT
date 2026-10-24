@@ -407,6 +407,7 @@ button:disabled {
 .thema-wrapper,
 .interface-wrapper,
 .mic-wrapper,
+.preset-count-wrapper,
 .preset-wrapper {
   display: flex;
   flex-direction: column;
@@ -425,6 +426,7 @@ button:disabled {
 }
 .thema-group,
 .interface-group,
+.preset-count-group,
 .preset-lang-group {
   display: flex;
   flex-direction: column;
@@ -432,6 +434,7 @@ button:disabled {
 }
 .thema-group select,
 .interface-group select,
+.preset-count-group select,
 .preset-lang-group select {
   width: 100%;
   max-width: none;
@@ -470,9 +473,11 @@ button:disabled {
   margin-bottom: 4px;
 }
 .preset-tab {
-  width: 44px;
+  flex: 0 1 56px;
+  min-width: 0;
+  width: auto;
   height: 34px;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 0;
   border-width: 1px;
   border-color: var(--border-strong);

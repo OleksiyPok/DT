@@ -1,9 +1,14 @@
 {
   "uiLangSelect": "en",
-  "sourceLang": "nl",
-  "targetLang1": "uk",
-  "targetLang2": "en",
+  "thema": "theme-yellowblue-normal",
   "serviceSelect": "mymemory",
   "autoTranslate": true,
-  "developerMode": false
+  "clearOnMic": false,
+  "developerMode": false,
+  "activePreset": 1,
+  "presets": [
+    { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
+    { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" },
+    { "sourceLang": "uk", "targetLang1": "nl", "targetLang2": "en" }
+  ]
 }
