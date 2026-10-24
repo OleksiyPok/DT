@@ -333,6 +333,10 @@
           </button>
         </div>
       </div>
+
+      <!-- Empty space (no markup, no text): lets the last scroll step be reached
+           on tall screens. Its height is calculated in script.js -->
+      <div class="snap-spacer" id="mainSnapSpacer" aria-hidden="true"></div>
     </div>
 
     <!-- Help modal (content to be added later) -->
@@ -363,17 +367,22 @@
       class="app-modal hidden"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="settingsTitle"
     >
       <div class="app-modal-content">
-        <button
-          type="button"
-          id="settingsAppCloseBtn"
-          class="app-modal-close-btn"
-          title="Close"
-          aria-label="Close"
-        >
-          ✕
-        </button>
+        <!-- Header: title (localized) + close button -->
+        <div class="app-modal-header">
+          <h2 class="app-modal-title" id="settingsTitle">Application settings</h2>
+          <button
+            type="button"
+            id="settingsAppCloseBtn"
+            class="app-modal-close-btn"
+            title="Close"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
         <div id="settingsAppContent" class="settings-app-content">
           <div class="thema-wrapper">
             <div class="thema-group" id="themaGroup">
@@ -507,6 +516,8 @@
             >
           </div>
         </div>
+        <!-- Empty space below the last block (height calculated in script.js) -->
+        <div class="snap-spacer" id="settingsSnapSpacer" aria-hidden="true"></div>
       </div>
     </div>
   </body>

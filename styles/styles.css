@@ -943,3 +943,61 @@ button:disabled {
     width: 90px;
   }
 }
+
+/* ---------- Scroll "steps" (scroll snap) ----------
+   After a swipe the scroll rests on the next step; the next swipe in the same
+   direction continues (scroll-snap-stop: always = one step at a time).
+   Main window steps: page top, 1st divider line, 2nd divider line (top edge of
+   the screen), the gap between buttons 1/2/3 and the source block.
+   Settings window steps: top of every settings block.
+   To use the steps only on touch screens, wrap this whole section in
+   @media (pointer: coarse) { ... } */
+.scroll-container {
+  scroll-snap-type: y mandatory;
+}
+.titles-container,
+.setting-row,
+.preset-row,
+.section-block-source {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.preset-row {
+  scroll-margin-top: 1px; /* shows the 2nd divider line (bottom border of the row above) */
+}
+.section-block-source {
+  scroll-margin-top: var(--block-gap); /* shows the gap above the block */
+}
+/* Set by script.js only on small screens, where the content below the last step
+   does not fit: then the bottom of the content is a step as well */
+.section-block-targets-wrapper.snap-end {
+  scroll-snap-align: end;
+  scroll-snap-stop: always;
+}
+
+/* Empty space at the bottom of a scrolling window (height set in script.js) */
+.snap-spacer {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Settings window: the sticky header covers the top, so the steps start below it
+   (--modal-header-h is measured in script.js). The first block rests at scroll 0. */
+#settingsAppModal .app-modal-content {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--modal-header-h, 49px);
+}
+#settingsAppModal .settings-app-content {
+  padding-top: 0;
+}
+#settingsAppModal .settings-app-content > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-margin-top: 8px;
+}
+#settingsAppModal .settings-app-content > :first-child {
+  scroll-margin-top: 24px;
+}

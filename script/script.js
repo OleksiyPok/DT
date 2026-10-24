@@ -373,6 +373,7 @@ function initModals() {
     editPreset = activePreset;
     syncPresetEditor();
     openModal("settingsAppModal");
+    updateModalSnap();
   });
 
   document
@@ -459,6 +460,7 @@ function updateUI() {
   // Configurations: main-window buttons, modal tabs, modal language labels
   setText("labelPresets", t.presetsLabel);
   setText("labelClearOnMic", t.clearOnMicLabel);
+  setText("settingsTitle", t.settingsTitle);
   setText("labelPresetSourceLang", t.sourceLangLabel);
   setText("labelPresetTargetLang1", t.targetLang1Label);
   setText("labelPresetTargetLang2", t.targetLang2Label);
@@ -786,6 +788,91 @@ function startSpeechRecognition() {
   }
 }
 
+/* ---------- Scroll steps (CSS scroll-snap) ----------
+   The steps themselves are in styles.css. A step can only be reached if there
+   is enough content below it, so an empty spacer is added at the bottom of each
+   scrolling window, as small as possible. */
+
+// Position of an element inside the scrolling content of `container`
+function contentTop(container, el) {
+  return (
+    el.getBoundingClientRect().top -
+    container.getBoundingClientRect().top +
+    container.scrollTop
+  );
+}
+
+// Scroll offset of a step: element top minus scroll-padding / scroll-margin
+function snapOffset(container, el) {
+  return (
+    (parseFloat(getComputedStyle(container).scrollPaddingTop) || 0) +
+    (parseFloat(getComputedStyle(el).scrollMarginTop) || 0)
+  );
+}
+
+// Makes the spacer just tall enough that the step of `lastSnapEl` is reachable
+function fitSnapSpacer(container, spacer, lastSnapEl) {
+  if (!container || !spacer || !lastSnapEl || !container.clientHeight) return;
+  spacer.style.height = "0px";
+  const stepPos = contentTop(container, lastSnapEl) - snapOffset(container, lastSnapEl);
+  const maxScroll = container.scrollHeight - container.clientHeight;
+  spacer.style.height = Math.max(0, Math.ceil(stepPos - maxScroll)) + "px";
+}
+
+function updateMainSnap() {
+  const container = document.getElementById("scrollContainer");
+  const source = document.querySelector(".section-block-source");
+  const targets = document.querySelector(".section-block-targets-wrapper");
+  if (!container || !source || !targets) return;
+
+  // On small screens the content below the last step may not fit: then the
+  // bottom of the content gets its own step, otherwise it could not be reached.
+  const sourceStep = contentTop(container, source) - snapOffset(container, source);
+  const contentBottom = contentTop(container, targets) + targets.offsetHeight;
+  targets.classList.toggle(
+    "snap-end",
+    contentBottom - sourceStep > container.clientHeight + 1
+  );
+
+  fitSnapSpacer(container, document.getElementById("mainSnapSpacer"), source);
+}
+
+function updateModalSnap() {
+  const content = document.querySelector("#settingsAppModal .app-modal-content");
+  if (!content || !content.clientHeight) return; // modal is closed
+  const header = content.querySelector(".app-modal-header");
+  if (header) {
+    content.style.setProperty("--modal-header-h", header.offsetHeight + "px");
+  }
+  const blocks = document.getElementById("settingsAppContent");
+  fitSnapSpacer(
+    content,
+    document.getElementById("settingsSnapSpacer"),
+    blocks && blocks.lastElementChild
+  );
+}
+
+function updateSnap() {
+  updateMainSnap();
+  updateModalSnap();
+}
+
+function initSnap() {
+  updateSnap();
+  window.addEventListener("resize", updateSnap);
+  window.addEventListener("orientationchange", updateSnap);
+  window.addEventListener("load", updateSnap);
+  // Content height changes (hidden buttons, language, modal opened, ...)
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(updateSnap);
+    [
+      document.querySelector(".layout"),
+      document.getElementById("settingsAppContent"),
+      document.querySelector("#settingsAppModal .app-modal-header"),
+    ].forEach((el) => el && ro.observe(el));
+  }
+}
+
 /* ---------- Settings ---------- */
 
 function isDeveloperPanelVisible() {
@@ -1091,6 +1178,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("resetSettingsBtn").addEventListener("click", () => {
     resetSettings();
   });
+
+  initSnap();
 
   // Initial translation if needed
   if (autoTranslateChecked) translateText();
