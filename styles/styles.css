@@ -406,6 +406,7 @@ button:disabled {
 }
 .thema-wrapper,
 .interface-wrapper,
+.mic-wrapper,
 .preset-wrapper {
   display: flex;
   flex-direction: column;
@@ -435,6 +436,23 @@ button:disabled {
   width: 100%;
   max-width: none;
   text-align: left;
+}
+
+/* Microphone option: checkbox + text */
+.mic-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: normal;
+  cursor: pointer;
+}
+.mic-checkbox {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--primary);
 }
 
 /* Configuration editor: title, tabs 1-3, languages, visible buttons */

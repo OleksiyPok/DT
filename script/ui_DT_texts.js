@@ -2,6 +2,7 @@ const uiTexts = {
   de: {
     autoTranslateLabel: "Automatische Übersetzung",
     clearBtnTitle: "Löschen",
+    clearOnMicLabel: "Text beim Start des Mikrofons löschen",
     closeBtnTitle: "Schließen",
     copyBtnTitle: "Kopieren",
     defaultSettings: "Standardeinstellungen",
@@ -31,6 +32,7 @@ const uiTexts = {
   en: {
     autoTranslateLabel: "Auto-translate",
     clearBtnTitle: "Clear",
+    clearOnMicLabel: "Clear text when the microphone starts",
     closeBtnTitle: "Close",
     copyBtnTitle: "Copy",
     defaultSettings: "Reset defaults",
@@ -60,6 +62,7 @@ const uiTexts = {
   fr: {
     autoTranslateLabel: "Traduction automatique",
     clearBtnTitle: "Effacer",
+    clearOnMicLabel: "Effacer le texte au démarrage du micro",
     closeBtnTitle: "Fermer",
     copyBtnTitle: "Copier",
     defaultSettings: "Paramètres par défaut",
@@ -89,6 +92,7 @@ const uiTexts = {
   nl: {
     autoTranslateLabel: "Automatisch vertalen",
     clearBtnTitle: "Wissen",
+    clearOnMicLabel: "Tekst wissen bij het starten van de microfoon",
     closeBtnTitle: "Sluiten",
     copyBtnTitle: "Kopiëren",
     defaultSettings: "Standaardinstellingen",
@@ -118,6 +122,7 @@ const uiTexts = {
   pl: {
     autoTranslateLabel: "Automatyczne tłumaczenie",
     clearBtnTitle: "Wyczyść",
+    clearOnMicLabel: "Wyczyść tekst po włączeniu mikrofonu",
     closeBtnTitle: "Zamknij",
     copyBtnTitle: "Kopiuj",
     defaultSettings: "Ustawienia domyślne",
@@ -147,6 +152,7 @@ const uiTexts = {
   pt: {
     autoTranslateLabel: "Tradução automática",
     clearBtnTitle: "Limpar",
+    clearOnMicLabel: "Limpar o texto ao ativar o microfone",
     closeBtnTitle: "Fechar",
     copyBtnTitle: "Copiar",
     defaultSettings: "Configurações padrão",
@@ -176,6 +182,7 @@ const uiTexts = {
   ru: {
     autoTranslateLabel: "Автоперевод",
     clearBtnTitle: "Очистить",
+    clearOnMicLabel: "Очищать текст при включении микрофона",
     closeBtnTitle: "Закрыть",
     copyBtnTitle: "Копировать",
     defaultSettings: "Настройки по умолчанию",
@@ -205,6 +212,7 @@ const uiTexts = {
   tr: {
     autoTranslateLabel: "Otomatik çeviri",
     clearBtnTitle: "Temizle",
+    clearOnMicLabel: "Mikrofon açıldığında metni temizle",
     closeBtnTitle: "Kapat",
     copyBtnTitle: "Kopyala",
     defaultSettings: "Varsayılan ayarlar",
@@ -234,6 +242,7 @@ const uiTexts = {
   uk: {
     autoTranslateLabel: "Автопереклад",
     clearBtnTitle: "Очистити",
+    clearOnMicLabel: "Очищати текст при вмиканні мікрофона",
     closeBtnTitle: "Закрити",
     copyBtnTitle: "Копіювати",
     defaultSettings: "Стандартні налаштування",

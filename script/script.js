@@ -94,6 +94,7 @@ const DEFAULT_SETTINGS = {
   targetLang2: "uk",
   serviceSelect: "mymemory",
   autoTranslate: true,
+  clearOnMic: false, // clear the source text when the microphone starts
   developerMode: false,
   thema: "theme-yellowblue-normal",
   presets: buildDefaultPresets(),
@@ -457,6 +458,7 @@ function updateUI() {
 
   // Configurations: main-window buttons, modal tabs, modal language labels
   setText("labelPresets", t.presetsLabel);
+  setText("labelClearOnMic", t.clearOnMicLabel);
   setText("labelPresetSourceLang", t.sourceLangLabel);
   setText("labelPresetTargetLang1", t.targetLang1Label);
   setText("labelPresetTargetLang2", t.targetLang2Label);
@@ -751,6 +753,13 @@ function setMicActive(active) {
   micBtn.textContent = active ? "⏹️" : "🎤";
 }
 
+// Empties the source text and both translations
+function clearSourceText() {
+  document.getElementById("sourceText").value = "";
+  clearTranslations();
+  saveSettings();
+}
+
 function startSpeechRecognition() {
   if (isRecording) {
     if (recognition) recognition.abort();
@@ -769,6 +778,8 @@ function startSpeechRecognition() {
     recognition.start();
     isRecording = true;
     setMicActive(true);
+    // Option from the settings: start with an empty text field
+    if (document.getElementById("clearOnMic").checked) clearSourceText();
   } catch (err) {
     console.error("Failed to start speech recognition:", err);
     alert("Failed to start speech recognition: " + err.message);
@@ -795,6 +806,7 @@ function saveSettings() {
     targetLang1: document.getElementById("targetLang1").value,
     targetLang2: document.getElementById("targetLang2").value,
     autoTranslate: document.getElementById("autoTranslate").checked,
+    clearOnMic: document.getElementById("clearOnMic").checked,
     developerMode: isDeveloperPanelVisible(),
     thema: getThemaFromSelects(),
     presets,
@@ -835,6 +847,7 @@ function applyState(settings) {
 
   $("autoTranslate").checked = settings.autoTranslate ?? true;
   autoTranslateChecked = $("autoTranslate").checked;
+  $("clearOnMic").checked = settings.clearOnMic === true;
   applyThema(settings.thema || THEME_FALLBACK);
 
   const devMode = settings.developerMode ?? false;
@@ -991,6 +1004,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  document.getElementById("clearOnMic").addEventListener("change", () => {
+    saveSettings();
+  });
+
   document.getElementById("autoTranslate").addEventListener("change", (e) => {
     autoTranslateChecked = e.target.checked;
     updateTranslateButtonVisibility();
@@ -1010,10 +1027,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Clear source text button
   document.getElementById("clearSource").addEventListener("click", () => {
-    const source = document.getElementById("sourceText");
-    source.value = "";
-    clearTranslations();
-    saveSettings();
+    // Stop the microphone first, so no late result is added after clearing
+    if (isRecording && recognition) recognition.abort();
+    clearSourceText();
   });
 
   // Copy buttons with selection or full text
