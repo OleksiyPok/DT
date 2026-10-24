@@ -568,7 +568,7 @@ button:disabled {
 .reset-settings-btn {
   font-size: 18px;
   background: none;
-  border: 1px solid var(--border-strong);
+  border: none;
   border-radius: 0;
 }
 .reset-settings-btn:hover {
