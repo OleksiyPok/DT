@@ -77,7 +77,7 @@ const PRESET_LANG_FIELDS = {
 const DEFAULT_PRESET_LANGS = [
   { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
   { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
-  { sourceLang: "ru", targetLang1: "en", targetLang2: "nl" },
+  { sourceLang: "nl", targetLang1: "en", targetLang2: "de" },
 ];
 
 function buildDefaultPresets() {
@@ -814,7 +814,8 @@ function snapOffset(container, el) {
 function fitSnapSpacer(container, spacer, lastSnapEl) {
   if (!container || !spacer || !lastSnapEl || !container.clientHeight) return;
   spacer.style.height = "0px";
-  const stepPos = contentTop(container, lastSnapEl) - snapOffset(container, lastSnapEl);
+  const stepPos =
+    contentTop(container, lastSnapEl) - snapOffset(container, lastSnapEl);
   const maxScroll = container.scrollHeight - container.clientHeight;
   spacer.style.height = Math.max(0, Math.ceil(stepPos - maxScroll)) + "px";
 }
@@ -827,7 +828,8 @@ function updateMainSnap() {
 
   // On small screens the content below the last step may not fit: then the
   // bottom of the content gets its own step, otherwise it could not be reached.
-  const sourceStep = contentTop(container, source) - snapOffset(container, source);
+  const sourceStep =
+    contentTop(container, source) - snapOffset(container, source);
   const contentBottom = contentTop(container, targets) + targets.offsetHeight;
   targets.classList.toggle(
     "snap-end",
