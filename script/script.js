@@ -838,15 +838,11 @@ function updateMainSnap() {
 }
 
 function updateModalSnap() {
-  const content = document.querySelector("#settingsAppModal .app-modal-content");
-  if (!content || !content.clientHeight) return; // modal is closed
-  const header = content.querySelector(".app-modal-header");
-  if (header) {
-    content.style.setProperty("--modal-header-h", header.offsetHeight + "px");
-  }
+  const body = document.getElementById("settingsBody");
+  if (!body || !body.clientHeight) return; // modal is closed
   const blocks = document.getElementById("settingsAppContent");
   fitSnapSpacer(
-    content,
+    body,
     document.getElementById("settingsSnapSpacer"),
     blocks && blocks.lastElementChild
   );
@@ -868,7 +864,7 @@ function initSnap() {
     [
       document.querySelector(".layout"),
       document.getElementById("settingsAppContent"),
-      document.querySelector("#settingsAppModal .app-modal-header"),
+      document.getElementById("settingsBody"),
     ].forEach((el) => el && ro.observe(el));
   }
 }

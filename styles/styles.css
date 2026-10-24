@@ -806,17 +806,15 @@ button:disabled {
   opacity: 0.9;
   box-shadow: 0 2px 6px var(--shadow-medium);
 }
-/* Settings modal header: localized title on the left, close button on the right */
+/* Settings modal header: localized title on the left, close button on the right.
+   It is outside the scrolling body, so nothing shows through above it. */
 .app-modal-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
-  padding: 0 0 8px;
+  padding: 12px 16px;
   background: var(--background-color);
   border-bottom: 1px solid var(--border-color);
 }
@@ -984,11 +982,21 @@ button:disabled {
   pointer-events: none;
 }
 
-/* Settings window: the sticky header covers the top, so the steps start below it
-   (--modal-header-h is measured in script.js). The first block rests at scroll 0. */
+/* Settings window: the header is fixed, only the body below it scrolls.
+   Every settings block is a step; the first one rests at scroll 0. */
 #settingsAppModal .app-modal-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.app-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 12px 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   scroll-snap-type: y mandatory;
-  scroll-padding-top: var(--modal-header-h, 49px);
 }
 #settingsAppModal .settings-app-content {
   padding-top: 0;
@@ -996,8 +1004,5 @@ button:disabled {
 #settingsAppModal .settings-app-content > * {
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  scroll-margin-top: 8px;
-}
-#settingsAppModal .settings-app-content > :first-child {
-  scroll-margin-top: 24px;
+  scroll-margin-top: 12px; /* = the body's top padding */
 }
