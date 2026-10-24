@@ -602,6 +602,8 @@ button:disabled {
   gap: 6px;
   width: 100%;
   min-width: 0;
+  /* fixed height: the same with and without the manual "Translate" button */
+  height: 36px;
 }
 .auto-translate-label {
   margin-right: 0;
@@ -638,6 +640,7 @@ button:disabled {
 }
 .translate-btn {
   flex: 0 0 100px;
+  height: 36px;
   width: 100px;
   min-width: 0;
   max-width: 100px;
@@ -677,14 +680,15 @@ button:disabled {
 .target-lang-2-label {
   margin-bottom: -5px;
 }
-/* Calm background: the block colour with a slight grey shift (follows the theme) */
+/* Almost the same as the source textarea (page background), just a touch greyer.
+   The shift follows the theme through --text-color. */
 .translated-text-1-textarea,
 .translated-text-2-textarea {
-  background-color: var(--surface-color);
+  background-color: var(--background-color);
   background-color: color-mix(
     in srgb,
-    var(--surface-color) 92%,
-    var(--text-color) 8%
+    var(--background-color) 96%,
+    var(--text-color) 4%
   );
 }
 .translated-text-1-textarea:focus,
