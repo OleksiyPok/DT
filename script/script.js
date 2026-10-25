@@ -1,10 +1,14 @@
-const googleApiKey = "YOUR_GOOGLE_API_KEY"; // Google API key
+// Google Cloud Translate API key (used only when the "google" service is selected)
+const googleApiKey = "YOUR_GOOGLE_API_KEY";
 
+// File locations: saved defaults and the folder with help/help.<lang>.html
 const PATHS = {
   CONFIG: "script/config.json",
-  HELP_DIR: "help/", // help/help.<lang>.html, screenshots in help/img/
+  HELP_DIR: "help/",
 };
 
+// Buttons whose visibility is configurable, grouped by main-screen section.
+// key = name in saved settings, id = DOM id, textKey = key in uiTexts
 const BUTTON_SECTIONS = [
   {
     key: "source",
@@ -56,6 +60,7 @@ function buildDefaultButtons() {
   return result;
 }
 
+// Supported language codes (same order as in the language selects)
 const LANG_CODES = [
   "de",
   "en",
@@ -70,16 +75,24 @@ const LANG_CODES = [
   "tr",
   "uk",
 ];
-const PRESET_MAX = 6; // configurations that are prepared (data is always kept for all)
-const DEFAULT_PRESET_COUNT = 2; // how many of them are shown by default
 
-// Language fields of a preset. The keys are also the ids of the main-window selects.
+// Icon of the main-screen button for each theme mode
+const THEME_MODE_ICONS = { contrast: "◐", normal: "☀️", night: "🌙" };
+
+// Number of prepared configurations (data is always kept for all of them)
+const PRESET_MAX = 6;
+// How many configurations are shown by default
+const DEFAULT_PRESET_COUNT = 2;
+
+// Language fields of a preset: settings-modal select id -> field name.
+// The field names are also the ids of the main-screen selects.
 const PRESET_LANG_FIELDS = {
   presetSourceLang: "sourceLang",
   presetTargetLang1: "targetLang1",
   presetTargetLang2: "targetLang2",
 };
 
+// Default languages of each configuration (source, target 1, target 2)
 const DEFAULT_PRESET_LANGS = [
   { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
   { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
@@ -96,6 +109,7 @@ function buildDefaultPresets() {
   }));
 }
 
+// Settings used on first start and by "Reset defaults"
 const DEFAULT_SETTINGS = {
   uiLangSelect: "en",
   sourceLang: "nl",
@@ -104,7 +118,7 @@ const DEFAULT_SETTINGS = {
   serviceSelect: "mymemory",
   autoTranslate: true,
   clearOnMic: false, // clear the source text when the microphone starts
-  overwriteLangs: false, // global: write languages chosen on the main window into the active configuration
+  overwriteLangs: false, // write languages chosen on the main screen into the active configuration
   developerMode: false,
   thema: "theme-warmorange-normal",
   presets: buildDefaultPresets(),
@@ -112,19 +126,21 @@ const DEFAULT_SETTINGS = {
   activePreset: 1,
 };
 
+// Theme helper from themeRegistry.js (null if the script failed to load)
 const themeRegistry = window.DTThemeRegistry || null;
+// Theme used when the saved one is missing or unknown
 const THEME_FALLBACK = themeRegistry?.defaultTheme || DEFAULT_SETTINGS.thema;
 
-let autoTranslateChecked = true;
-let debounceTimer;
-let currentUtterance = null;
-let recognition = null;
-let isRecording = false;
-let presets = buildDefaultPresets();
+let autoTranslateChecked = true; // state of the "Auto-translate" checkbox
+let debounceTimer; // delays auto-translation while the user types
+let currentUtterance = null; // text being read aloud right now
+let recognition = null; // SpeechRecognition instance (created on first use)
+let isRecording = false; // microphone is listening
+let presets = buildDefaultPresets(); // saved configurations
 let presetCount = DEFAULT_PRESET_COUNT; // configurations shown (1..PRESET_MAX)
-let activePreset = 1; // applied on the main window
-let editLangPreset = 1; // shown in the "Languages" block of the settings modal
-let editBtnPreset = 1; // shown in the "Visible buttons" block of the settings modal
+let activePreset = 1; // configuration applied on the main screen
+let editLangPreset = 1; // configuration shown in the "Languages" settings block
+let editBtnPreset = 1; // configuration shown in the "Visible buttons" settings block
 
 /* ---------- Theme ---------- */
 
@@ -140,15 +156,30 @@ function renderThemePaletteOptions() {
   });
 }
 
-// Full theme key (e.g. "theme-delftware-night") from the palette + mode selects
 function getThemaFromSelects() {
   if (!themeRegistry) return THEME_FALLBACK;
   const palette = document.getElementById("themaSelect").value;
-  const mode = document.getElementById("themaModeSelect").value;
+  const mode = document.getElementById("themaModeSelectSettings").value;
   return themeRegistry.composeThema(palette, mode) || THEME_FALLBACK;
 }
 
-// Applies the theme class to <html> and syncs both selects with it
+function updateModeButton(mode, t) {
+  const btn = document.getElementById("themaModeBtn");
+  const icon = document.getElementById("themaModeIcon");
+  if (!btn || !icon) return;
+  const texts =
+    t || uiTexts[document.getElementById("uiLangSelect").value] || uiTexts.en;
+  const modeTexts = {
+    contrast: texts.themaModeContrast,
+    normal: texts.themaModeNormal,
+    night: texts.themaModeNight,
+  };
+  const title = `${texts.labelThemaMode}: ${modeTexts[mode] || ""}`;
+  icon.textContent = THEME_MODE_ICONS[mode] || "";
+  btn.title = title;
+  btn.setAttribute("aria-label", title);
+}
+
 function applyThema(value) {
   if (!themeRegistry) return THEME_FALLBACK;
   const chosen = themeRegistry.applyThemeClass(
@@ -159,10 +190,20 @@ function applyThema(value) {
   const parsed = themeRegistry.parseThema(chosen);
   if (parsed) {
     document.getElementById("themaSelect").value = parsed.palette;
-    document.getElementById("themaModeSelect").value = parsed.mode;
     document.getElementById("themaModeSelectSettings").value = parsed.mode;
+    updateModeButton(parsed.mode);
   }
   return chosen;
+}
+
+function cycleThemaMode() {
+  if (!themeRegistry) return;
+  const modes = themeRegistry.themeModes;
+  const select = document.getElementById("themaModeSelectSettings");
+  const next = modes[(modes.indexOf(select.value) + 1) % modes.length];
+  select.value = next;
+  applyThema(getThemaFromSelects());
+  saveSettings();
 }
 
 /* ---------- Presets: data helpers ---------- */
@@ -179,7 +220,6 @@ function clampCount(value) {
     : DEFAULT_PRESET_COUNT;
 }
 
-// Builds a full {section: {button: boolean}} object, missing/invalid values = true
 function normalizeButtonVisibility(raw) {
   const result = buildDefaultButtons();
   if (!raw || typeof raw !== "object") return result;
@@ -220,12 +260,10 @@ function getActiveButtons() {
   return presets[activePreset - 1].buttons;
 }
 
-/* ---------- Presets: main window ---------- */
+/* ---------- Presets: main screen ---------- */
 
-// Buttons and tabs show language codes instead of numbers. On the main window the
-// active button shows the source language currently selected there, the others
-// show the source language saved in their configuration. Tabs in the settings
-// window always show the saved language. (The number stays in the tooltip.)
+// Buttons and tabs show source language codes. The active main-screen button
+// shows the language currently selected there, the others show the saved one.
 function updatePresetButtons() {
   const liveSource = document.getElementById("sourceLang").value;
   const codeOf = (n, live) =>
@@ -251,7 +289,6 @@ function updatePresetButtons() {
   });
 }
 
-// Tooltips "Configuration N" for buttons and tabs
 function updatePresetTitles(t) {
   const texts =
     t || uiTexts[document.getElementById("uiLangSelect").value] || uiTexts.en;
@@ -262,8 +299,6 @@ function updatePresetTitles(t) {
   });
 }
 
-// Creates the main-window buttons and the tabs of both settings blocks for the
-// first `presetCount` configurations
 function renderPresetControls() {
   const fill = (container, className, group, onClick) => {
     if (!container) return;
@@ -285,7 +320,6 @@ function renderPresetControls() {
   fill(document.getElementById("presetButtons"), "preset-btn", "", (n) =>
     setActivePreset(n)
   );
-  // The tabs of both settings blocks are duplicates: either one switches both
   fill(document.getElementById("langPresetTabs"), "preset-tab", "lang", (n) =>
     setEditPreset(n)
   );
@@ -300,8 +334,6 @@ function renderPresetControls() {
   updatePresetButtons();
 }
 
-// Selects configuration n for editing in BOTH settings blocks (languages and
-// visible buttons) at once
 function setEditPreset(n) {
   editLangPreset = clampPreset(n);
   editBtnPreset = editLangPreset;
@@ -310,7 +342,6 @@ function setEditPreset(n) {
   updatePresetButtons();
 }
 
-// Loads preset n into the main window (languages + visible buttons)
 function setActivePreset(n) {
   activePreset = clampPreset(n);
   const p = presets[activePreset - 1];
@@ -325,7 +356,6 @@ function setActivePreset(n) {
 
 /* ---------- Presets: settings modal ---------- */
 
-// Fills the three language selects of the preset editor (names are set in updateUI)
 function renderPresetLanguageOptions() {
   Object.keys(PRESET_LANG_FIELDS).forEach((selectId) => {
     const select = document.getElementById(selectId);
@@ -340,7 +370,6 @@ function renderPresetLanguageOptions() {
   });
 }
 
-// "Languages" block: selects and checkbox of the configuration being edited
 function syncLangEditor() {
   const p = presets[editLangPreset - 1];
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
@@ -348,7 +377,6 @@ function syncLangEditor() {
   });
 }
 
-// "Visible buttons" block: checkboxes of the configuration being edited
 function syncBtnEditor() {
   const p = presets[editBtnPreset - 1];
   BUTTON_SECTIONS.forEach((section) => {
@@ -367,7 +395,6 @@ function syncPresetEditor() {
   updatePresetButtons();
 }
 
-// Creates the checkbox groups in the settings modal (texts are set in updateUI)
 function renderButtonVisibilityOptions() {
   const container = document.getElementById("buttonVisibilityGroups");
   if (!container) return;
@@ -410,7 +437,6 @@ function renderButtonVisibilityOptions() {
   });
 }
 
-// Localized section titles and button names in the settings modal
 function updateButtonVisibilityTexts(t) {
   BUTTON_SECTIONS.forEach((section) => {
     const title = document.querySelector(
@@ -427,7 +453,6 @@ function updateButtonVisibilityTexts(t) {
   });
 }
 
-// Shows/hides the buttons on the main page according to the ACTIVE preset
 function applyButtonVisibility() {
   const visibility = getActiveButtons();
 
@@ -438,7 +463,6 @@ function applyButtonVisibility() {
     });
   });
 
-  // Hide button containers that have no visible buttons left
   document
     .querySelectorAll(".side-buttons, .button-container")
     .forEach((container) => {
@@ -446,7 +470,6 @@ function applyButtonVisibility() {
       container.classList.toggle("is-hidden", !hasVisible);
     });
 
-  // Stop recording if the microphone button was hidden meanwhile
   if (!visibility.source.mic && isRecording && recognition) {
     recognition.abort();
   }
@@ -464,11 +487,9 @@ function closeAllModals() {
     .forEach((m) => m.classList.add("hidden"));
 }
 
-/* ---------- Help window content ----------
-   The text of the help is a separate file per interface language:
-   help/help.<lang>.html. If there is no file for the current language,
-   the English one is used. Needs the page to be served over http(s)
-   (fetch does not work on file://). */
+/* ---------- Help window content ---------- */
+
+// Loaded help pages by language (help/help.<lang>.html; English is the fallback)
 const helpCache = {};
 
 async function fetchHelpHtml(lang) {
@@ -500,7 +521,6 @@ async function loadHelp() {
     return;
   }
   target.innerHTML = html;
-  // A screenshot that is not there yet is shown as a grey placeholder
   target.querySelectorAll(".help-shot img").forEach((img) => {
     const markMissing = () =>
       img.closest(".help-shot")?.classList.add("missing");
@@ -519,7 +539,6 @@ function initModals() {
     loadHelp();
   });
   document.getElementById("settingsAppBtn").addEventListener("click", () => {
-    // The editor starts on the configuration that is currently active
     editLangPreset = activePreset;
     editBtnPreset = activePreset;
     syncPresetEditor();
@@ -531,7 +550,6 @@ function initModals() {
     .querySelectorAll(".app-modal-close-btn")
     .forEach((btn) => btn.addEventListener("click", closeAllModals));
 
-  // Click on the dark backdrop closes the modal
   document.querySelectorAll(".app-modal").forEach((modal) => {
     modal.addEventListener("click", (e) => {
       if (e.target === modal) closeAllModals();
@@ -597,19 +615,16 @@ function updateUI() {
   setTitle("speakTarget1", t.speakBtnTitle);
   setTitle("speakTarget2", t.speakBtnTitle);
 
-  // Top row, theme and bottom block
   setTitle("helpAppBtn", t.helpBtnTitle);
   setTitle("settingsAppBtn", t.settingsBtnTitle);
   setTitle("helpAppCloseBtn", t.closeBtnTitle);
   setTitle("settingsAppCloseBtn", t.closeBtnTitle);
-  setText("labelThemaMode", t.labelThemaMode);
   setText("labelThemaModeSettings", t.labelThemaMode);
   setText("labelThema", t.labelThema);
   setText("labelVisibleButtons", t.labelVisibleButtons);
   setText("resetSettingsText", t.defaultSettings);
   setTitle("resetSettingsBtn", t.defaultSettings);
 
-  // Configurations: main-window buttons, modal tabs, modal language labels
   setText("labelPresets", t.presetsLabel);
   setText("labelPresetCount", t.labelPresetCount);
   setText("labelPresetLanguages", t.labelPresetLanguages);
@@ -624,16 +639,16 @@ function updateUI() {
 
   updateButtonVisibilityTexts(t);
 
+  const modeSelect = document.getElementById("themaModeSelectSettings");
   const modeTexts = {
     contrast: t.themaModeContrast,
     normal: t.themaModeNormal,
     night: t.themaModeNight,
   };
-  ["themaModeSelect", "themaModeSelectSettings"].forEach((id) => {
-    Array.from(document.getElementById(id).options).forEach((option) => {
-      if (modeTexts[option.value]) option.textContent = modeTexts[option.value];
-    });
+  Array.from(modeSelect.options).forEach((option) => {
+    if (modeTexts[option.value]) option.textContent = modeTexts[option.value];
   });
+  updateModeButton(modeSelect.value, t);
 
   updateLangSelectOptions(lang);
 }
@@ -850,7 +865,6 @@ function initSpeechRecognition() {
     return null;
   }
 
-  // Web Speech API requires a secure context (HTTPS or localhost)
   if (!window.isSecureContext) {
     alert(
       "Speech recognition requires a secure connection (HTTPS).\n\n" +
@@ -868,7 +882,6 @@ function initSpeechRecognition() {
   rec.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
     const source = document.getElementById("sourceText");
-    // Append to existing text (or set if empty) so multiple phrases accumulate
     source.value = source.value.trim()
       ? source.value.trim() + " " + transcript.trim()
       : transcript.trim();
@@ -884,9 +897,7 @@ function initSpeechRecognition() {
           "and ensure the page is served over HTTPS."
       );
     } else if (event.error === "no-speech") {
-      // Silent — user just didn't speak
     } else if (event.error === "aborted") {
-      // Silent — user stopped recording
     } else {
       alert("Speech recognition error: " + event.error);
     }
@@ -907,7 +918,6 @@ function setMicActive(active) {
   micBtn.textContent = active ? "⏹️" : "🎤";
 }
 
-// Empties the source text and both translations
 function clearSourceText() {
   document.getElementById("sourceText").value = "";
   clearTranslations();
@@ -925,14 +935,12 @@ function startSpeechRecognition() {
     if (!recognition) return;
   }
 
-  // Update language in case it changed since initialization
   recognition.lang = document.getElementById("sourceLang").value;
 
   try {
     recognition.start();
     isRecording = true;
     setMicActive(true);
-    // Option from the settings: start with an empty text field
     if (document.getElementById("clearOnMic").checked) clearSourceText();
   } catch (err) {
     console.error("Failed to start speech recognition:", err);
@@ -940,12 +948,8 @@ function startSpeechRecognition() {
   }
 }
 
-/* ---------- Scroll steps (CSS scroll-snap) ----------
-   The steps themselves are in styles.css. A step can only be reached if there
-   is enough content below it, so an empty spacer is added at the bottom of each
-   scrolling window, as small as possible. */
+/* ---------- Scroll steps (CSS scroll-snap) ---------- */
 
-// Position of an element inside the scrolling content of `container`
 function contentTop(container, el) {
   return (
     el.getBoundingClientRect().top -
@@ -954,7 +958,6 @@ function contentTop(container, el) {
   );
 }
 
-// Scroll offset of a step: element top minus scroll-padding / scroll-margin
 function snapOffset(container, el) {
   return (
     (parseFloat(getComputedStyle(container).scrollPaddingTop) || 0) +
@@ -962,7 +965,6 @@ function snapOffset(container, el) {
   );
 }
 
-// Makes the spacer just tall enough that the step of `lastSnapEl` is reachable
 function fitSnapSpacer(container, spacer, lastSnapEl) {
   if (!container || !spacer || !lastSnapEl || !container.clientHeight) return;
   spacer.style.height = "0px";
@@ -978,8 +980,6 @@ function updateMainSnap() {
   const targets = document.querySelector(".section-block-targets-wrapper");
   if (!container || !source || !targets) return;
 
-  // On small screens the content below the last step may not fit: then the
-  // bottom of the content gets its own step, otherwise it could not be reached.
   const sourceStep =
     contentTop(container, source) - snapOffset(container, source);
   const contentBottom = contentTop(container, targets) + targets.offsetHeight;
@@ -993,7 +993,7 @@ function updateMainSnap() {
 
 function updateModalSnap() {
   const body = document.getElementById("settingsBody");
-  if (!body || !body.clientHeight) return; // modal is closed
+  if (!body || !body.clientHeight) return;
   const blocks = document.getElementById("settingsAppContent");
   fitSnapSpacer(
     body,
@@ -1003,13 +1003,11 @@ function updateModalSnap() {
   updateScrollHints();
 }
 
-// Triangles in the settings window: where can the body still scroll?
 function updateScrollHints() {
   const body = document.getElementById("settingsBody");
-  if (!body || !body.clientHeight) return; // modal is closed
+  if (!body || !body.clientHeight) return;
   const canUp = body.scrollTop > 2;
   const canDown = body.scrollTop + body.clientHeight < body.scrollHeight - 2;
-  // Keeps the right triangle clear of a classic (non-overlay) scrollbar
   body.parentElement.style.setProperty(
     "--scrollbar-w",
     body.offsetWidth - body.clientWidth + "px"
@@ -1022,14 +1020,13 @@ function updateScrollHints() {
   });
 }
 
-/* ---------- Step number (fraction) ----------
-   Settings window only. While scrolling, the number of the current block out of
-   all blocks is shown as a fraction (e.g. 2 over 5) in a small badge. It disappears 2 seconds after the
-   last scroll movement. */
+/* ---------- Step number (fraction) ---------- */
+
+// How long the block-number badge stays visible after the last scroll (ms)
 const STEP_BADGE_MS = 2000;
+// Hide timers of the badges by badge id
 const stepBadgeTimers = {};
 
-// Steps of the settings window: every visible block
 function getSettingsSteps() {
   const blocks = document.getElementById("settingsAppContent");
   return blocks
@@ -1041,7 +1038,6 @@ function showStepBadge(badgeId, container, steps) {
   const badge = document.getElementById(badgeId);
   if (!badge || !container || !steps.length || !container.clientHeight) return;
 
-  // Current step = the one whose scroll position is closest to the scroll offset
   let current = 0;
   let best = Infinity;
   steps.forEach((el, i) => {
@@ -1052,7 +1048,6 @@ function showStepBadge(badgeId, container, steps) {
       current = i;
     }
   });
-  // At the very bottom the last step counts as reached
   if (
     container.scrollTop + container.clientHeight >=
     container.scrollHeight - 2
@@ -1091,7 +1086,6 @@ function initSnap() {
   window.addEventListener("resize", updateSnap);
   window.addEventListener("orientationchange", updateSnap);
   window.addEventListener("load", updateSnap);
-  // Content height changes (hidden buttons, language, modal opened, ...)
   if (window.ResizeObserver) {
     const ro = new ResizeObserver(updateSnap);
     [
@@ -1105,15 +1099,13 @@ function initSnap() {
 /* ---------- Settings ---------- */
 
 function isDeveloperPanelVisible() {
-  // getComputedStyle: the panel is hidden by CSS, so inline style.display is
-  // empty until the script sets it
   return (
     getComputedStyle(document.getElementById("developer")).display !== "none"
   );
 }
 
-// sourceLang / targetLang1 / targetLang2 are the LIVE values of the main
-// window; the saved configurations are stored separately in `presets`.
+// sourceLang / targetLang1 / targetLang2 are the live values of the main
+// screen; the saved configurations are stored separately in `presets`.
 function saveSettings() {
   const settings = {
     uiLangSelect: document.getElementById("uiLangSelect").value,
@@ -1133,7 +1125,6 @@ function saveSettings() {
   localStorage.setItem("translatorSettings", JSON.stringify(settings));
 }
 
-// Puts a full settings object into the page (used by load and by reset)
 function applyState(settings) {
   const $ = (id) => document.getElementById(id);
 
@@ -1143,7 +1134,6 @@ function applyState(settings) {
   if (Array.isArray(settings.presets)) {
     presets = normalizePresets(settings.presets);
   } else {
-    // Older saved settings: their languages and buttons become configuration 1
     presets = buildDefaultPresets();
     presets[0] = normalizePreset(
       {
@@ -1169,7 +1159,6 @@ function applyState(settings) {
   $("autoTranslate").checked = settings.autoTranslate ?? true;
   autoTranslateChecked = $("autoTranslate").checked;
   $("clearOnMic").checked = settings.clearOnMic === true;
-  // Global option. Older saved settings kept it per configuration: on if any was on
   $("overwriteLangs").checked =
     typeof settings.overwriteLangs === "boolean"
       ? settings.overwriteLangs
@@ -1198,8 +1187,8 @@ function loadSettings() {
   );
 }
 
-// Defaults + (optional) values from config.json. Without a `presets` array in
-// config.json, its sourceLang / targetLang1 / targetLang2 go into configuration 1.
+// Defaults merged with values from config.json. Without a `presets` array there,
+// its sourceLang / targetLang1 / targetLang2 go into configuration 1.
 function buildResetSettings(external) {
   const ext = external && typeof external === "object" ? external : {};
   const settings = { ...DEFAULT_SETTINGS, ...ext };
@@ -1268,41 +1257,31 @@ document.addEventListener("DOMContentLoaded", () => {
     saveSettings();
   });
 
-  // Theme: palette and mode both recompose the full theme key
-  // (the Mode selector exists twice: main window and settings; they stay in sync)
-  ["themaSelect", "themaModeSelect", "themaModeSelectSettings"].forEach(
-    (id) => {
-      document.getElementById(id).addEventListener("change", (e) => {
-        if (id !== "themaSelect") {
-          document.getElementById("themaModeSelect").value = e.target.value;
-          document.getElementById("themaModeSelectSettings").value =
-            e.target.value;
-        }
-        applyThema(getThemaFromSelects());
-        saveSettings();
-      });
-    }
-  );
+  ["themaSelect", "themaModeSelectSettings"].forEach((id) => {
+    document.getElementById(id).addEventListener("change", () => {
+      applyThema(getThemaFromSelects());
+      saveSettings();
+    });
+  });
 
-  // Settings modal: number of configurations
+  document
+    .getElementById("themaModeBtn")
+    .addEventListener("click", cycleThemaMode);
+
   document
     .getElementById("presetCountSelect")
     .addEventListener("change", (e) => {
       presetCount = clampCount(e.target.value);
       renderPresetControls();
-      // If the active configuration is no longer shown, switch to the last one
       if (activePreset > presetCount) setActivePreset(presetCount);
       syncPresetEditor();
       saveSettings();
     });
 
-  // Settings modal: languages of the edited configuration
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
     document.getElementById(selectId).addEventListener("change", (e) => {
       presets[editLangPreset - 1][field] = e.target.value;
       if (editLangPreset === activePreset) {
-        // The active configuration is applied right away to the main window
-        // (the main select has the same id as the preset field)
         document.getElementById(field).value = e.target.value;
         if (autoTranslateChecked) translateText();
       }
@@ -1311,13 +1290,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Settings modal: "remember languages chosen on the main window"
   document.getElementById("overwriteLangs").addEventListener("change", () => {
-    // One setting for the whole program (not per configuration)
     saveSettings();
   });
 
-  // Settings modal: button visibility of the edited configuration
   document
     .getElementById("buttonVisibilityGroups")
     .addEventListener("change", (e) => {
@@ -1338,17 +1314,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (autoTranslateChecked) translateText();
   });
 
-  // Main-window language selects only change the live state, never a preset
   ["sourceLang", "targetLang1", "targetLang2"].forEach((id) => {
     document.getElementById(id).addEventListener("change", (e) => {
-      // Option "remember main-screen languages": write the choice into the active
-      // configuration (the main select has the same id as the preset field)
       const p = presets[activePreset - 1];
       if (document.getElementById("overwriteLangs").checked) {
         p[id] = e.target.value;
         if (editLangPreset === activePreset) syncLangEditor();
       }
-      updatePresetButtons(); // the active button shows the live source language
+      updatePresetButtons();
       saveSettings();
       if (autoTranslateChecked) translateText();
     });
@@ -1375,14 +1348,11 @@ document.addEventListener("DOMContentLoaded", () => {
       translateText();
     });
 
-  // Clear source text button
   document.getElementById("clearSource").addEventListener("click", () => {
-    // Stop the microphone first, so no late result is added after clearing
     if (isRecording && recognition) recognition.abort();
     clearSourceText();
   });
 
-  // Copy buttons with selection or full text
   document.getElementById("copySource").addEventListener("click", () => {
     const source = document.getElementById("sourceText");
     const selected = source.value.substring(
@@ -1408,12 +1378,10 @@ document.addEventListener("DOMContentLoaded", () => {
     copyToClipboard(selected.length > 0 ? selected : target2.value);
   });
 
-  // Paste button
   document.getElementById("pasteSource").addEventListener("click", () => {
     pasteFromClipboard(document.getElementById("sourceText"));
   });
 
-  // Speak buttons
   document.getElementById("speakSource").addEventListener("click", () => {
     const source = document.getElementById("sourceText");
     const srcLang = document.getElementById("sourceLang").value;
@@ -1432,18 +1400,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target2.value.trim()) speakText(target2.value, tgtLang2);
   });
 
-  // Mic button - speech recognition
   document.getElementById("micSource").addEventListener("click", () => {
     startSpeechRecognition();
   });
 
-  // Reset settings button
   document.getElementById("resetSettingsBtn").addEventListener("click", () => {
     resetSettings();
   });
 
   initSnap();
 
-  // Initial translation if needed
   if (autoTranslateChecked) translateText();
 });

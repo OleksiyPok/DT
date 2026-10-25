@@ -1,17 +1,20 @@
-/* Default palette (yellowblue-normal). Other palettes live in themes.css
-   and override these variables via the class on <html>. */
 :root {
+  /* Maximum width of the page content (raised in the media queries) */
   --max-content-width: 425px;
   /* One vertical gap: line -> 1/2/3, 1/2/3 -> block, block -> block */
   --block-gap: 12px;
-  /* Inside a block: gap between its rows, and one height for selects + buttons */
+  /* Gap between rows inside a block */
   --inner-gap: 8px;
+  /* One height for selects and icon buttons */
   --control-h: 30px;
 
+  /* Default palette (yellowblue-normal); themes.css overrides it via the class on <html> */
+  /* Text */
   --text-color: #1a1a1a;
   --text-muted: #555555;
   --text-placeholder: #888888;
   --text-inverted: #ffffff;
+  /* Surfaces and borders */
   --background-color: #fffdf5;
   --surface-color: #fff9e6;
   --surface-alt-color: #fff2cc;
@@ -20,6 +23,7 @@
   --border-color: #e6c200;
   --border-strong: #b39700;
   --border-focus: #2f80ff;
+  /* Primary accent */
   --primary: #006bb3;
   --primary-hover: #005fa3;
   --primary-active: #004b87;
@@ -27,6 +31,7 @@
   --primary-bg-hover: #b3d1ff;
   --primary-border: #99c2ff;
   --primary-text: #ffffff;
+  /* Status colours */
   --success: #007a42;
   --success-hover: #006837;
   --success-active: #005c31;
@@ -45,6 +50,7 @@
   --danger-bg: #ffd9d9;
   --danger-border: #ffb3b3;
   --danger-text: #ffffff;
+  /* Text selection, overlays, tooltips, shadows */
   --selection-bg: #b3daff;
   --selection-text: #000000;
   --overlay-clear: rgba(0, 0, 0, 0);
@@ -170,8 +176,7 @@ textarea {
   font-size: 16px;
   line-height: 1.4;
   color: var(--text-color);
-  /* 2 lines of text; = two control buttons + one inner gap, so the mic / clear
-     column in the source block fits the textarea exactly */
+  /* Equals two icon buttons plus one gap, so the mic / clear column fits exactly */
   min-height: calc(var(--control-h) * 2 + var(--inner-gap));
   overflow-y: auto;
   padding: 8px;
@@ -227,12 +232,11 @@ button:disabled {
   filter: drop-shadow(1px 1px 2px var(--shadow-light));
 }
 
-/* Hidden by the "visible buttons" settings; beats any display rule */
 .is-hidden {
   display: none !important;
 }
 
-/* ---------- Top row: help button + theme mode (divider line below) ---------- */
+/* ---------- Top row: help, settings, theme mode ---------- */
 .setting-row {
   display: flex;
   flex-direction: row;
@@ -254,6 +258,7 @@ button:disabled {
 }
 .help-app-btn,
 .settings-app-btn,
+.mode-app-btn,
 .reset-settings-btn {
   display: flex;
   justify-content: center;
@@ -269,12 +274,14 @@ button:disabled {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 .help-app-btn,
-.settings-app-btn {
+.settings-app-btn,
+.mode-app-btn {
   font-size: 26px;
   background: var(--background-color);
 }
 .help-app-btn:hover,
-.settings-app-btn:hover {
+.settings-app-btn:hover,
+.mode-app-btn:hover {
   background: var(--surface-hover);
 }
 .help-app-btn .i-icon {
@@ -282,15 +289,22 @@ button:disabled {
   transform: scaleY(0.98);
   line-height: 1;
 }
-.settings-app-btn .gear-icon {
-  display: inline-block;
-  font-size: 22px;
+/* Icon in a square frame, the same size as the "i" icon */
+.framed-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  font-weight: 400;
   line-height: 1;
+  color: var(--text-color);
+  border: 2px solid var(--primary);
+  border-radius: 4px;
 }
 
-/* Separate row under the divider line: segmented switch 1 / 2 / 3 across the
-   full width. All segments have the same fixed width; the active one is only
-   filled with the theme colour. */
+/* Segmented switch of configurations: equal segments, the active one is filled */
 .preset-row {
   display: flex;
   flex-direction: row;
@@ -350,20 +364,6 @@ button:disabled {
   border-color: var(--primary-active);
 }
 
-.ui-language-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-}
-.ui-language-wrapper select {
-  flex: 0 1 120px;
-  width: auto;
-  min-width: 70px;
-  max-width: 120px;
-}
-
 /* ---------- Blocks ---------- */
 .section-block {
   display: flex;
@@ -388,21 +388,15 @@ button:disabled {
   margin-top: 0;
 }
 
-/* ---------- Settings modal content: theme, interface language, configurations, reset ----------
-   Deliberately plainer than the main window: no rounded cards, no shadows.
-   Sections are flat tonal panels with an accent bar on the left, separated by
-   empty space. Only theme variables are used, so the colours follow the theme. */
+/* ---------- Settings window content: flat panels with an accent bar ---------- */
 .settings-app-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
   max-width: 576px;
   margin: 0 auto;
   padding-top: 8px;
-}
-.settings-app-content {
-  gap: 16px;
 }
 .thema-wrapper,
 .interface-wrapper,
@@ -440,8 +434,7 @@ button:disabled {
   text-align: left;
 }
 
-/* Number of configurations: one compact row (title left, label + narrow
-   selector right), the selector is only as wide as a digit up to 10 */
+/* Number of configurations: one compact row with a narrow selector */
 .preset-count-wrapper {
   flex-direction: row;
   align-items: center;
@@ -464,7 +457,6 @@ button:disabled {
   text-align: center;
 }
 
-/* Microphone option: checkbox + text */
 .mic-option {
   display: flex;
   align-items: center;
@@ -481,14 +473,12 @@ button:disabled {
   accent-color: var(--primary);
 }
 
-/* Configuration editor: title, tabs 1-3, languages, visible buttons */
 .preset-title {
   font-weight: 600;
   font-size: 0.95em;
   color: var(--text-muted);
   user-select: none;
 }
-/* Tabs 1-3 as a flat joined segmented control */
 .preset-tabs {
   display: flex;
   flex-direction: row;
@@ -517,7 +507,6 @@ button:disabled {
   border-width: 1px;
 }
 
-/* Visible buttons: one group of checkboxes per section */
 .buttons-settings-wrapper {
   display: flex;
   flex-direction: column;
@@ -551,9 +540,7 @@ button:disabled {
   color: var(--text-color);
   user-select: none;
 }
-/* Strict grid: equal columns and clear rows. The number of columns follows
-   the width (e.g. 2 on a phone, more on a wide screen); a long name wraps
-   inside its own cell instead of shifting its neighbours. */
+/* Equal columns; a long name wraps inside its own cell */
 .button-visibility-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -593,10 +580,7 @@ button:disabled {
   padding-top: 0;
   opacity: 0.75;
 }
-/* Size of the "reset to defaults" BUTTON (the square): width / height.
-   The base size 36px is set above in the shared rule
-   .help-app-btn, .settings-app-btn, .reset-settings-btn.
-   The size of the ICON itself is set below, in .reset-settings-btn .reset-icon */
+/* Size of the reset button (the square) */
 .reset-settings-btn {
   width: 52px;
   height: 52px;
@@ -607,7 +591,7 @@ button:disabled {
 .reset-settings-btn:hover {
   background: var(--surface-hover);
 }
-/* >>> SIZE OF THE ICON: change font-size here <<< */
+/* Size of the reset icon itself */
 .reset-settings-btn .reset-icon {
   font-size: 30px;
   line-height: 1;
@@ -644,7 +628,6 @@ button:disabled {
   justify-content: space-between;
   flex-wrap: nowrap;
   gap: 8px;
-  /* same height as with the icon buttons, even if all of them are hidden */
   min-height: var(--control-h);
 }
 .controls-row select {
@@ -662,7 +645,6 @@ button:disabled {
   gap: 6px;
   width: 100%;
   min-width: 0;
-  /* fixed height: the same with and without the manual "Translate" button */
   height: var(--control-h);
 }
 .auto-translate-label {
@@ -708,7 +690,7 @@ button:disabled {
   white-space: nowrap;
 }
 
-/* Source textarea + vertical button column (mic on top, clear at bottom) */
+/* Source textarea with a vertical button column (mic on top, clear at the bottom) */
 .source-input-row {
   display: flex;
   flex-direction: row;
@@ -730,7 +712,6 @@ button:disabled {
   flex: 0 0 var(--control-h);
   width: var(--control-h);
 }
-/* Keeps "clear" at the bottom even when the mic button is hidden */
 .side-buttons .clear-btn {
   margin-top: auto;
 }
@@ -740,8 +721,7 @@ button:disabled {
 .target-lang-2-label {
   margin-bottom: -5px;
 }
-/* Almost the same as the source textarea (page background), just a touch greyer.
-   The shift follows the theme through --text-color. */
+/* Translation fields: the page background, a touch greyer (follows the theme) */
 .translated-text-1-textarea,
 .translated-text-2-textarea {
   background-color: var(--background-color);
@@ -792,6 +772,7 @@ button:disabled {
   background-color: var(--primary-bg-hover);
   border-color: var(--primary-hover);
 }
+/* Shown by script.js only in developer mode */
 .service-row,
 .developer {
   display: none;
@@ -842,8 +823,7 @@ button:disabled {
   opacity: 0.9;
   box-shadow: 0 2px 6px var(--shadow-medium);
 }
-/* Settings modal header: localized title on the left, close button on the right.
-   It is outside the scrolling body, so nothing shows through above it. */
+/* Fixed header (title + close button), outside the scrolling body */
 .app-modal-header {
   flex: none;
   display: flex;
@@ -873,9 +853,7 @@ button:disabled {
   opacity: 1;
 }
 
-/* ========================================
-   TABLET BREAKPOINT (576px - 991px)
-   ======================================== */
+/* ---------- Tablet (576px+) ---------- */
 @media (min-width: 576px) {
   :root {
     --max-content-width: 576px;
@@ -917,7 +895,7 @@ button:disabled {
   }
 }
 
-/* Modals go full screen on wider viewports, same as NLT */
+/* Modals go full screen on wider viewports */
 @media (min-width: 640px) {
   .app-modal {
     align-items: stretch;
@@ -932,9 +910,7 @@ button:disabled {
   }
 }
 
-/* ========================================
-   DESKTOP BREAKPOINT (992px+)
-   ======================================== */
+/* ---------- Desktop (992px+) ---------- */
 @media (min-width: 992px) {
   :root {
     --max-content-width: 992px;
@@ -978,14 +954,10 @@ button:disabled {
   }
 }
 
-/* ---------- Scroll "steps" (scroll snap) ----------
-   After a swipe the scroll rests on the next step; the next swipe in the same
-   direction continues (scroll-snap-stop: always = one step at a time).
-   Main window steps: page top, 1st divider line, 2nd divider line (top edge of
-   the screen), the gap between buttons 1/2/3 and the source block.
-   Settings window steps: top of every settings block.
-   To use the steps only on touch screens, wrap this whole section in
-   @media (pointer: coarse) { ... } */
+/* ---------- Scroll steps (scroll snap) ----------
+   Main screen steps: page top, both divider lines, the gap above the source block.
+   Settings steps: top of every block. To use steps only on touch screens,
+   wrap this section in @media (pointer: coarse) { ... } */
 .scroll-container {
   scroll-snap-type: y mandatory;
 }
@@ -996,14 +968,15 @@ button:disabled {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
+/* Shows the 2nd divider line (bottom border of the row above) */
 .preset-row {
-  scroll-margin-top: 1px; /* shows the 2nd divider line (bottom border of the row above) */
+  scroll-margin-top: 1px;
 }
+/* Shows the gap above the block */
 .section-block-source {
-  scroll-margin-top: var(--block-gap); /* shows the gap above the block */
+  scroll-margin-top: var(--block-gap);
 }
-/* Set by script.js only on small screens, where the content below the last step
-   does not fit: then the bottom of the content is a step as well */
+/* Set by script.js on small screens: the bottom of the content becomes a step */
 .section-block-targets-wrapper.snap-end {
   scroll-snap-align: end;
   scroll-snap-stop: always;
@@ -1018,8 +991,7 @@ button:disabled {
   pointer-events: none;
 }
 
-/* Settings window: the header is fixed, only the body below it scrolls.
-   Every settings block is a step; the first one rests at scroll 0. */
+/* Modals: fixed header, only the body scrolls */
 #settingsAppModal .app-modal-content,
 #helpAppModal .app-modal-content {
   display: flex;
@@ -1048,13 +1020,12 @@ button:disabled {
 #settingsAppModal .settings-app-content > * {
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  scroll-margin-top: 12px; /* = the body's top padding */
+  /* Equals the body's top padding */
+  scroll-margin-top: 12px;
 }
 
-/* Scroll hints in the settings window: two small triangles on each side, under the
-   header. Up = can scroll up, down = can scroll down. In the middle of the content
-   both show (a small rhombus with a gap), at the top only "down", at the bottom
-   only "up". script.js toggles .can-up / .can-down. */
+/* Scroll hints in the settings window: triangles up / down on both sides.
+   script.js toggles .can-up / .can-down */
 .scroll-hint {
   position: absolute;
   top: 8px;
@@ -1092,9 +1063,7 @@ button:disabled {
   opacity: 0.85;
 }
 
-/* ---------- Step number (fraction) ----------
-   Small badge: current step over the total number of steps. It is shown by
-   script.js while scrolling and hidden again after 2 seconds. */
+/* Block-number badge: shown by script.js while scrolling, hidden after 2 seconds */
 .step-badge {
   position: absolute;
   z-index: 50;
@@ -1123,7 +1092,6 @@ button:disabled {
   border-top: 1.5px solid currentColor;
   padding-top: 1px;
 }
-/* Settings window: top right of the scrolling body, left of the triangle */
 .step-badge-settings {
   top: 6px;
   right: calc(20px + var(--scrollbar-w, 0px));
@@ -1172,7 +1140,6 @@ button:disabled {
   background: var(--surface-color);
   border-left: 4px solid var(--primary-border);
 }
-/* Screenshot with numbers; the numbers are explained in .help-legend below it */
 .help-shot {
   margin: 14px 0 8px;
   text-align: center;
@@ -1190,7 +1157,7 @@ button:disabled {
   font-size: 0.9em;
   color: var(--text-muted);
 }
-/* Screenshot file not added yet */
+/* Screenshot file not added yet: grey placeholder with the file name */
 .help-shot.missing img {
   display: none;
 }
@@ -1215,8 +1182,7 @@ button:disabled {
   color: var(--primary);
 }
 
-/* Help window: same fixed header as the settings window, only the body scrolls
-   (no scroll steps here: plain scrolling) */
+/* Help window: plain scrolling, no steps */
 .app-modal-body.help-body {
   scroll-snap-type: none;
 }
