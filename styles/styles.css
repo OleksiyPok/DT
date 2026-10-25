@@ -7,6 +7,8 @@
   --inner-gap: 8px;
   /* One height for selects and icon buttons */
   --control-h: 30px;
+  /* Blue of the "i" icon; the gear and mode icon frames use the same colour */
+  --info-icon-color: #3b88c3;
 
   /* Default palette (yellowblue-normal); themes.css overrides it via the class on <html> */
   /* Text */
@@ -282,7 +284,20 @@ button:disabled {
 .help-app-btn:hover,
 .settings-app-btn:hover,
 .mode-app-btn:hover {
+  background: var(--background-color);
+}
+.help-app-btn:active,
+.settings-app-btn:active,
+.mode-app-btn:active {
   background: var(--surface-hover);
+}
+/* Hover highlight only for a real mouse: on touch screens it would stay after a tap */
+@media (hover: hover) {
+  .help-app-btn:hover,
+  .settings-app-btn:hover,
+  .mode-app-btn:hover {
+    background: var(--surface-hover);
+  }
 }
 .help-app-btn .i-icon {
   display: inline-block;
@@ -300,8 +315,8 @@ button:disabled {
   font-weight: 400;
   line-height: 1;
   color: var(--text-color);
-  border: 2px solid var(--primary);
-  border-radius: 4px;
+  border: 2px solid var(--info-icon-color);
+  border-radius: 6px;
 }
 
 /* Segmented switch of configurations: equal segments, the active one is filled */
