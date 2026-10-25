@@ -101,7 +101,7 @@ const DEFAULT_SETTINGS = {
   clearOnMic: false, // clear the source text when the microphone starts
   overwriteLangs: false, // global: write languages chosen on the main window into the active configuration
   developerMode: false,
-  thema: "warmorange-normal",
+  thema: "theme-warmorange-normal",
   presets: buildDefaultPresets(),
   presetCount: DEFAULT_PRESET_COUNT,
   activePreset: 1,
