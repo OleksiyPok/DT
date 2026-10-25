@@ -6,12 +6,12 @@
     <title>Dual Translator</title>
 
     <!-- Applies the saved theme before first paint (no flash) -->
-    <script src="script/themeRegistry.js?v=2.3.3"></script>
+    <script src="script/themeRegistry.js?v=2.3.5"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.3.3" defer></script>
-    <script src="script/script.js?v=2.3.3" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.3.3" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.3.3" />
+    <script src="script/ui_DT_texts.js?v=2.3.5" defer></script>
+    <script src="script/script.js?v=2.3.5" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.3.5" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.3.5" />
   </head>
   <!-- DT -->
   <body>
@@ -26,7 +26,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.3.3</h6>
+            <h6 id="version" class="version">version: 2.3.5</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -353,7 +353,9 @@
       <div class="app-modal-content">
         <!-- Header: title (localized) + close button -->
         <div class="app-modal-header">
-          <h2 class="app-modal-title" id="settingsTitle">Application settings</h2>
+          <h2 class="app-modal-title" id="settingsTitle">
+            Application settings
+          </h2>
           <button
             type="button"
             id="settingsAppCloseBtn"
@@ -367,172 +369,201 @@
         <!-- Only this part scrolls; the header above stays fixed.
              The small triangles show in which directions it can still scroll. -->
         <div class="app-modal-body-wrap">
-          <div class="step-badge step-badge-settings" id="stepBadgeSettings" aria-hidden="true"></div>
-          <div class="scroll-hint scroll-hint-left" id="scrollHintLeft" aria-hidden="true">
+          <div
+            class="step-badge step-badge-settings"
+            id="stepBadgeSettings"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="scroll-hint scroll-hint-left"
+            id="scrollHintLeft"
+            aria-hidden="true"
+          >
             <span class="hint-up"></span><span class="hint-down"></span>
           </div>
-          <div class="scroll-hint scroll-hint-right" id="scrollHintRight" aria-hidden="true">
+          <div
+            class="scroll-hint scroll-hint-right"
+            id="scrollHintRight"
+            aria-hidden="true"
+          >
             <span class="hint-up"></span><span class="hint-down"></span>
           </div>
-        <div class="app-modal-body" id="settingsBody">
-        <div id="settingsAppContent" class="settings-app-content">
-          <div class="thema-wrapper">
-            <div class="thema-group" id="themaGroup">
-              <label for="themaSelect" id="labelThema" class="label-thema"
-                >Theme</label
-              >
-              <select
-                id="themaSelect"
-                class="thema-select"
-                title="Select theme"
-              ></select>
-            </div>
-            <!-- Same Mode selector as on the main window (kept in sync) -->
-            <div class="thema-group thema-mode-group">
-              <label
-                for="themaModeSelectSettings"
-                id="labelThemaModeSettings"
-                class="label-thema"
-                >Mode</label
-              >
-              <select
-                id="themaModeSelectSettings"
-                class="thema-select"
-                title="Select theme mode"
-              >
-                <option value="contrast">Contrast</option>
-                <option value="normal" selected>Normal</option>
-                <option value="night">Night</option>
-              </select>
-            </div>
+          <div class="app-modal-body" id="settingsBody">
+            <div id="settingsAppContent" class="settings-app-content">
+              <div class="thema-wrapper">
+                <div class="thema-group" id="themaGroup">
+                  <label for="themaSelect" id="labelThema" class="label-thema"
+                    >Theme</label
+                  >
+                  <select
+                    id="themaSelect"
+                    class="thema-select"
+                    title="Select theme"
+                  ></select>
+                </div>
+                <!-- Same Mode selector as on the main window (kept in sync) -->
+                <div class="thema-group thema-mode-group">
+                  <label
+                    for="themaModeSelectSettings"
+                    id="labelThemaModeSettings"
+                    class="label-thema"
+                    >Mode</label
+                  >
+                  <select
+                    id="themaModeSelectSettings"
+                    class="thema-select"
+                    title="Select theme mode"
+                  >
+                    <option value="contrast">Contrast</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="night">Night</option>
+                  </select>
+                </div>
 
-            <!-- Interface language: same block as theme and mode -->
-          <div class="interface-group" id="uiLanguageWrapper">
-            <label for="uiLangSelect" id="uiLangLabel" class="label-interface"
-              >Interface:</label
-            >
-            <select
-              class="interface-select"
-              id="uiLangSelect"
-              title="Select interface language"
-            >
-              <option value="de">Deutsch</option>
-              <option selected value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="nl">Nederlands</option>
-              <option value="pl">Polski</option>
-              <option value="pt">Português</option>
-              <option value="ru">Русский</option>
-              <option value="tr">Türkçe</option>
-              <option value="uk">Українська</option>
-            </select>
-          </div>
-          </div>
+                <!-- Interface language: same block as theme and mode -->
+                <div class="interface-group" id="uiLanguageWrapper">
+                  <label
+                    for="uiLangSelect"
+                    id="uiLangLabel"
+                    class="label-interface"
+                    >Interface:</label
+                  >
+                  <select
+                    class="interface-select"
+                    id="uiLangSelect"
+                    title="Select interface language"
+                  >
+                    <option value="de">Deutsch</option>
+                    <option selected value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="pl">Polski</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="uk">Українська</option>
+                  </select>
+                </div>
+              </div>
 
-          <!-- Number of configurations (up to 6 are prepared) -->
-          <div class="preset-count-wrapper" id="presetCountWrapper">
-            <div class="preset-title" id="labelPresets">Configurations</div>
-            <div class="preset-count-group">
-              <label for="presetCountSelect" id="labelPresetCount">Number</label>
-              <select
-                id="presetCountSelect"
-                class="preset-count-select"
-                title="Number of configurations"
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3" selected>3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-              </select>
-            </div>
-          </div>
+              <!-- Number of configurations (up to 6 are prepared) -->
+              <div class="preset-count-wrapper" id="presetCountWrapper">
+                <div class="preset-title" id="labelPresets">Configurations</div>
+                <div class="preset-count-group">
+                  <label for="presetCountSelect" id="labelPresetCount"
+                    >Number</label
+                  >
+                  <select
+                    id="presetCountSelect"
+                    class="preset-count-select"
+                    title="Number of configurations"
+                  >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+              </div>
 
-          <!-- Languages of a configuration (own tabs, generated by script.js).
+              <!-- Languages of a configuration (own tabs, generated by script.js).
                Changes on the main window are written here only if the checkbox is on. -->
-          <div class="preset-wrapper" id="presetLangWrapper">
-            <div class="preset-title" id="labelPresetLanguages">Languages</div>
-            <div class="preset-tabs" id="langPresetTabs" role="group"></div>
+              <div class="preset-wrapper" id="presetLangWrapper">
+                <div class="preset-title" id="labelPresetLanguages">
+                  Languages
+                </div>
+                <div class="preset-tabs" id="langPresetTabs" role="group"></div>
 
-            <div class="preset-lang-group">
-              <label for="presetSourceLang" id="labelPresetSourceLang"
-                >Source Language</label
-              >
-              <select
-                id="presetSourceLang"
-                class="preset-lang-select"
-                title="Source language"
-              ></select>
-            </div>
-            <div class="preset-lang-group">
-              <label for="presetTargetLang1" id="labelPresetTargetLang1"
-                >Target Language 1</label
-              >
-              <select
-                id="presetTargetLang1"
-                class="preset-lang-select"
-                title="Target language 1"
-              ></select>
-            </div>
-            <div class="preset-lang-group">
-              <label for="presetTargetLang2" id="labelPresetTargetLang2"
-                >Target Language 2</label
-              >
-              <select
-                id="presetTargetLang2"
-                class="preset-lang-select"
-                title="Target language 2"
-              ></select>
-            </div>
+                <div class="preset-lang-group">
+                  <label for="presetSourceLang" id="labelPresetSourceLang"
+                    >Source Language</label
+                  >
+                  <select
+                    id="presetSourceLang"
+                    class="preset-lang-select"
+                    title="Source language"
+                  ></select>
+                </div>
+                <div class="preset-lang-group">
+                  <label for="presetTargetLang1" id="labelPresetTargetLang1"
+                    >Target Language 1</label
+                  >
+                  <select
+                    id="presetTargetLang1"
+                    class="preset-lang-select"
+                    title="Target language 1"
+                  ></select>
+                </div>
+                <div class="preset-lang-group">
+                  <label for="presetTargetLang2" id="labelPresetTargetLang2"
+                    >Target Language 2</label
+                  >
+                  <select
+                    id="presetTargetLang2"
+                    class="preset-lang-select"
+                    title="Target language 2"
+                  ></select>
+                </div>
 
-            <!-- One setting for the whole program: the same for all tabs -->
-            <label class="mic-option" for="overwriteLangs">
-              <input type="checkbox" id="overwriteLangs" class="mic-checkbox" />
-              <span id="labelOverwriteLangs"
-                >Remember main-screen languages</span
-              >
-            </label>
-          </div>
+                <!-- One setting for the whole program: the same for all tabs -->
+                <label class="mic-option" for="overwriteLangs">
+                  <input
+                    type="checkbox"
+                    id="overwriteLangs"
+                    class="mic-checkbox"
+                  />
+                  <span id="labelOverwriteLangs"
+                    >Remember main-screen languages</span
+                  >
+                </label>
+              </div>
 
-          <!-- Visible buttons of a configuration (own tabs, generated by script.js;
+              <!-- Visible buttons of a configuration (own tabs, generated by script.js;
                the checkboxes are built in script.js) -->
-          <div class="preset-wrapper" id="presetBtnWrapper">
-            <div class="preset-title" id="labelVisibleButtons">
-              Visible buttons
+              <div class="preset-wrapper" id="presetBtnWrapper">
+                <div class="preset-title" id="labelVisibleButtons">
+                  Visible buttons
+                </div>
+                <div class="preset-tabs" id="btnPresetTabs" role="group"></div>
+                <div
+                  class="button-visibility-groups"
+                  id="buttonVisibilityGroups"
+                ></div>
+              </div>
+
+              <!-- Microphone option (global, not part of a configuration) -->
+              <div class="mic-wrapper" id="micWrapper">
+                <label class="mic-option" for="clearOnMic">
+                  <input type="checkbox" id="clearOnMic" class="mic-checkbox" />
+                  <span id="labelClearOnMic"
+                    >Clear text when the microphone starts</span
+                  >
+                </label>
+              </div>
+
+              <div class="reset-settings-group" id="resetSettingsGroup">
+                <button
+                  type="button"
+                  class="reset-settings-btn"
+                  id="resetSettingsBtn"
+                  title="Reset to default settings"
+                >
+                  <span class="reset-icon">🔄</span>
+                </button>
+                <span class="reset-settings-text" id="resetSettingsText"
+                  >Reset defaults</span
+                >
+              </div>
             </div>
-            <div class="preset-tabs" id="btnPresetTabs" role="group"></div>
+            <!-- Empty space below the last block (height calculated in script.js) -->
             <div
-              class="button-visibility-groups"
-              id="buttonVisibilityGroups"
+              class="snap-spacer"
+              id="settingsSnapSpacer"
+              aria-hidden="true"
             ></div>
           </div>
-
-          <!-- Microphone option (global, not part of a configuration) -->
-          <div class="mic-wrapper" id="micWrapper">
-            <label class="mic-option" for="clearOnMic">
-              <input type="checkbox" id="clearOnMic" class="mic-checkbox" />
-              <span id="labelClearOnMic">Clear text when the microphone starts</span>
-            </label>
-          </div>
-
-          <div class="reset-settings-group" id="resetSettingsGroup">
-            <button
-              type="button"
-              class="reset-settings-btn"
-              id="resetSettingsBtn"
-              title="Reset to default settings"
-            >
-              <span class="reset-icon">🔄</span>
-            </button>
-            <span class="reset-settings-text" id="resetSettingsText"
-              >Reset defaults</span
-            >
-          </div>
-        </div>
-        <!-- Empty space below the last block (height calculated in script.js) -->
-        <div class="snap-spacer" id="settingsSnapSpacer" aria-hidden="true"></div>
-        </div>
         </div>
       </div>
     </div>

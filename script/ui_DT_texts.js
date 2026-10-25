@@ -117,7 +117,7 @@ const uiTexts = {
     labelThemaMode: "Modus",
     labelVisibleButtons: "Zichtbare knoppen",
     pasteBtnTitle: "Plakken",
-    micBtnTitle: "Sprakinvoer",
+    micBtnTitle: "Spraakinvoer",
     presetBtnTitle: "Configuratie",
     presetsLabel: "Configuraties",
     serviceLabel: "Service:",

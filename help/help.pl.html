@@ -1,0 +1,179 @@
+<!--
+  Dual Translator HELP — wersja polska.
+  Ten sam kod, te same nazwy data-shot i numery <li value="N"> co w help.en.html / help.ru.html;
+  przetłumaczono tylko widoczny tekst, alt i figcaption. Zrzuty ekranu są w help/img/NAME.png.
+-->
+
+<div class="help-content" lang="pl">
+
+  <section class="help-section" id="help-about">
+    <h2>Czym jest Dual Translator</h2>
+    <p>
+      Dual Translator tłumaczy wpisany tekst jednocześnie na <b>dwa języki</b>.
+      Tekst wprowadzasz tylko raz (wpisujesz go, wklejasz lub dyktujesz), a program pokazuje
+      dwa tłumaczenia obok siebie. Każdy wynik możesz skopiować lub odsłuchać.
+    </p>
+    <p>
+      Dla kombinacji języków, których używasz często, są <b>konfiguracje</b>: każda zapamiętuje
+      trzy języki (źródłowy i dwa docelowe) oraz zestaw widocznych przycisków.
+      Przełączasz się między nimi jednym dotknięciem.
+    </p>
+    <p>
+      Interfejs jest dostępny w językach: Deutsch, English, Français, Nederlands, Polski,
+      Português, Русский, Türkçe, Українська.
+    </p>
+  </section>
+
+  <section class="help-section" id="help-main">
+    <h2>Ekran główny</h2>
+
+    <figure class="help-shot" data-shot="main-overview">
+      <img src="help/img/main-overview.png" alt="Ekran główny programu z ponumerowanymi elementami" loading="lazy" />
+      <figcaption>Ekran główny</figcaption>
+    </figure>
+
+    <ol class="help-legend">
+      <li value="1"><b>Pomoc</b> (przycisk ℹ️): otwiera to okno.</li>
+      <li value="2"><b>Ustawienia</b> (przycisk ⚙️): motywy, język interfejsu, konfiguracje, widoczne przyciski.</li>
+      <li value="3"><b>Tryb</b>: tryb kolorystyczny wybranego motywu: Kontrast, Normalny lub Noc. Ten sam selektor znajduje się w ustawieniach.</li>
+      <li value="4"><b>Przyciski konfiguracji</b>: szybkie przełączanie między zapisanymi zestawami języków. Przycisk pokazuje kod języka źródłowego (na przykład NL, EN). Aktywna konfiguracja jest wyróżniona.</li>
+      <li value="5"><b>Język źródłowy</b>: język wpisywanego tekstu.</li>
+      <li value="6"><b>Przyciski nad tekstem</b>: 📥 wklej ze schowka, 📋 skopiuj tekst źródłowy, 🔊 odtwórz tekst źródłowy.</li>
+      <li value="7"><b>Pole wprowadzania</b>: tutaj wpisujesz tekst źródłowy.</li>
+      <li value="8"><b>Mikrofon</b> (🎤, „Rozpoznawanie mowy”): dyktuj w języku źródłowym. Naciśnij ponownie, aby zatrzymać.</li>
+      <li value="9"><b>Wyczyść</b> (❌): usuwa tekst źródłowy i oba tłumaczenia.</li>
+      <li value="10"><b>Automatyczne tłumaczenie</b>: gdy pole jest zaznaczone, tłumaczenie pojawia się samo, gdy tylko wpiszesz tekst lub zmienisz język.</li>
+      <li value="11"><b>Język docelowy 1</b> i jego tłumaczenie. Przyciski 📋 i 🔊 kopiują i odtwarzają tłumaczenie.</li>
+      <li value="12"><b>Język docelowy 2</b> i drugie tłumaczenie z takimi samymi przyciskami.</li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-translate">
+    <h2>Jak przetłumaczyć tekst</h2>
+    <ol class="help-steps">
+      <li>Wybierz <b>język źródłowy</b> i dwa <b>języki docelowe</b> albo naciśnij przycisk potrzebnej konfiguracji.</li>
+      <li>Wpisz tekst, wklej go przyciskiem 📥 lub podyktuj mikrofonem 🎤.</li>
+      <li>Jeśli <b>automatyczne tłumaczenie</b> jest włączone, oba tłumaczenia pojawią się same. Jeśli jest wyłączone, naciśnij przycisk <b>Tłumacz</b>.</li>
+      <li>Skopiuj tłumaczenie przyciskiem 📋 lub odsłuchaj je przyciskiem 🔊.</li>
+    </ol>
+
+    <figure class="help-shot" data-shot="main-manual">
+      <img src="help/img/main-manual.png" alt="Blok źródłowy przy wyłączonym automatycznym tłumaczeniu: widoczny jest przycisk Tłumacz" loading="lazy" />
+      <figcaption>Automatyczne tłumaczenie wyłączone: pojawia się przycisk Tłumacz</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Pole „Automatyczne tłumaczenie”</b>: odznacz je, aby tłumaczyć tylko przyciskiem.</li>
+      <li value="2"><b>Przycisk „Tłumacz”</b>: widoczny tylko wtedy, gdy automatyczne tłumaczenie jest wyłączone.</li>
+    </ol>
+
+    <p class="help-note">
+      Tłumaczenie wykonuje usługa internetowa, dlatego potrzebne jest połączenie z internetem.
+      Usługi bezpłatne mogą mieć dzienny limit ilości tekstu.
+    </p>
+  </section>
+
+  <section class="help-section" id="help-voice">
+    <h2>Wprowadzanie głosowe i odtwarzanie</h2>
+    <ul>
+      <li>
+        <b>Dyktowanie (🎤).</b> Naciśnij przycisk i mów w języku źródłowym. Rozpoznany tekst
+        pojawia się w polu wprowadzania. Ponowne naciśnięcie kończy nagrywanie. Przeglądarka może poprosić
+        o dostęp do mikrofonu, a w niektórych przeglądarkach dyktowanie nie jest dostępne.
+      </li>
+      <li>
+        <b>Odtwarzanie (🔊).</b> Czyta na głos tekst źródłowy lub tłumaczenie głosem Twojego
+        urządzenia. Ponowne naciśnięcie w trakcie czytania zatrzymuje je.
+      </li>
+      <li>
+        <b>Czyszczenie przy dyktowaniu.</b> W ustawieniach możesz sprawić, aby pole wprowadzania było czyszczone
+        przy każdym rozpoczęciu dyktowania.
+      </li>
+    </ul>
+  </section>
+
+  <section class="help-section" id="help-configs">
+    <h2>Konfiguracje</h2>
+    <p>
+      Konfiguracja zapamiętuje trzy języki (źródłowy i dwa docelowe) oraz zestaw widocznych przycisków.
+      Naciśnięcie przycisku konfiguracji na ekranie głównym od razu wczytuje jej języki i przyciski.
+      Domyślnie dostępne są trzy konfiguracje, można włączyć do sześciu.
+    </p>
+    <p>
+      Jeśli zmieniasz języki bezpośrednio na ekranie głównym, jest to wybór tymczasowy: zapisana
+      konfiguracja pozostaje bez zmian. Aby takie zmiany były zapamiętywane w aktywnej konfiguracji,
+      włącz w ustawieniach opcję <b>„Zapamiętuj języki z ekranu głównego”</b>.
+    </p>
+  </section>
+
+  <section class="help-section" id="help-settings">
+    <h2>Ustawienia</h2>
+    <p>
+      Okno ustawień składa się z bloków. Przewijanie przenosi Cię od bloku do bloku.
+      Podczas przewijania w rogu pojawia się na dwie sekundy ułamek: numer
+      bieżącego bloku nad łączną liczbą bloków.
+    </p>
+
+    <h3>Motyw, tryb i język interfejsu</h3>
+    <figure class="help-shot" data-shot="settings-appearance">
+      <img src="help/img/settings-appearance.png" alt="Ustawienia: motyw, tryb i język interfejsu" loading="lazy" />
+      <figcaption>Wygląd</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Motyw</b>: paleta kolorów programu.</li>
+      <li value="2"><b>Tryb</b>: Kontrast (jaśniejszy i ostrzejszy), Normalny lub Noc. Tryb nocny jest ciemny i przygaszony, dzięki czemu możesz spokojnie patrzeć na ekran w ciemności. Działa w synchronizacji z selektorem na ekranie głównym.</li>
+      <li value="3"><b>Interfejs</b>: język etykiet programu.</li>
+      <li value="4"><b>Numer bloku</b>: ułamek pojawiający się na dwie sekundy podczas przewijania.</li>
+    </ol>
+
+    <h3>Konfiguracje i języki</h3>
+    <figure class="help-shot" data-shot="settings-configs">
+      <img src="help/img/settings-configs.png" alt="Ustawienia: liczba konfiguracji i języki konfiguracji" loading="lazy" />
+      <figcaption>Konfiguracje i języki</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Liczba konfiguracji</b>: ile przycisków konfiguracji pokazać na ekranie głównym (1–6).</li>
+      <li value="2"><b>Karty konfiguracji</b>: którą konfigurację edytujesz. Karty w blokach „Języki” i „Widoczne przyciski” się powielają: wybór jednej w którymkolwiek miejscu przełącza oba bloki.</li>
+      <li value="3"><b>Język źródłowy</b> wybranej konfiguracji.</li>
+      <li value="4"><b>Język docelowy 1</b> wybranej konfiguracji.</li>
+      <li value="5"><b>Język docelowy 2</b> wybranej konfiguracji.</li>
+      <li value="6"><b>Zapamiętuj języki z ekranu głównego</b>: jedno pole dla wszystkich konfiguracji. Gdy jest włączone, języki wybrane na ekranie głównym są zapisywane w aktywnej konfiguracji.</li>
+    </ol>
+
+    <h3>Widoczne przyciski</h3>
+    <figure class="help-shot" data-shot="settings-buttons">
+      <img src="help/img/settings-buttons.png" alt="Ustawienia: wybór widocznych przycisków konfiguracji" loading="lazy" />
+      <figcaption>Widoczne przyciski</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Karty konfiguracji</b>: takie same jak w bloku „Języki”.</li>
+      <li value="2"><b>Przyciski tekstu źródłowego</b>: wklej, kopiuj, odtwórz, mikrofon, wyczyść.</li>
+      <li value="3"><b>Przyciski tłumaczenia 1</b>: kopiuj, odtwórz.</li>
+      <li value="4"><b>Przyciski tłumaczenia 2</b>: kopiuj, odtwórz.</li>
+    </ol>
+    <p>
+      Odznacz pole, a przycisk zniknie z ekranu głównego dla tej konfiguracji. W ten sposób
+      możesz zostawić tylko to, czego potrzebujesz. Każda konfiguracja ma własny zestaw przycisków.
+    </p>
+
+    <h3>Mikrofon i reset</h3>
+    <figure class="help-shot" data-shot="settings-bottom">
+      <img src="help/img/settings-bottom.png" alt="Ustawienia: czyszczenie przy dyktowaniu i przywracanie ustawień domyślnych" loading="lazy" />
+      <figcaption>Mikrofon i reset</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Wyczyść tekst po włączeniu mikrofonu</b>: jedno pole dla wszystkiego. Pole wprowadzania jest czyszczone przed każdym dyktowaniem.</li>
+      <li value="2"><b>Ustawienia domyślne</b> (🔄): przywraca wszystkim ustawieniom wartości początkowe.</li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-tips">
+    <h2>Przydatne wskazówki</h2>
+    <ul>
+      <li>Wszystkie ustawienia zapisują się automatycznie i są zachowywane po zamknięciu programu.</li>
+      <li>Okna pomocy i ustawień zamykasz przyciskiem ✕ lub klawiszem <kbd>Esc</kbd>.</li>
+      <li>Na telefonie ekran główny i ustawienia przewijają się krokami: każde przesunięcie palcem przenosi do następnego bloku.</li>
+      <li>Dla często używanej pary języków utwórz osobną konfigurację i zostaw tylko potrzebne przyciski.</li>
+    </ul>
+  </section>
+
+</div>
