@@ -5,9 +5,6 @@ const PATHS = {
   HELP_DIR: "help/", // help/help.<lang>.html, screenshots in help/img/
 };
 
-/* Buttons that can be shown/hidden per section (settings modal).
-   `id` is the button element on the main page, `textKey` is the key in uiTexts
-   used for the localized name (same text as the button tooltip). */
 const BUTTON_SECTIONS = [
   {
     key: "source",
@@ -61,7 +58,7 @@ function buildDefaultButtons() {
 
 const LANG_CODES = ["de", "en", "fr", "nl", "pl", "pt", "ru", "tr", "uk"];
 const PRESET_MAX = 6; // configurations that are prepared (data is always kept for all)
-const DEFAULT_PRESET_COUNT = 3; // how many of them are shown by default
+const DEFAULT_PRESET_COUNT = 2; // how many of them are shown by default
 
 // Language fields of a preset. The keys are also the ids of the main-window selects.
 const PRESET_LANG_FIELDS = {
@@ -96,7 +93,7 @@ const DEFAULT_SETTINGS = {
   clearOnMic: false, // clear the source text when the microphone starts
   overwriteLangs: false, // global: write languages chosen on the main window into the active configuration
   developerMode: false,
-  thema: "theme-yellowblue-normal",
+  thema: "theme-warmorange-normal",
   presets: buildDefaultPresets(),
   presetCount: DEFAULT_PRESET_COUNT,
   activePreset: 1,
