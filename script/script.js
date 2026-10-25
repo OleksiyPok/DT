@@ -2,6 +2,7 @@ const googleApiKey = "YOUR_GOOGLE_API_KEY"; // Google API key
 
 const PATHS = {
   CONFIG: "script/config.json",
+  HELP_DIR: "help/", // help/help.<lang>.html, screenshots in help/img/
 };
 
 /* Buttons that can be shown/hidden per section (settings modal).
@@ -58,12 +59,6 @@ function buildDefaultButtons() {
   return result;
 }
 
-/* ---------- Presets (configurations 1-3) ----------
-   A preset stores the languages (source, target 1, target 2) and the
-   visibility of the buttons. Presets are edited ONLY in the settings modal.
-   The language selects on the main window are a "live" state: changing them
-   never writes into a preset. Clicking a preset button loads that preset. */
-
 const LANG_CODES = ["de", "en", "fr", "nl", "pl", "pt", "ru", "tr", "uk"];
 const PRESET_MAX = 6; // configurations that are prepared (data is always kept for all)
 const DEFAULT_PRESET_COUNT = 3; // how many of them are shown by default
@@ -78,10 +73,10 @@ const PRESET_LANG_FIELDS = {
 const DEFAULT_PRESET_LANGS = [
   { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
   { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
-  { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
-  { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
-  { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
-  { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
+  { sourceLang: "nl", targetLang1: "en", targetLang2: "de" },
+  { sourceLang: "de", targetLang1: "en", targetLang2: "nl" },
+  { sourceLang: "fr", targetLang1: "en", targetLang2: "nl" },
+  { sourceLang: "pl", targetLang1: "en", targetLang2: "uk" },
 ];
 
 function buildDefaultPresets() {
@@ -99,9 +94,9 @@ const DEFAULT_SETTINGS = {
   serviceSelect: "mymemory",
   autoTranslate: true,
   clearOnMic: false, // clear the source text when the microphone starts
-  overwriteLangs: true, // global: write languages chosen on the main window into the active configuration
+  overwriteLangs: false, // global: write languages chosen on the main window into the active configuration
   developerMode: false,
-  thema: "theme-warmorange-normal",
+  thema: "theme-yellowblue-normal",
   presets: buildDefaultPresets(),
   presetCount: DEFAULT_PRESET_COUNT,
   activePreset: 1,
@@ -459,14 +454,60 @@ function closeAllModals() {
     .forEach((m) => m.classList.add("hidden"));
 }
 
+/* ---------- Help window content ----------
+   The text of the help is a separate file per interface language:
+   help/help.<lang>.html. If there is no file for the current language,
+   the English one is used. Needs the page to be served over http(s)
+   (fetch does not work on file://). */
+const helpCache = {};
+
+async function fetchHelpHtml(lang) {
+  if (helpCache[lang]) return helpCache[lang];
+  const response = await fetch(`${PATHS.HELP_DIR}help.${lang}.html`, {
+    cache: "no-cache",
+  });
+  if (!response.ok) throw new Error(`help.${lang}.html: ${response.status}`);
+  helpCache[lang] = await response.text();
+  return helpCache[lang];
+}
+
+async function loadHelp() {
+  const target = document.getElementById("helpAppContent");
+  if (!target) return;
+  const lang = document.getElementById("uiLangSelect").value;
+  let html = "";
+  try {
+    html = await fetchHelpHtml(lang);
+  } catch {
+    try {
+      html = await fetchHelpHtml("en");
+    } catch {
+      html = "";
+    }
+  }
+  if (!html) {
+    target.textContent = "Help is not available.";
+    return;
+  }
+  target.innerHTML = html;
+  // A screenshot that is not there yet is shown as a grey placeholder
+  target.querySelectorAll(".help-shot img").forEach((img) => {
+    const markMissing = () =>
+      img.closest(".help-shot")?.classList.add("missing");
+    img.addEventListener("error", markMissing);
+    if (img.complete && img.naturalWidth === 0) markMissing();
+  });
+}
+
 function isAnyModalOpen() {
   return !!document.querySelector(".app-modal:not(.hidden)");
 }
 
 function initModals() {
-  document
-    .getElementById("helpAppBtn")
-    .addEventListener("click", () => openModal("helpAppModal"));
+  document.getElementById("helpAppBtn").addEventListener("click", () => {
+    openModal("helpAppModal");
+    loadHelp();
+  });
   document.getElementById("settingsAppBtn").addEventListener("click", () => {
     // The editor starts on the configuration that is currently active
     editLangPreset = activePreset;
@@ -565,6 +606,7 @@ function updateUI() {
   setText("labelOverwriteLangs", t.labelOverwriteLangs);
   setText("labelClearOnMic", t.clearOnMicLabel);
   setText("settingsTitle", t.settingsTitle);
+  setText("helpTitle", t.helpBtnTitle);
   setText("labelPresetSourceLang", t.sourceLangLabel);
   setText("labelPresetTargetLang1", t.targetLang1Label);
   setText("labelPresetTargetLang2", t.targetLang2Label);

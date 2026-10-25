@@ -1,0 +1,179 @@
+<!--
+  Dual Translator HELP — English version (also the fallback for languages without their own file).
+  Same markup, data-shot names and <li value="N"> numbers as help.ru.html; only the visible text,
+  alt and figcaption are translated. Screenshots live in help/img/NAME.png.
+-->
+
+<div class="help-content" lang="en">
+
+  <section class="help-section" id="help-about">
+    <h2>What is Dual Translator</h2>
+    <p>
+      Dual Translator translates the text you enter into <b>two languages</b> at once.
+      You enter the text one time (type it, paste it or dictate it) and the program shows
+      two translations side by side. You can copy or listen to each result.
+    </p>
+    <p>
+      For language combinations you use often there are <b>configurations</b>: each one stores
+      three languages (the source and two target languages) and a set of visible buttons.
+      You switch between them with one tap.
+    </p>
+    <p>
+      The interface is available in: Deutsch, English, Français, Nederlands, Polski,
+      Português, Русский, Türkçe, Українська.
+    </p>
+  </section>
+
+  <section class="help-section" id="help-main">
+    <h2>Main screen</h2>
+
+    <figure class="help-shot" data-shot="main-overview">
+      <img src="help/img/main-overview.png" alt="Main screen of the program with numbered elements" loading="lazy" />
+      <figcaption>Main screen</figcaption>
+    </figure>
+
+    <ol class="help-legend">
+      <li value="1"><b>Help</b> (ℹ️ button): opens this window.</li>
+      <li value="2"><b>Settings</b> (⚙️ button): themes, interface language, configurations, visible buttons.</li>
+      <li value="3"><b>Mode</b>: colour mode of the chosen theme: Contrast, Normal or Night. The same selector is in the settings.</li>
+      <li value="4"><b>Configuration buttons</b>: quick switch between saved sets of languages. The button shows the code of the source language (for example NL, EN). The active configuration is highlighted.</li>
+      <li value="5"><b>Source Language</b>: the language of the text you enter.</li>
+      <li value="6"><b>Buttons above the text</b>: 📥 paste from the clipboard, 📋 copy the source text, 🔊 play the source text.</li>
+      <li value="7"><b>Input field</b>: enter the source text here.</li>
+      <li value="8"><b>Microphone</b> (🎤, "Voice input"): dictate in the source language. Press again to stop.</li>
+      <li value="9"><b>Clear</b> (❌): erases the source text and both translations.</li>
+      <li value="10"><b>Auto-translate</b>: when the box is checked, the translation appears by itself as soon as you enter text or change a language.</li>
+      <li value="11"><b>Target Language 1</b> and its translation. The 📋 and 🔊 buttons copy and play the translation.</li>
+      <li value="12"><b>Target Language 2</b> and the second translation with the same buttons.</li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-translate">
+    <h2>How to translate a text</h2>
+    <ol class="help-steps">
+      <li>Choose the <b>source language</b> and the two <b>target languages</b>, or press the button of the configuration you need.</li>
+      <li>Type the text, paste it with 📥 or dictate it with the microphone 🎤.</li>
+      <li>If <b>Auto-translate</b> is on, both translations appear by themselves. If it is off, press the <b>Translate</b> button.</li>
+      <li>Copy a translation with 📋 or listen to it with 🔊.</li>
+    </ol>
+
+    <figure class="help-shot" data-shot="main-manual">
+      <img src="help/img/main-manual.png" alt="Source block with Auto-translate off: the Translate button is visible" loading="lazy" />
+      <figcaption>Auto-translate off: the Translate button appears</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>"Auto-translate" box</b>: uncheck it to translate only with the button.</li>
+      <li value="2"><b>"Translate" button</b>: visible only while Auto-translate is off.</li>
+    </ol>
+
+    <p class="help-note">
+      Translation is done by an online service, so an internet connection is required.
+      Free services can have a daily limit on the amount of text.
+    </p>
+  </section>
+
+  <section class="help-section" id="help-voice">
+    <h2>Voice input and playback</h2>
+    <ul>
+      <li>
+        <b>Dictation (🎤).</b> Press the button and speak in the source language. The recognised text
+        appears in the input field. Pressing again stops the recording. The browser may ask for
+        microphone access, and in some browsers dictation is not available.
+      </li>
+      <li>
+        <b>Playback (🔊).</b> Reads the source text or a translation aloud with the voice of your
+        device. Pressing again while it is reading stops it.
+      </li>
+      <li>
+        <b>Clearing on dictation.</b> In the settings you can make the input field be cleared
+        every time you start dictating.
+      </li>
+    </ul>
+  </section>
+
+  <section class="help-section" id="help-configs">
+    <h2>Configurations</h2>
+    <p>
+      A configuration stores three languages (source and two targets) and a set of visible buttons.
+      Pressing a configuration button on the main screen loads its languages and buttons at once.
+      Three configurations are available by default, up to six can be enabled.
+    </p>
+    <p>
+      If you change languages directly on the main screen, this is a temporary choice: the saved
+      configuration stays as it was. To have such changes remembered in the active configuration,
+      turn on <b>"Remember main-screen languages"</b> in the settings.
+    </p>
+  </section>
+
+  <section class="help-section" id="help-settings">
+    <h2>Settings</h2>
+    <p>
+      The settings window consists of blocks. Scrolling takes you from block to block.
+      While you scroll, a fraction appears in the corner for two seconds: the number of the
+      current block over the total number of blocks.
+    </p>
+
+    <h3>Theme, mode and interface language</h3>
+    <figure class="help-shot" data-shot="settings-appearance">
+      <img src="help/img/settings-appearance.png" alt="Settings: theme, mode and interface language" loading="lazy" />
+      <figcaption>Appearance</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Theme</b>: colour palette of the program.</li>
+      <li value="2"><b>Mode</b>: Contrast (brighter and sharper), Normal or Night. Night mode is dark and dim, so you can look at the screen calmly in the dark. It works in sync with the selector on the main screen.</li>
+      <li value="3"><b>Interface</b>: language of the program labels.</li>
+      <li value="4"><b>Block number</b>: the fraction that appears for two seconds while scrolling.</li>
+    </ol>
+
+    <h3>Configurations and languages</h3>
+    <figure class="help-shot" data-shot="settings-configs">
+      <img src="help/img/settings-configs.png" alt="Settings: number of configurations and languages of a configuration" loading="lazy" />
+      <figcaption>Configurations and languages</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Number of configurations</b>: how many configuration buttons to show on the main screen (1–6).</li>
+      <li value="2"><b>Configuration tabs</b>: which configuration you are editing. The tabs in the "Languages" and "Visible buttons" blocks duplicate each other: choosing one in either place switches both blocks.</li>
+      <li value="3"><b>Source Language</b> of the chosen configuration.</li>
+      <li value="4"><b>Target Language 1</b> of the chosen configuration.</li>
+      <li value="5"><b>Target Language 2</b> of the chosen configuration.</li>
+      <li value="6"><b>Remember main-screen languages</b>: one box for all configurations. When it is on, languages chosen on the main screen are written into the active configuration.</li>
+    </ol>
+
+    <h3>Visible buttons</h3>
+    <figure class="help-shot" data-shot="settings-buttons">
+      <img src="help/img/settings-buttons.png" alt="Settings: choosing the visible buttons of a configuration" loading="lazy" />
+      <figcaption>Visible buttons</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Configuration tabs</b>: the same as in the "Languages" block.</li>
+      <li value="2"><b>Source buttons</b>: paste, copy, play, microphone, clear.</li>
+      <li value="3"><b>Translation 1 buttons</b>: copy, play.</li>
+      <li value="4"><b>Translation 2 buttons</b>: copy, play.</li>
+    </ol>
+    <p>
+      Uncheck a box and the button disappears from the main screen for this configuration. This way
+      you can keep only what you need. Every configuration has its own set of buttons.
+    </p>
+
+    <h3>Microphone and reset</h3>
+    <figure class="help-shot" data-shot="settings-bottom">
+      <img src="help/img/settings-bottom.png" alt="Settings: clearing on dictation and reset to defaults" loading="lazy" />
+      <figcaption>Microphone and reset</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Clear text when the microphone starts</b>: one box for everything. The input field is cleared before each dictation.</li>
+      <li value="2"><b>Reset defaults</b> (🔄): returns all settings to their original values.</li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-tips">
+    <h2>Useful tips</h2>
+    <ul>
+      <li>All settings are saved automatically and are kept after you close the program.</li>
+      <li>The help and settings windows are closed with the ✕ button or the <kbd>Esc</kbd> key.</li>
+      <li>On a phone the main screen and the settings scroll in steps: each swipe moves to the next block.</li>
+      <li>For a language pair you use often, create a separate configuration and keep only the buttons you need.</li>
+    </ul>
+  </section>
+
+</div>

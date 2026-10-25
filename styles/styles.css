@@ -593,7 +593,13 @@ button:disabled {
   padding-top: 0;
   opacity: 0.75;
 }
+/* Size of the "reset to defaults" BUTTON (the square): width / height.
+   The base size 36px is set above in the shared rule
+   .help-app-btn, .settings-app-btn, .reset-settings-btn.
+   The size of the ICON itself is set below, in .reset-settings-btn .reset-icon */
 .reset-settings-btn {
+  width: 52px;
+  height: 52px;
   background: none;
   border: none;
   border-radius: 0;
@@ -601,13 +607,15 @@ button:disabled {
 .reset-settings-btn:hover {
   background: var(--surface-hover);
 }
+/* >>> SIZE OF THE ICON: change font-size here <<< */
 .reset-settings-btn .reset-icon {
-  font-size: 22px;
+  font-size: 30px;
   line-height: 1;
   opacity: 0.8;
 }
 .reset-settings-text {
   font-weight: 600;
+  font-size: 0.85em;
   color: var(--text-muted);
   white-space: nowrap;
   user-select: none;
@@ -1012,7 +1020,8 @@ button:disabled {
 
 /* Settings window: the header is fixed, only the body below it scrolls.
    Every settings block is a step; the first one rests at scroll 0. */
-#settingsAppModal .app-modal-content {
+#settingsAppModal .app-modal-content,
+#helpAppModal .app-modal-content {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -1118,4 +1127,96 @@ button:disabled {
 .step-badge-settings {
   top: 6px;
   right: calc(20px + var(--scrollbar-w, 0px));
+}
+
+/* ---------- Help window content (help/help.<lang>.html) ---------- */
+.help-content {
+  padding: 4px 4px 24px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.help-content h2 {
+  margin: 28px 0 10px;
+  font-size: 1.25em;
+}
+.help-content h2:first-child {
+  margin-top: 0;
+}
+.help-content h3 {
+  margin: 22px 0 8px;
+  font-size: 1.05em;
+  color: var(--text-muted);
+}
+.help-content p,
+.help-content ul,
+.help-content ol {
+  margin: 8px 0;
+}
+.help-content ul,
+.help-content ol {
+  padding-left: 1.5em;
+}
+.help-content li {
+  margin: 4px 0;
+}
+.help-content kbd {
+  padding: 1px 6px;
+  font-size: 0.9em;
+  background: var(--surface-alt-color);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+}
+.help-note {
+  padding: 8px 12px;
+  color: var(--text-muted);
+  background: var(--surface-color);
+  border-left: 4px solid var(--primary-border);
+}
+/* Screenshot with numbers; the numbers are explained in .help-legend below it */
+.help-shot {
+  margin: 14px 0 8px;
+  text-align: center;
+}
+.help-shot img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.help-shot figcaption {
+  margin-top: 6px;
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+/* Screenshot file not added yet */
+.help-shot.missing img {
+  display: none;
+}
+.help-shot.missing::before {
+  content: attr(data-shot) ".png";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  font-size: 0.9em;
+  color: var(--text-muted);
+  background: var(--surface-color);
+  border: 2px dashed var(--border-strong);
+  border-radius: 8px;
+}
+.help-legend {
+  margin: 8px 0 14px;
+}
+.help-legend li::marker,
+.help-steps li::marker {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Help window: same fixed header as the settings window, only the body scrolls
+   (no scroll steps here: plain scrolling) */
+.app-modal-body.help-body {
+  scroll-snap-type: none;
 }
