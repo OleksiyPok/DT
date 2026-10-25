@@ -155,6 +155,7 @@ function applyThema(value) {
   if (parsed) {
     document.getElementById("themaSelect").value = parsed.palette;
     document.getElementById("themaModeSelect").value = parsed.mode;
+    document.getElementById("themaModeSelectSettings").value = parsed.mode;
   }
   return chosen;
 }
@@ -338,7 +339,10 @@ function syncLangEditor() {
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
     document.getElementById(selectId).value = p[field];
   });
-  document.getElementById("overwriteLangs").checked = p.overwriteLangs === true;
+  // One checkbox for all configurations: on only if it is on for every one of them
+  document.getElementById("overwriteLangs").checked = presets.every(
+    (x) => x.overwriteLangs === true
+  );
 }
 
 // "Visible buttons" block: checkboxes of the configuration being edited
@@ -550,6 +554,7 @@ function updateUI() {
   setTitle("helpAppCloseBtn", t.closeBtnTitle);
   setTitle("settingsAppCloseBtn", t.closeBtnTitle);
   setText("labelThemaMode", t.labelThemaMode);
+  setText("labelThemaModeSettings", t.labelThemaMode);
   setText("labelThema", t.labelThema);
   setText("labelVisibleButtons", t.labelVisibleButtons);
   setText("resetSettingsText", t.defaultSettings);
@@ -574,11 +579,11 @@ function updateUI() {
     normal: t.themaModeNormal,
     night: t.themaModeNight,
   };
-  Array.from(document.getElementById("themaModeSelect").options).forEach(
-    (option) => {
+  ["themaModeSelect", "themaModeSelectSettings"].forEach((id) => {
+    Array.from(document.getElementById(id).options).forEach((option) => {
       if (modeTexts[option.value]) option.textContent = modeTexts[option.value];
-    }
-  );
+    });
+  });
 
   updateLangSelectOptions(lang);
 }
@@ -1151,8 +1156,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Theme: palette and mode both recompose the full theme key
-  ["themaSelect", "themaModeSelect"].forEach((id) => {
-    document.getElementById(id).addEventListener("change", () => {
+  // (the Mode selector exists twice: main window and settings; they stay in sync)
+  ["themaSelect", "themaModeSelect", "themaModeSelectSettings"].forEach((id) => {
+    document.getElementById(id).addEventListener("change", (e) => {
+      if (id !== "themaSelect") {
+        document.getElementById("themaModeSelect").value = e.target.value;
+        document.getElementById("themaModeSelectSettings").value = e.target.value;
+      }
       applyThema(getThemaFromSelects());
       saveSettings();
     });
@@ -1185,7 +1195,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Settings modal: "remember languages chosen on the main window"
   document.getElementById("overwriteLangs").addEventListener("change", (e) => {
-    presets[editLangPreset - 1].overwriteLangs = e.target.checked;
+    // The checkbox applies to ALL configurations at once
+    presets.forEach((p) => {
+      p.overwriteLangs = e.target.checked;
+    });
     saveSettings();
   });
 
