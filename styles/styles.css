@@ -316,7 +316,11 @@ button:disabled {
   line-height: 1;
   color: var(--text-color);
   border: 2px solid var(--info-icon-color);
-  border-radius: 6px;
+  border-radius: 4px;
+}
+
+.framed-icon svg {
+  display: block;
 }
 
 /* Segmented switch of configurations: equal segments, the active one is filled */
