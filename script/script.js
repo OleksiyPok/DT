@@ -78,10 +78,10 @@ const PRESET_LANG_FIELDS = {
 const DEFAULT_PRESET_LANGS = [
   { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
   { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
-  { sourceLang: "nl", targetLang1: "en", targetLang2: "de" },
-  { sourceLang: "de", targetLang1: "en", targetLang2: "nl" },
-  { sourceLang: "fr", targetLang1: "en", targetLang2: "nl" },
-  { sourceLang: "pl", targetLang1: "en", targetLang2: "uk" },
+  { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
+  { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
+  { sourceLang: "nl", targetLang1: "en", targetLang2: "uk" },
+  { sourceLang: "en", targetLang1: "nl", targetLang2: "uk" },
 ];
 
 function buildDefaultPresets() {
@@ -224,7 +224,9 @@ function getActiveButtons() {
 function updatePresetButtons() {
   const liveSource = document.getElementById("sourceLang").value;
   const codeOf = (n, live) =>
-    String((live && liveSource) || presets[n - 1]?.sourceLang || "").toUpperCase();
+    String(
+      (live && liveSource) || presets[n - 1]?.sourceLang || ""
+    ).toUpperCase();
 
   document.querySelectorAll(".preset-btn").forEach((btn) => {
     const n = Number(btn.dataset.preset);
@@ -236,7 +238,8 @@ function updatePresetButtons() {
 
   document.querySelectorAll(".preset-tab").forEach((tab) => {
     const n = Number(tab.dataset.preset);
-    const editing = tab.dataset.group === "btn" ? editBtnPreset : editLangPreset;
+    const editing =
+      tab.dataset.group === "btn" ? editBtnPreset : editLangPreset;
     tab.textContent = codeOf(n, false);
     tab.classList.toggle("active", n === editing);
     tab.setAttribute("aria-pressed", String(n === editing));
@@ -968,25 +971,11 @@ function updateScrollHints() {
 }
 
 /* ---------- Step number (fraction) ----------
-   While scrolling, the number of the current step out of all steps is shown as a
-   fraction (e.g. 2 over 5) in a small badge. It disappears 2 seconds after the
+   Settings window only. While scrolling, the number of the current block out of
+   all blocks is shown as a fraction (e.g. 2 over 5) in a small badge. It disappears 2 seconds after the
    last scroll movement. */
 const STEP_BADGE_MS = 2000;
 const stepBadgeTimers = {};
-
-// Steps of the main window: the same elements that have scroll-snap-align
-function getMainSteps() {
-  const container = document.getElementById("scrollContainer");
-  if (!container) return [];
-  const steps = Array.from(
-    container.querySelectorAll(
-      ".titles-container, .setting-row, .preset-row, .section-block-source"
-    )
-  );
-  const targets = container.querySelector(".section-block-targets-wrapper");
-  if (targets && targets.classList.contains("snap-end")) steps.push(targets);
-  return steps;
-}
 
 // Steps of the settings window: every visible block
 function getSettingsSteps() {
@@ -1012,7 +1001,10 @@ function showStepBadge(badgeId, container, steps) {
     }
   });
   // At the very bottom the last step counts as reached
-  if (container.scrollTop + container.clientHeight >= container.scrollHeight - 2) {
+  if (
+    container.scrollTop + container.clientHeight >=
+    container.scrollHeight - 2
+  ) {
     current = steps.length - 1;
   }
 
@@ -1035,18 +1027,15 @@ function updateSnap() {
 function initSnap() {
   updateSnap();
   const settingsBody = document.getElementById("settingsBody");
-  settingsBody?.addEventListener("scroll", updateScrollHints, { passive: true });
+  settingsBody?.addEventListener("scroll", updateScrollHints, {
+    passive: true,
+  });
   settingsBody?.addEventListener(
     "scroll",
     () => showStepBadge("stepBadgeSettings", settingsBody, getSettingsSteps()),
     { passive: true }
   );
-  const mainContainer = document.getElementById("scrollContainer");
-  mainContainer?.addEventListener(
-    "scroll",
-    () => showStepBadge("stepBadgeMain", mainContainer, getMainSteps()),
-    { passive: true }
-  );
+
   window.addEventListener("resize", updateSnap);
   window.addEventListener("orientationchange", updateSnap);
   window.addEventListener("load", updateSnap);
@@ -1229,26 +1218,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Theme: palette and mode both recompose the full theme key
   // (the Mode selector exists twice: main window and settings; they stay in sync)
-  ["themaSelect", "themaModeSelect", "themaModeSelectSettings"].forEach((id) => {
-    document.getElementById(id).addEventListener("change", (e) => {
-      if (id !== "themaSelect") {
-        document.getElementById("themaModeSelect").value = e.target.value;
-        document.getElementById("themaModeSelectSettings").value = e.target.value;
-      }
-      applyThema(getThemaFromSelects());
-      saveSettings();
-    });
-  });
+  ["themaSelect", "themaModeSelect", "themaModeSelectSettings"].forEach(
+    (id) => {
+      document.getElementById(id).addEventListener("change", (e) => {
+        if (id !== "themaSelect") {
+          document.getElementById("themaModeSelect").value = e.target.value;
+          document.getElementById("themaModeSelectSettings").value =
+            e.target.value;
+        }
+        applyThema(getThemaFromSelects());
+        saveSettings();
+      });
+    }
+  );
 
   // Settings modal: number of configurations
-  document.getElementById("presetCountSelect").addEventListener("change", (e) => {
-    presetCount = clampCount(e.target.value);
-    renderPresetControls();
-    // If the active configuration is no longer shown, switch to the last one
-    if (activePreset > presetCount) setActivePreset(presetCount);
-    syncPresetEditor();
-    saveSettings();
-  });
+  document
+    .getElementById("presetCountSelect")
+    .addEventListener("change", (e) => {
+      presetCount = clampCount(e.target.value);
+      renderPresetControls();
+      // If the active configuration is no longer shown, switch to the last one
+      if (activePreset > presetCount) setActivePreset(presetCount);
+      syncPresetEditor();
+      saveSettings();
+    });
 
   // Settings modal: languages of the edited configuration
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {

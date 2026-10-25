@@ -9,6 +9,9 @@
   "presets": [
     { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
     { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" },
-    { "sourceLang": "uk", "targetLang1": "nl", "targetLang2": "en" }
+    { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
+    { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" },
+    { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
+    { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" }
   ]
 }
