@@ -4,6 +4,7 @@
   "serviceSelect": "mymemory",
   "autoTranslate": true,
   "clearOnMic": false,
+  "overwriteLangs": true,
   "developerMode": false,
   "activePreset": 1,
   "presets": [

@@ -99,7 +99,7 @@ const DEFAULT_SETTINGS = {
   serviceSelect: "mymemory",
   autoTranslate: true,
   clearOnMic: false, // clear the source text when the microphone starts
-  overwriteLangs: false, // global: write languages chosen on the main window into the active configuration
+  overwriteLangs: true, // global: write languages chosen on the main window into the active configuration
   developerMode: false,
   thema: "theme-warmorange-normal",
   presets: buildDefaultPresets(),
