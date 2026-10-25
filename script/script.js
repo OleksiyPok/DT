@@ -87,7 +87,6 @@ const DEFAULT_PRESET_LANGS = [
 function buildDefaultPresets() {
   return DEFAULT_PRESET_LANGS.slice(0, PRESET_MAX).map((langs) => ({
     ...langs,
-    overwriteLangs: false, // write languages chosen on the main window into the preset
     buttons: buildDefaultButtons(),
   }));
 }
@@ -100,6 +99,7 @@ const DEFAULT_SETTINGS = {
   serviceSelect: "mymemory",
   autoTranslate: true,
   clearOnMic: false, // clear the source text when the microphone starts
+  overwriteLangs: false, // global: write languages chosen on the main window into the active configuration
   developerMode: false,
   thema: "theme-yellowblue-normal",
   presets: buildDefaultPresets(),
@@ -200,7 +200,6 @@ function normalizePreset(raw, fallback) {
     sourceLang: pickLang(src.sourceLang, fallback.sourceLang),
     targetLang1: pickLang(src.targetLang1, fallback.targetLang1),
     targetLang2: pickLang(src.targetLang2, fallback.targetLang2),
-    overwriteLangs: src.overwriteLangs === true,
     buttons: normalizeButtonVisibility(src.buttons),
   };
 }
@@ -339,10 +338,6 @@ function syncLangEditor() {
   Object.entries(PRESET_LANG_FIELDS).forEach(([selectId, field]) => {
     document.getElementById(selectId).value = p[field];
   });
-  // One checkbox for all configurations: on only if it is on for every one of them
-  document.getElementById("overwriteLangs").checked = presets.every(
-    (x) => x.overwriteLangs === true
-  );
 }
 
 // "Visible buttons" block: checkboxes of the configuration being edited
@@ -1017,6 +1012,7 @@ function saveSettings() {
     targetLang2: document.getElementById("targetLang2").value,
     autoTranslate: document.getElementById("autoTranslate").checked,
     clearOnMic: document.getElementById("clearOnMic").checked,
+    overwriteLangs: document.getElementById("overwriteLangs").checked,
     developerMode: isDeveloperPanelVisible(),
     thema: getThemaFromSelects(),
     presets,
@@ -1062,6 +1058,12 @@ function applyState(settings) {
   $("autoTranslate").checked = settings.autoTranslate ?? true;
   autoTranslateChecked = $("autoTranslate").checked;
   $("clearOnMic").checked = settings.clearOnMic === true;
+  // Global option. Older saved settings kept it per configuration: on if any was on
+  $("overwriteLangs").checked =
+    typeof settings.overwriteLangs === "boolean"
+      ? settings.overwriteLangs
+      : Array.isArray(settings.presets) &&
+        settings.presets.some((x) => x && x.overwriteLangs === true);
   applyThema(settings.thema || THEME_FALLBACK);
 
   const devMode = settings.developerMode ?? false;
@@ -1194,11 +1196,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Settings modal: "remember languages chosen on the main window"
-  document.getElementById("overwriteLangs").addEventListener("change", (e) => {
-    // The checkbox applies to ALL configurations at once
-    presets.forEach((p) => {
-      p.overwriteLangs = e.target.checked;
-    });
+  document.getElementById("overwriteLangs").addEventListener("change", () => {
+    // One setting for the whole program (not per configuration)
     saveSettings();
   });
 
@@ -1229,7 +1228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Option "remember main-screen languages": write the choice into the active
       // configuration (the main select has the same id as the preset field)
       const p = presets[activePreset - 1];
-      if (p.overwriteLangs) {
+      if (document.getElementById("overwriteLangs").checked) {
         p[id] = e.target.value;
         if (editLangPreset === activePreset) syncLangEditor();
       }
