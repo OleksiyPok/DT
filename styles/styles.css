@@ -1082,3 +1082,45 @@ button:disabled {
 .scroll-hint.can-down .hint-down {
   opacity: 0.85;
 }
+
+/* ---------- Step number (fraction) ----------
+   Small badge: current step over the total number of steps. It is shown by
+   script.js while scrolling and hidden again after 2 seconds. */
+.step-badge {
+  position: absolute;
+  z-index: 50;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 26px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--text-inverted);
+  background: var(--text-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow-medium);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.step-badge.show {
+  opacity: 0.9;
+}
+.step-badge .step-den {
+  margin-top: 1px;
+  border-top: 1.5px solid currentColor;
+  padding-top: 1px;
+}
+.step-badge-main {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+/* Settings window: top right of the scrolling body, left of the triangle */
+.step-badge-settings {
+  top: 6px;
+  right: calc(20px + var(--scrollbar-w, 0px));
+}

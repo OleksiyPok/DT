@@ -967,6 +967,66 @@ function updateScrollHints() {
   });
 }
 
+/* ---------- Step number (fraction) ----------
+   While scrolling, the number of the current step out of all steps is shown as a
+   fraction (e.g. 2 over 5) in a small badge. It disappears 2 seconds after the
+   last scroll movement. */
+const STEP_BADGE_MS = 2000;
+const stepBadgeTimers = {};
+
+// Steps of the main window: the same elements that have scroll-snap-align
+function getMainSteps() {
+  const container = document.getElementById("scrollContainer");
+  if (!container) return [];
+  const steps = Array.from(
+    container.querySelectorAll(
+      ".titles-container, .setting-row, .preset-row, .section-block-source"
+    )
+  );
+  const targets = container.querySelector(".section-block-targets-wrapper");
+  if (targets && targets.classList.contains("snap-end")) steps.push(targets);
+  return steps;
+}
+
+// Steps of the settings window: every visible block
+function getSettingsSteps() {
+  const blocks = document.getElementById("settingsAppContent");
+  return blocks
+    ? Array.from(blocks.children).filter((el) => el.offsetParent !== null)
+    : [];
+}
+
+function showStepBadge(badgeId, container, steps) {
+  const badge = document.getElementById(badgeId);
+  if (!badge || !container || !steps.length || !container.clientHeight) return;
+
+  // Current step = the one whose scroll position is closest to the scroll offset
+  let current = 0;
+  let best = Infinity;
+  steps.forEach((el, i) => {
+    const pos = contentTop(container, el) - snapOffset(container, el);
+    const dist = Math.abs(pos - container.scrollTop);
+    if (dist < best - 0.5) {
+      best = dist;
+      current = i;
+    }
+  });
+  // At the very bottom the last step counts as reached
+  if (container.scrollTop + container.clientHeight >= container.scrollHeight - 2) {
+    current = steps.length - 1;
+  }
+
+  badge.innerHTML =
+    `<span class="step-num">${current + 1}</span>` +
+    `<span class="step-den">${steps.length}</span>`;
+  badge.classList.add("show");
+  clearTimeout(stepBadgeTimers[badgeId]);
+  stepBadgeTimers[badgeId] = setTimeout(
+    () => badge.classList.remove("show"),
+    STEP_BADGE_MS
+  );
+}
+
 function updateSnap() {
   updateMainSnap();
   updateModalSnap();
@@ -974,9 +1034,19 @@ function updateSnap() {
 
 function initSnap() {
   updateSnap();
-  document
-    .getElementById("settingsBody")
-    ?.addEventListener("scroll", updateScrollHints, { passive: true });
+  const settingsBody = document.getElementById("settingsBody");
+  settingsBody?.addEventListener("scroll", updateScrollHints, { passive: true });
+  settingsBody?.addEventListener(
+    "scroll",
+    () => showStepBadge("stepBadgeSettings", settingsBody, getSettingsSteps()),
+    { passive: true }
+  );
+  const mainContainer = document.getElementById("scrollContainer");
+  mainContainer?.addEventListener(
+    "scroll",
+    () => showStepBadge("stepBadgeMain", mainContainer, getMainSteps()),
+    { passive: true }
+  );
   window.addEventListener("resize", updateSnap);
   window.addEventListener("orientationchange", updateSnap);
   window.addEventListener("load", updateSnap);
