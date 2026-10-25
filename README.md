@@ -2,7 +2,7 @@
 
 A lightweight, single-page web app that translates text into **two languages at once**. Type, paste or dictate your text once and read both translations side by side.
 
-![Appearance of the application](README/App.jpg)
+![Appearance of the application](README/img/app.png)
 
 ## Features
 
@@ -13,13 +13,15 @@ A lightweight, single-page web app that translates text into **two languages at 
 - **Configurations** – save up to 6 language sets (source + two targets) and switch between them with one tap.
 - **Customizable buttons** – choose which buttons are visible for each configuration.
 - **Themes** – many color palettes, each with Contrast, Normal and Night modes.
-- **Multilingual interface** – Deutsch, English, Français, Nederlands, Polski, Português, Русский, Türkçe, Українська, with a built-in help window in each language.
+- **Multilingual interface** – Deutsch, English, Esperanto, Español, Français, Italiano, Nederlands, Polski, Português, Русский, Türkçe, Українська, with a built-in help window in each language.
 - **Mobile friendly** – responsive layout with step-by-step scrolling on phones.
 - **Remembers your settings** – everything is stored locally in the browser.
 
 ## Supported languages
 
-German, English, French, Dutch, Polish, Portuguese, Russian, Turkish, Ukrainian.
+German, English, Esperanto, Spanish, French, Italian, Dutch, Polish, Portuguese, Russian, Turkish, Ukrainian.
+
+> Esperanto: translation works with all services, but voice playback depends on the voices installed on the device, and voice input (dictation) is usually not available for it in browsers.
 
 ## Getting started
 

@@ -56,7 +56,20 @@ function buildDefaultButtons() {
   return result;
 }
 
-const LANG_CODES = ["de", "en", "fr", "nl", "pl", "pt", "ru", "tr", "uk"];
+const LANG_CODES = [
+  "de",
+  "en",
+  "eo",
+  "es",
+  "fr",
+  "it",
+  "nl",
+  "pl",
+  "pt",
+  "ru",
+  "tr",
+  "uk",
+];
 const PRESET_MAX = 6; // configurations that are prepared (data is always kept for all)
 const DEFAULT_PRESET_COUNT = 2; // how many of them are shown by default
 
