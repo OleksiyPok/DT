@@ -272,26 +272,33 @@ function renderPresetControls() {
   };
 
   editLangPreset = clampPreset(editLangPreset);
-  editBtnPreset = clampPreset(editBtnPreset);
+  editBtnPreset = editLangPreset;
 
   fill(document.getElementById("presetButtons"), "preset-btn", "", (n) =>
     setActivePreset(n)
   );
-  fill(document.getElementById("langPresetTabs"), "preset-tab", "lang", (n) => {
-    editLangPreset = n;
-    syncLangEditor();
-    updatePresetButtons();
-  });
-  fill(document.getElementById("btnPresetTabs"), "preset-tab", "btn", (n) => {
-    editBtnPreset = n;
-    syncBtnEditor();
-    updatePresetButtons();
-  });
+  // The tabs of both settings blocks are duplicates: either one switches both
+  fill(document.getElementById("langPresetTabs"), "preset-tab", "lang", (n) =>
+    setEditPreset(n)
+  );
+  fill(document.getElementById("btnPresetTabs"), "preset-tab", "btn", (n) =>
+    setEditPreset(n)
+  );
 
   const countSelect = document.getElementById("presetCountSelect");
   if (countSelect) countSelect.value = String(presetCount);
 
   updatePresetTitles();
+  updatePresetButtons();
+}
+
+// Selects configuration n for editing in BOTH settings blocks (languages and
+// visible buttons) at once
+function setEditPreset(n) {
+  editLangPreset = clampPreset(n);
+  editBtnPreset = editLangPreset;
+  syncLangEditor();
+  syncBtnEditor();
   updatePresetButtons();
 }
 

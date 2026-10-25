@@ -434,11 +434,34 @@ button:disabled {
 }
 .thema-group select,
 .interface-group select,
-.preset-count-group select,
 .preset-lang-group select {
   width: 100%;
   max-width: none;
   text-align: left;
+}
+
+/* Number of configurations: one compact row (title left, label + narrow
+   selector right), the selector is only as wide as a digit up to 10 */
+.preset-count-wrapper {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.preset-count-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.preset-count-group select {
+  width: 52px;
+  min-width: 0;
+  padding: 2px 4px;
+  text-align: center;
 }
 
 /* Microphone option: checkbox + text */
