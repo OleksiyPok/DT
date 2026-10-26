@@ -7,6 +7,7 @@
   --inner-gap: 8px;
   /* One height for selects and icon buttons */
   --control-h: 30px;
+  --lang-select-w: 160px; /* width of the three language selects on the main screen */
   /* Blue of the "i" icon; the gear and mode icon frames use the same colour */
   --info-icon-color: var(--text-color); /* same colour as the theme-mode icon */
 
@@ -298,6 +299,12 @@ button:disabled {
   .mode-app-btn:hover {
     background: var(--surface-hover);
   }
+}
+/* Theme-mode icon: same size as the framed "i" and gear icons next to it */
+.mode-icon svg {
+  display: block;
+  width: 28px;
+  height: 28px;
 }
 /* Icon in a square frame, the same size as the "i" icon */
 .framed-icon {
@@ -656,11 +663,11 @@ button:disabled {
   min-height: var(--control-h);
 }
 .controls-row select {
-  flex: 0 0 120px;
+  flex: 0 0 var(--lang-select-w);
   height: var(--control-h);
-  width: 180px;
+  width: var(--lang-select-w);
   min-width: 100px;
-  max-width: 180px;
+  max-width: var(--lang-select-w);
 }
 .translate-control-row {
   flex-direction: row;
@@ -855,7 +862,8 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 16px;
+  /* extra space on top so the title and the close button are not cut by the screen edge */
+  padding: calc(12px + 14px + env(safe-area-inset-top, 0px)) 16px 12px;
   background: var(--background-color);
   border-bottom: 1px solid var(--border-color);
 }
