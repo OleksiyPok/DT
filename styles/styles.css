@@ -995,8 +995,10 @@ button:disabled {
 .section-block-source {
   scroll-margin-top: var(--block-gap);
 }
-/* Set by script.js on small screens: the bottom of the content becomes a step */
-.section-block-targets-wrapper.snap-end {
+/* Set by script.js on small screens: the bottom of the content (the buttons under
+   the translations, or the translations if those buttons are hidden) becomes a step */
+.section-block-targets-wrapper.snap-end,
+.bottom-actions.snap-end {
   scroll-snap-align: end;
   scroll-snap-stop: always;
 }
@@ -1248,4 +1250,39 @@ button:disabled {
 .icon-btn.mic-active:hover,
 .icon-btn.mic-active:active {
   color: var(--danger);
+}
+
+/* ---------- Settings gear: flat 2D icon, always the colour of its frame ---------- */
+.gear-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--info-icon-color);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+/* ---------- Buttons under the translations (copies of "clear" and "microphone") ----------
+   Mobile: 2x the size of the buttons in the text blocks; 576px and wider: 1.5x.
+   The gap between the buttons is one mobile button and never changes. */
+.bottom-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--control-h) * 2);
+  width: 100%;
+  padding: calc(var(--block-gap) + 4px) 0 16px;
+}
+.bottom-actions .icon-btn {
+  flex: none;
+  width: 45px;
+  max-width: none;
+  height: 45px;
+  border-radius: 10px;
+}
+.bottom-actions .icon-btn .ico {
+  width: 36px;
+  height: 36px;
+  stroke-width: 1.5;
 }

@@ -8,7 +8,8 @@ const PATHS = {
 };
 
 // Buttons whose visibility is configurable, grouped by main-screen section.
-// key = name in saved settings, id = DOM id, textKey = key in uiTexts
+// key = name in saved settings, id = DOM id, textKey = key in uiTexts,
+// mirrorId = copy of the button under the translations (shown and hidden together)
 const BUTTON_SECTIONS = [
   {
     key: "source",
@@ -17,8 +18,20 @@ const BUTTON_SECTIONS = [
       { key: "paste", id: "pasteSource", icon: "📥", textKey: "pasteBtnTitle" },
       { key: "copy", id: "copySource", icon: "📋", textKey: "copyBtnTitle" },
       { key: "speak", id: "speakSource", icon: "🔊", textKey: "speakBtnTitle" },
-      { key: "mic", id: "micSource", icon: "🎤", textKey: "micBtnTitle" },
-      { key: "clear", id: "clearSource", icon: "❌", textKey: "clearBtnTitle" },
+      {
+        key: "mic",
+        id: "micSource",
+        mirrorId: "micBottom",
+        icon: "🎤",
+        textKey: "micBtnTitle",
+      },
+      {
+        key: "clear",
+        id: "clearSource",
+        mirrorId: "clearBottom",
+        icon: "❌",
+        textKey: "clearBtnTitle",
+      },
     ],
   },
   {
@@ -466,11 +479,16 @@ function applyButtonVisibility() {
     section.buttons.forEach((btn) => {
       const visible = visibility[section.key][btn.key];
       document.getElementById(btn.id)?.classList.toggle("is-hidden", !visible);
+      if (btn.mirrorId) {
+        document
+          .getElementById(btn.mirrorId)
+          ?.classList.toggle("is-hidden", !visible);
+      }
     });
   });
 
   document
-    .querySelectorAll(".side-buttons, .button-container")
+    .querySelectorAll(".side-buttons, .button-container, .bottom-actions")
     .forEach((container) => {
       const hasVisible = !!container.querySelector(".icon-btn:not(.is-hidden)");
       container.classList.toggle("is-hidden", !hasVisible);
@@ -483,15 +501,40 @@ function applyButtonVisibility() {
 
 /* ---------- Modals (help, settings) ---------- */
 
+// An open window owns one history entry, so the browser / phone "Back" button
+// closes the window instead of leaving the page. Without a window Back works as usual.
+let modalHistoryPushed = false;
+
 function openModal(id) {
   document.getElementById(id)?.classList.remove("hidden");
+  if (!modalHistoryPushed) {
+    history.pushState({ dtModal: true }, "");
+    modalHistoryPushed = true;
+  }
 }
 
-function closeAllModals() {
+function hideAllModals() {
   document
     .querySelectorAll(".app-modal")
     .forEach((m) => m.classList.add("hidden"));
 }
+
+// Closing with the cross, the backdrop or Esc also removes the history entry
+function closeAllModals() {
+  hideAllModals();
+  if (modalHistoryPushed) {
+    modalHistoryPushed = false;
+    history.back();
+  }
+}
+
+// "Back" pressed while a window is open: the entry is already gone, just hide the window
+window.addEventListener("popstate", () => {
+  if (modalHistoryPushed) {
+    modalHistoryPushed = false;
+    hideAllModals();
+  }
+});
 
 /* ---------- Help window content ---------- */
 
@@ -617,6 +660,8 @@ function updateUI() {
   document.getElementById("copyTarget1").title = t.copyBtnTitle;
   document.getElementById("copyTarget2").title = t.copyBtnTitle;
   setTitle("clearSource", t.clearBtnTitle);
+  setTitle("clearBottom", t.clearBtnTitle);
+  setTitle("micBottom", t.micBtnTitle);
   setTitle("speakSource", t.speakBtnTitle);
   setTitle("speakTarget1", t.speakBtnTitle);
   setTitle("speakTarget2", t.speakBtnTitle);
@@ -918,10 +963,11 @@ function initSpeechRecognition() {
 }
 
 // The microphone / "stop" icons are swapped by CSS (.mic-active), so only the class changes here
+// (on both the button in the source block and the one under the translations)
 function setMicActive(active) {
-  const micBtn = document.getElementById("micSource");
-  if (!micBtn) return;
-  micBtn.classList.toggle("mic-active", active);
+  ["micSource", "micBottom"].forEach((id) => {
+    document.getElementById(id)?.classList.toggle("mic-active", active);
+  });
 }
 
 function clearSourceText() {
@@ -984,12 +1030,17 @@ function updateMainSnap() {
   const container = document.getElementById("scrollContainer");
   const source = document.querySelector(".section-block-source");
   const targets = document.querySelector(".section-block-targets-wrapper");
+  const actions = document.querySelector(".bottom-actions");
   if (!container || !source || !targets) return;
 
+  // The last element of the page: the buttons under the translations (if shown)
+  const last = actions && actions.offsetParent !== null ? actions : targets;
   const sourceStep =
     contentTop(container, source) - snapOffset(container, source);
-  const contentBottom = contentTop(container, targets) + targets.offsetHeight;
-  targets.classList.toggle(
+  const contentBottom = contentTop(container, last) + last.offsetHeight;
+  targets.classList.remove("snap-end");
+  actions?.classList.remove("snap-end");
+  last.classList.toggle(
     "snap-end",
     contentBottom - sourceStep > container.clientHeight + 1
   );
@@ -1354,9 +1405,11 @@ document.addEventListener("DOMContentLoaded", () => {
       translateText();
     });
 
-  document.getElementById("clearSource").addEventListener("click", () => {
-    if (isRecording && recognition) recognition.abort();
-    clearSourceText();
+  ["clearSource", "clearBottom"].forEach((id) => {
+    document.getElementById(id).addEventListener("click", () => {
+      if (isRecording && recognition) recognition.abort();
+      clearSourceText();
+    });
   });
 
   document.getElementById("copySource").addEventListener("click", () => {
@@ -1406,8 +1459,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target2.value.trim()) speakText(target2.value, tgtLang2);
   });
 
-  document.getElementById("micSource").addEventListener("click", () => {
-    startSpeechRecognition();
+  ["micSource", "micBottom"].forEach((id) => {
+    document.getElementById(id).addEventListener("click", () => {
+      startSpeechRecognition();
+    });
   });
 
   document.getElementById("resetSettingsBtn").addEventListener("click", () => {

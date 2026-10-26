@@ -5,12 +5,12 @@
     <meta charset="UTF-8" />
     <title>Dual Translator</title>
 
-    <script src="script/themeRegistry.js?v=2.3.8"></script>
+    <script src="script/themeRegistry.js?v=2.3.9"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.3.8" defer></script>
-    <script src="script/script.js?v=2.3.8" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.3.8" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.3.8" />
+    <script src="script/ui_DT_texts.js?v=2.3.9" defer></script>
+    <script src="script/script.js?v=2.3.9" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.3.9" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.3.9" />
   </head>
   <!-- DT -->
   <body>
@@ -54,7 +54,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.3.8</h6>
+            <h6 id="version" class="version">version: 2.3.9</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -77,7 +77,12 @@
               title="Settings"
               aria-label="Settings"
             >
-              <span class="gear-icon framed-icon">⚙️</span>
+              <span class="gear-icon framed-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M10.31 5.21L10.68 2.59L13.32 2.59L13.69 5.21L17.04 7.14L19.49 6.15L20.81 8.44L18.73 10.07L18.73 13.93L20.81 15.56L19.49 17.85L17.04 16.86L13.69 18.79L13.32 21.41L10.68 21.41L10.31 18.79L6.96 16.86L4.51 17.85L3.19 15.56L5.27 13.93L5.27 10.07L3.19 8.44L4.51 6.15L6.96 7.14Z" />
+                  <circle cx="12" cy="12" r="2.8" />
+                </svg>
+              </span>
             </button>
           </div>
           <button
@@ -297,6 +302,26 @@
               readonly
             ></textarea>
           </div>
+        </div>
+
+        <div class="bottom-actions" id="bottomActions">
+          <button
+            type="button"
+            id="clearBottom"
+            class="icon-btn big-btn"
+            title="Clear source text"
+          >
+            <svg class="ico" aria-hidden="true"><use href="#i-clear" /></svg>
+          </button>
+          <button
+            type="button"
+            id="micBottom"
+            class="icon-btn big-btn"
+            title="Speak"
+          >
+            <svg class="ico ico-mic" aria-hidden="true"><use href="#i-mic" /></svg>
+            <svg class="ico ico-stop" aria-hidden="true"><use href="#i-mic-stop" /></svg>
+          </button>
         </div>
 
         <div class="row service-row" id="serviceRow">
