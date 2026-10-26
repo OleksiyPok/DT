@@ -917,11 +917,11 @@ function initSpeechRecognition() {
   return rec;
 }
 
+// The microphone / "stop" icons are swapped by CSS (.mic-active), so only the class changes here
 function setMicActive(active) {
   const micBtn = document.getElementById("micSource");
   if (!micBtn) return;
   micBtn.classList.toggle("mic-active", active);
-  micBtn.textContent = active ? "⏹️" : "🎤";
 }
 
 function clearSourceText() {

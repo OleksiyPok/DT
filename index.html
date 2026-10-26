@@ -5,15 +5,44 @@
     <meta charset="UTF-8" />
     <title>Dual Translator</title>
 
-    <script src="script/themeRegistry.js?v=2.3.7"></script>
+    <script src="script/themeRegistry.js?v=2.3.8"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.3.7" defer></script>
-    <script src="script/script.js?v=2.3.7" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.3.7" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.3.7" />
+    <script src="script/ui_DT_texts.js?v=2.3.8" defer></script>
+    <script src="script/script.js?v=2.3.8" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.3.8" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.3.8" />
   </head>
   <!-- DT -->
   <body>
+    <!-- Line icons for the text-block buttons. Colour comes from CSS (currentColor). -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <symbol id="i-paste" viewBox="0 0 24 24">
+        <path d="M8 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1" />
+        <rect x="9" y="2.5" width="6" height="3.5" rx="1" />
+        <path d="M12 10v7M9 14l3 3 3-3" />
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <path d="M15 9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4" />
+        <rect x="9" y="9" width="12" height="12" rx="2" />
+      </symbol>
+      <symbol id="i-speak" viewBox="0 0 24 24">
+        <path d="M11 5 6 9H3v6h3l5 4z" />
+        <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
+      </symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24">
+        <rect x="9" y="2" width="6" height="12" rx="3" />
+        <path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6" />
+      </symbol>
+      <symbol id="i-mic-stop" viewBox="0 0 24 24">
+        <rect x="7" y="2" width="6" height="10" rx="3" />
+        <path d="M4 10a6 6 0 0 0 12 0M10 16v4M7 20h6" />
+        <rect x="15" y="14" width="7" height="7" rx="1.5" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-clear" viewBox="0 0 24 24">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+    </svg>
+
     <div class="scroll-container" id="scrollContainer">
       <div class="layout">
         <div class="titles-container" id="titlesContainer">
@@ -25,7 +54,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.3.7</h6>
+            <h6 id="version" class="version">version: 2.3.8</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -96,7 +125,7 @@
                 class="icon-btn"
                 title="Paste into source"
               >
-                📥
+                <svg class="ico" aria-hidden="true"><use href="#i-paste" /></svg>
               </button>
               <button
                 type="button"
@@ -104,7 +133,7 @@
                 class="icon-btn"
                 title="Copy source text"
               >
-                📋
+                <svg class="ico" aria-hidden="true"><use href="#i-copy" /></svg>
               </button>
               <button
                 type="button"
@@ -112,7 +141,7 @@
                 class="icon-btn"
                 title="Play source"
               >
-                🔊
+                <svg class="ico" aria-hidden="true"><use href="#i-speak" /></svg>
               </button>
             </div>
           </div>
@@ -129,7 +158,8 @@
                 class="icon-btn"
                 title="Speak"
               >
-                🎤
+                <svg class="ico ico-mic" aria-hidden="true"><use href="#i-mic" /></svg>
+                <svg class="ico ico-stop" aria-hidden="true"><use href="#i-mic-stop" /></svg>
               </button>
               <button
                 type="button"
@@ -137,7 +167,7 @@
                 class="icon-btn clear-btn"
                 title="Clear source text"
               >
-                ❌
+                <svg class="ico" aria-hidden="true"><use href="#i-clear" /></svg>
               </button>
             </div>
           </div>
@@ -198,16 +228,16 @@
                   class="icon-btn"
                   title="Copy translation 1"
                 >
-                  📋
-                </button>
+                <svg class="ico" aria-hidden="true"><use href="#i-copy" /></svg>
+              </button>
                 <button
                   type="button"
                   id="speakTarget1"
                   class="icon-btn"
                   title="Play translation 1"
                 >
-                  🔊
-                </button>
+                <svg class="ico" aria-hidden="true"><use href="#i-speak" /></svg>
+              </button>
               </div>
             </div>
             <textarea
@@ -248,16 +278,16 @@
                   class="icon-btn"
                   title="Copy translation 2"
                 >
-                  📋
-                </button>
+                <svg class="ico" aria-hidden="true"><use href="#i-copy" /></svg>
+              </button>
                 <button
                   type="button"
                   id="speakTarget2"
                   class="icon-btn"
                   title="Play translation 2"
                 >
-                  🔊
-                </button>
+                <svg class="ico" aria-hidden="true"><use href="#i-speak" /></svg>
+              </button>
               </div>
             </div>
             <textarea
