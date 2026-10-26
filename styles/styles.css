@@ -8,7 +8,7 @@
   /* One height for selects and icon buttons */
   --control-h: 30px;
   /* Blue of the "i" icon; the gear and mode icon frames use the same colour */
-  --info-icon-color: #3b88c3;
+  --info-icon-color: var(--text-color); /* same colour as the theme-mode icon */
 
   /* Default palette (yellowblue-normal); themes.css overrides it via the class on <html> */
   /* Text */
@@ -299,11 +299,6 @@ button:disabled {
     background: var(--surface-hover);
   }
 }
-.help-app-btn .i-icon {
-  display: inline-block;
-  transform: scaleY(0.98);
-  line-height: 1;
-}
 /* Icon in a square frame, the same size as the "i" icon */
 .framed-icon {
   display: flex;
@@ -321,6 +316,17 @@ button:disabled {
 
 .framed-icon svg {
   display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--info-icon-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.framed-icon svg .dot {
+  fill: var(--info-icon-color);
+  stroke: none;
 }
 
 /* Segmented switch of configurations: equal segments, the active one is filled */
@@ -652,9 +658,9 @@ button:disabled {
 .controls-row select {
   flex: 0 0 120px;
   height: var(--control-h);
-  width: 120px;
+  width: 180px;
   min-width: 100px;
-  max-width: 120px;
+  max-width: 180px;
 }
 .translate-control-row {
   flex-direction: row;
@@ -1256,10 +1262,6 @@ button:disabled {
 .gear-icon svg {
   width: 16px;
   height: 16px;
-  fill: none;
-  stroke: var(--info-icon-color);
-  stroke-width: 2;
-  stroke-linejoin: round;
 }
 
 /* ---------- Buttons under the translations (copies of "clear" and "microphone") ----------

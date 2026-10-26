@@ -65,10 +65,15 @@
               type="button"
               class="help-app-btn"
               id="helpAppBtn"
-              title="Help"
-              aria-label="Help"
+              title="Information"
+              aria-label="Information"
             >
-              <span class="i-icon">ℹ️</span>
+              <span class="info-icon framed-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle class="dot" cx="12" cy="6.5" r="1.6" />
+                  <path d="M12 10.5v8" />
+                </svg>
+              </span>
             </button>
             <button
               type="button"
@@ -371,7 +376,7 @@
     >
       <div class="app-modal-content">
         <div class="app-modal-header">
-          <h2 class="app-modal-title" id="helpTitle">Help</h2>
+          <h2 class="app-modal-title" id="helpTitle">Information</h2>
           <button
             type="button"
             id="helpAppCloseBtn"
@@ -571,6 +576,14 @@
               </div>
 
               <div class="mic-wrapper" id="micWrapper">
+                <label class="mic-option" for="bottomButtons">
+                  <input
+                    type="checkbox"
+                    id="bottomButtons"
+                    class="mic-checkbox"
+                  />
+                  <span id="labelBottomButtons">Show extra buttons</span>
+                </label>
                 <label class="mic-option" for="clearOnMic">
                   <input type="checkbox" id="clearOnMic" class="mic-checkbox" />
                   <span id="labelClearOnMic"

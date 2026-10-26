@@ -9,7 +9,6 @@ const PATHS = {
 
 // Buttons whose visibility is configurable, grouped by main-screen section.
 // key = name in saved settings, id = DOM id, textKey = key in uiTexts,
-// mirrorId = copy of the button under the translations (shown and hidden together)
 const BUTTON_SECTIONS = [
   {
     key: "source",
@@ -21,14 +20,12 @@ const BUTTON_SECTIONS = [
       {
         key: "mic",
         id: "micSource",
-        mirrorId: "micBottom",
         icon: "🎤",
         textKey: "micBtnTitle",
       },
       {
         key: "clear",
         id: "clearSource",
-        mirrorId: "clearBottom",
         icon: "❌",
         textKey: "clearBtnTitle",
       },
@@ -137,6 +134,7 @@ const DEFAULT_SETTINGS = {
   serviceSelect: "mymemory",
   autoTranslate: true,
   clearOnMic: false, // clear the source text when the microphone starts
+  bottomButtons: true, // show the extra buttons (clear, microphone) under the translations
   overwriteLangs: false, // write languages chosen on the main screen into the active configuration
   developerMode: false,
   thema: "theme-warmorange-normal",
@@ -479,24 +477,36 @@ function applyButtonVisibility() {
     section.buttons.forEach((btn) => {
       const visible = visibility[section.key][btn.key];
       document.getElementById(btn.id)?.classList.toggle("is-hidden", !visible);
-      if (btn.mirrorId) {
-        document
-          .getElementById(btn.mirrorId)
-          ?.classList.toggle("is-hidden", !visible);
-      }
     });
   });
 
   document
-    .querySelectorAll(".side-buttons, .button-container, .bottom-actions")
+    .querySelectorAll(".side-buttons, .button-container")
     .forEach((container) => {
       const hasVisible = !!container.querySelector(".icon-btn:not(.is-hidden)");
       container.classList.toggle("is-hidden", !hasVisible);
     });
 
-  if (!visibility.source.mic && isRecording && recognition) {
+  applyBottomButtons();
+  const bottomOn = bottomButtonsOn();
+
+  // Stop recording only if no microphone button is left on the screen
+  if (isRecording && recognition && !visibility.source.mic && !bottomOn) {
     recognition.abort();
   }
+}
+
+// The extra buttons under the translations depend only on their own checkbox,
+// not on the "visible buttons" of the configurations.
+function bottomButtonsOn() {
+  return document.getElementById("bottomButtons")?.checked !== false;
+}
+
+function applyBottomButtons() {
+  document
+    .getElementById("bottomActions")
+    ?.classList.toggle("is-hidden", !bottomButtonsOn());
+  updateMainSnap();
 }
 
 /* ---------- Modals (help, settings) ---------- */
@@ -680,6 +690,7 @@ function updateUI() {
   setText("labelPresetCount", t.labelPresetCount);
   setText("labelPresetLanguages", t.labelPresetLanguages);
   setText("labelOverwriteLangs", t.labelOverwriteLangs);
+  setText("labelBottomButtons", t.bottomButtonsLabel);
   setText("labelClearOnMic", t.clearOnMicLabel);
   setText("settingsTitle", t.settingsTitle);
   setText("helpTitle", t.helpBtnTitle);
@@ -1172,6 +1183,7 @@ function saveSettings() {
     targetLang2: document.getElementById("targetLang2").value,
     autoTranslate: document.getElementById("autoTranslate").checked,
     clearOnMic: document.getElementById("clearOnMic").checked,
+    bottomButtons: document.getElementById("bottomButtons").checked,
     overwriteLangs: document.getElementById("overwriteLangs").checked,
     developerMode: isDeveloperPanelVisible(),
     thema: getThemaFromSelects(),
@@ -1216,6 +1228,7 @@ function applyState(settings) {
   $("autoTranslate").checked = settings.autoTranslate ?? true;
   autoTranslateChecked = $("autoTranslate").checked;
   $("clearOnMic").checked = settings.clearOnMic === true;
+  $("bottomButtons").checked = settings.bottomButtons !== false;
   $("overwriteLangs").checked =
     typeof settings.overwriteLangs === "boolean"
       ? settings.overwriteLangs
@@ -1385,6 +1398,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("clearOnMic").addEventListener("change", () => {
+    saveSettings();
+  });
+
+  document.getElementById("bottomButtons").addEventListener("change", () => {
+    applyBottomButtons();
     saveSettings();
   });
 
