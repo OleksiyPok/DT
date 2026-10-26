@@ -1169,6 +1169,34 @@ button:disabled {
   border: 1px solid var(--border-strong);
   border-radius: 4px;
 }
+/* Icons in the help text: the same SVG symbols as on the real buttons */
+.help-ico {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.help-framed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: -0.4em;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+}
+.help-framed .help-ico {
+  width: 1em;
+  height: 1em;
+  vertical-align: 0;
+  stroke-width: 2;
+}
 .help-note {
   padding: 8px 12px;
   color: var(--text-muted);

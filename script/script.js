@@ -92,6 +92,7 @@ const THEME_MODE_SVG_OPEN =
 const THEME_MODE_ICONS = {
   contrast: `${THEME_MODE_SVG_OPEN}<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>`,
   normal: `${THEME_MODE_SVG_OPEN}<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
+  evening: `${THEME_MODE_SVG_OPEN}<path d="M8 17a4 4 0 0 1 8 0"/><path d="M2 17h20M7 20.5h10M12 7v2M4.9 9.9l1.4 1.4M17.7 11.3l1.4-1.4"/></svg>`,
   night: `${THEME_MODE_SVG_OPEN}<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>`,
 };
 
@@ -189,6 +190,7 @@ function updateModeButton(mode, t) {
   const modeTexts = {
     contrast: texts.themaModeContrast,
     normal: texts.themaModeNormal,
+    evening: texts.themaModeEvening,
     night: texts.themaModeNight,
   };
   const title = `${texts.labelThemaMode}: ${modeTexts[mode] || ""}`;
@@ -705,6 +707,7 @@ function updateUI() {
   const modeTexts = {
     contrast: t.themaModeContrast,
     normal: t.themaModeNormal,
+    evening: t.themaModeEvening,
     night: t.themaModeNight,
   };
   Array.from(modeSelect.options).forEach((option) => {
