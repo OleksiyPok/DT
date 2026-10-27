@@ -6,7 +6,7 @@
   var STORAGE_KEY = "translatorSettings";
 
   // Palettes are listed in colour order (red -> brown -> orange -> yellow -> green -> teal -> blue);
-  // the selector in the settings shows them in this order.
+  // the selector in the settings shows them in this order. Grayscale (no colour) comes last.
   var THEME_DEFS = [
     { value: "theme-skycoral-contrast", label: "Sky Coral - Contrast" },
     { value: "theme-skycoral-normal", label: "Sky Coral - Normal" },
@@ -44,6 +44,10 @@
     { value: "theme-delftware-normal", label: "Delftware - Normal" },
     { value: "theme-delftware-evening", label: "Delftware - Evening" },
     { value: "theme-delftware-night", label: "Delftware - Night" },
+    { value: "theme-grayscale-contrast", label: "Grayscale - Contrast" },
+    { value: "theme-grayscale-normal", label: "Grayscale - Normal" },
+    { value: "theme-grayscale-evening", label: "Grayscale - Evening" },
+    { value: "theme-grayscale-night", label: "Grayscale - Night" },
   ];
 
   var THEME_VALUES = THEME_DEFS.map(function (x) {

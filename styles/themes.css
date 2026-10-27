@@ -1741,6 +1741,215 @@
   --shadow-strong: rgba(0, 0, 0, 0.7);
 }
 
+/* Grayscale: no colour at all, only shades of grey; the logo is turned grey too. */
+:root.theme-grayscale-contrast {
+  --text-color: #0a0a0a;
+  --text-muted: #444444;
+  --text-placeholder: #707070;
+  --text-inverted: #ffffff;
+  --background-color: #f0f0f0;
+  --surface-color: #dcdcdc;
+  --surface-alt-color: #c4c4c4;
+  --surface-hover: #b2b2b2;
+  --surface-selected: #999999;
+  --border-color: #666666;
+  --border-strong: #454545;
+  --border-focus: #999999;
+  --primary: #666666;
+  --primary-hover: #5a5a5a;
+  --primary-active: #4c4c4c;
+  --primary-bg: #e6e6e6;
+  --primary-bg-hover: #d9d9d9;
+  --primary-border: #c0c0c0;
+  --primary-text: #ffffff;
+  --success: #464646;
+  --success-hover: #3d3d3d;
+  --success-active: #343434;
+  --success-bg: #f2f2f2;
+  --success-border: #b0b0b0;
+  --success-text: #ffffff;
+  --warning: #737373;
+  --warning-hover: #666666;
+  --warning-active: #5a5a5a;
+  --warning-bg: #f2f2f2;
+  --warning-border: #cccccc;
+  --warning-text: #000000;
+  --danger: #666666;
+  --danger-hover: #5a5a5a;
+  --danger-active: #4c4c4c;
+  --danger-bg: #f2f2f2;
+  --danger-border: #cccccc;
+  --danger-text: #ffffff;
+  --selection-bg: #e6e6e6;
+  --selection-text: #000000;
+  --overlay-clear: rgba(0, 0, 0, 0);
+  --overlay-bg: rgba(0, 0, 0, 0.45);
+  --tooltip-bg: var(--text-color);
+  --tooltip-text: var(--text-inverted);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.22);
+  --shadow-strong: rgba(0, 0, 0, 0.45);
+}
+:root.theme-grayscale-normal {
+  --text-color: #1a1a1a;
+  --text-muted: #555555;
+  --text-placeholder: #888888;
+  --text-inverted: #ffffff;
+  --background-color: #fafafa;
+  --surface-color: #f2f2f2;
+  --surface-alt-color: #e6e6e6;
+  --surface-hover: #cccccc;
+  --surface-selected: #b2b2b2;
+  --border-color: #737373;
+  --border-strong: #5a5a5a;
+  --border-focus: #979797;
+  --primary: #5a5a5a;
+  --primary-hover: #525252;
+  --primary-active: #444444;
+  --primary-bg: #e6e6e6;
+  --primary-bg-hover: #d9d9d9;
+  --primary-border: #cccccc;
+  --primary-text: #ffffff;
+  --success: #3d3d3d;
+  --success-hover: #343434;
+  --success-active: #2e2e2e;
+  --success-bg: #f0f0f0;
+  --success-border: #c0c0c0;
+  --success-text: #ffffff;
+  --warning: #666666;
+  --warning-hover: #5a5a5a;
+  --warning-active: #4c4c4c;
+  --warning-bg: #f0f0f0;
+  --warning-border: #d1d1d1;
+  --warning-text: #000000;
+  --danger: #5a5a5a;
+  --danger-hover: #4c4c4c;
+  --danger-active: #404040;
+  --danger-bg: #ececec;
+  --danger-border: #d9d9d9;
+  --danger-text: #ffffff;
+  --selection-bg: #d9d9d9;
+  --selection-text: #000000;
+  --overlay-clear: rgba(0, 0, 0, 0);
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --tooltip-bg: var(--text-color);
+  --tooltip-text: var(--text-inverted);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.2);
+  --shadow-strong: rgba(0, 0, 0, 0.4);
+}
+:root.theme-grayscale-evening {
+  --text-color: #1a1a1a;
+  --text-muted: #353535;
+  --text-placeholder: #4e4e4e;
+  --text-inverted: #ffffff;
+  --background-color: #9e9e9e;
+  --surface-color: #9c9c9c;
+  --surface-alt-color: #979797;
+  --surface-hover: #8c8c8c;
+  --surface-selected: #808080;
+  --border-color: #5a5a5a;
+  --border-strong: #5a5a5a;
+  --border-focus: #848484;
+  --primary: #707070;
+  --primary-hover: #686868;
+  --primary-active: #606060;
+  --primary-bg: #939393;
+  --primary-bg-hover: #8c8c8c;
+  --primary-border: #7c7c7c;
+  --primary-text: #f0f0f0;
+  --success: #424242;
+  --success-hover: #393939;
+  --success-active: #323232;
+  --success-bg: #9c9c9c;
+  --success-border: #909090;
+  --success-text: #ffffff;
+  --warning: #5e5e5e;
+  --warning-hover: #525252;
+  --warning-active: #464646;
+  --warning-bg: #9c9c9c;
+  --warning-border: #9a9a9a;
+  --warning-text: #000000;
+  --danger: #565656;
+  --danger-hover: #4a4a4a;
+  --danger-active: #3f3f3f;
+  --danger-bg: #9b9b9b;
+  --danger-border: #9f9f9f;
+  --danger-text: #ffffff;
+  --selection-bg: #8e8e8e;
+  --selection-text: #000000;
+  --overlay-clear: rgba(0, 0, 0, 0);
+  --overlay-bg: rgba(0, 0, 0, 0.55);
+  --tooltip-bg: var(--text-color);
+  --tooltip-text: var(--text-inverted);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.2);
+  --shadow-strong: rgba(0, 0, 0, 0.4);
+}
+:root.theme-grayscale-night {
+  color-scheme: dark;
+  --text-color: #aeaeae;
+  --text-muted: #8c8c8c;
+  --text-placeholder: #6e6e6e;
+  --text-inverted: #ebebeb;
+  --background-color: #121212;
+  --surface-color: #1a1a1a;
+  --surface-alt-color: #212121;
+  --surface-hover: #2c2c2c;
+  --surface-selected: #353535;
+  --border-color: #404040;
+  --border-strong: #5c5c5c;
+  --border-focus: #848484;
+  --primary: #606060;
+  --primary-hover: #575757;
+  --primary-active: #4c4c4c;
+  --primary-bg: #282828;
+  --primary-bg-hover: #333333;
+  --primary-border: #4c4c4c;
+  --primary-text: #ebebeb;
+  --success: #616161;
+  --success-hover: #565656;
+  --success-active: #4c4c4c;
+  --success-bg: #212121;
+  --success-border: #474747;
+  --success-text: #ebebeb;
+  --warning: #5c5c5c;
+  --warning-hover: #525252;
+  --warning-active: #484848;
+  --warning-bg: #212121;
+  --warning-border: #484848;
+  --warning-text: #ebebeb;
+  --danger: #616161;
+  --danger-hover: #565656;
+  --danger-active: #4c4c4c;
+  --danger-bg: #212121;
+  --danger-border: #474747;
+  --danger-text: #ebebeb;
+  --selection-bg: #383838;
+  --selection-text: #e5e5e5;
+  --overlay-clear: rgba(0, 0, 0, 0);
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --tooltip-bg: var(--text-color);
+  --tooltip-text: #141414;
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.45);
+  --shadow-strong: rgba(0, 0, 0, 0.7);
+}
+:root[class*="theme-grayscale-"] {
+  --info-icon-color: var(--text-muted);
+}
+html:root[class*="theme-grayscale-"] .title-icon {
+  filter: drop-shadow(1px 1px 2px var(--shadow-light)) grayscale(1);
+}
+@keyframes pulse-gray {
+  0% { box-shadow: 0 0 0 0 rgba(110, 110, 110, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(110, 110, 110, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(110, 110, 110, 0); }
+}
+html:root[class*="theme-grayscale-"] .icon-btn.mic-active {
+  animation-name: pulse-gray;
+}
+
 /* Evening: muted accents also for the logo and the framed icons (info, settings, mode) */
 :root[class*="-evening"] {
   --info-icon-color: var(--primary);

@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" class="theme-yellowblue-normal">
   <head>
-    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+    <meta
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      name="viewport"
+    />
     <meta charset="UTF-8" />
     <title>Dual Translator</title>
 
-    <script src="script/themeRegistry.js?v=2.3.9"></script>
+    <script src="script/themeRegistry.js?v=2.4.1"></script>
 
-    <script src="script/ui_DT_texts.js?v=2.3.9" defer></script>
-    <script src="script/script.js?v=2.3.9" defer></script>
-    <link rel="stylesheet" href="styles/styles.css?v=2.3.9" />
-    <link rel="stylesheet" href="styles/themes.css?v=2.3.9" />
+    <script src="script/ui_DT_texts.js?v=2.4.1" defer></script>
+    <script src="script/script.js?v=2.4.1" defer></script>
+    <link rel="stylesheet" href="styles/styles.css?v=2.4.1" />
+    <link rel="stylesheet" href="styles/themes.css?v=2.4.1" />
   </head>
   <!-- DT -->
   <body>
     <!-- Line icons for the text-block buttons. Colour comes from CSS (currentColor). -->
-    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+    <svg
+      width="0"
+      height="0"
+      style="position: absolute"
+      aria-hidden="true"
+      focusable="false"
+    >
       <symbol id="i-paste" viewBox="0 0 24 24">
-        <path d="M8 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1" />
+        <path
+          d="M8 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1"
+        />
         <rect x="9" y="2.5" width="6" height="3.5" rx="1" />
         <path d="M12 10v7M9 14l3 3 3-3" />
       </symbol>
@@ -36,14 +47,24 @@
       <symbol id="i-mic-stop" viewBox="0 0 24 24">
         <rect x="7" y="2" width="6" height="10" rx="3" />
         <path d="M4 10a6 6 0 0 0 12 0M10 16v4M7 20h6" />
-        <rect x="15" y="14" width="7" height="7" rx="1.5" fill="currentColor" stroke="none" />
+        <rect
+          x="15"
+          y="14"
+          width="7"
+          height="7"
+          rx="1.5"
+          fill="currentColor"
+          stroke="none"
+        />
       </symbol>
       <symbol id="i-info" viewBox="0 0 24 24">
         <circle cx="12" cy="6.5" r="1.6" fill="currentColor" stroke="none" />
         <path d="M12 10.5v8" />
       </symbol>
       <symbol id="i-gear" viewBox="0 0 24 24">
-        <path d="M10.31 5.21L10.68 2.59L13.32 2.59L13.69 5.21L17.04 7.14L19.49 6.15L20.81 8.44L18.73 10.07L18.73 13.93L20.81 15.56L19.49 17.85L17.04 16.86L13.69 18.79L13.32 21.41L10.68 21.41L10.31 18.79L6.96 16.86L4.51 17.85L3.19 15.56L5.27 13.93L5.27 10.07L3.19 8.44L4.51 6.15L6.96 7.14Z" />
+        <path
+          d="M10.31 5.21L10.68 2.59L13.32 2.59L13.69 5.21L17.04 7.14L19.49 6.15L20.81 8.44L18.73 10.07L18.73 13.93L20.81 15.56L19.49 17.85L17.04 16.86L13.69 18.79L13.32 21.41L10.68 21.41L10.31 18.79L6.96 16.86L4.51 17.85L3.19 15.56L5.27 13.93L5.27 10.07L3.19 8.44L4.51 6.15L6.96 7.14Z"
+        />
         <circle cx="12" cy="12" r="2.8" />
       </symbol>
       <symbol id="i-clear" viewBox="0 0 24 24">
@@ -62,7 +83,7 @@
           />
           <div class="title-text" id="titleText">
             <h2>Dual Translator<br /></h2>
-            <h6 id="version" class="version">version: 2.3.9</h6>
+            <h6 id="version" class="version">version: 2.4.1</h6>
           </div>
         </div>
         <h5>Oleksii Pokormiakho</h5>
@@ -92,7 +113,9 @@
             >
               <span class="gear-icon framed-icon">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M10.31 5.21L10.68 2.59L13.32 2.59L13.69 5.21L17.04 7.14L19.49 6.15L20.81 8.44L18.73 10.07L18.73 13.93L20.81 15.56L19.49 17.85L17.04 16.86L13.69 18.79L13.32 21.41L10.68 21.41L10.31 18.79L6.96 16.86L4.51 17.85L3.19 15.56L5.27 13.93L5.27 10.07L3.19 8.44L4.51 6.15L6.96 7.14Z" />
+                  <path
+                    d="M10.31 5.21L10.68 2.59L13.32 2.59L13.69 5.21L17.04 7.14L19.49 6.15L20.81 8.44L18.73 10.07L18.73 13.93L20.81 15.56L19.49 17.85L17.04 16.86L13.69 18.79L13.32 21.41L10.68 21.41L10.31 18.79L6.96 16.86L4.51 17.85L3.19 15.56L5.27 13.93L5.27 10.07L3.19 8.44L4.51 6.15L6.96 7.14Z"
+                  />
                   <circle cx="12" cy="12" r="2.8" />
                 </svg>
               </span>
@@ -143,7 +166,9 @@
                 class="icon-btn"
                 title="Paste into source"
               >
-                <svg class="ico" aria-hidden="true"><use href="#i-paste" /></svg>
+                <svg class="ico" aria-hidden="true">
+                  <use href="#i-paste" />
+                </svg>
               </button>
               <button
                 type="button"
@@ -159,7 +184,9 @@
                 class="icon-btn"
                 title="Play source"
               >
-                <svg class="ico" aria-hidden="true"><use href="#i-speak" /></svg>
+                <svg class="ico" aria-hidden="true">
+                  <use href="#i-speak" />
+                </svg>
               </button>
             </div>
           </div>
@@ -176,8 +203,12 @@
                 class="icon-btn"
                 title="Speak"
               >
-                <svg class="ico ico-mic" aria-hidden="true"><use href="#i-mic" /></svg>
-                <svg class="ico ico-stop" aria-hidden="true"><use href="#i-mic-stop" /></svg>
+                <svg class="ico ico-mic" aria-hidden="true">
+                  <use href="#i-mic" />
+                </svg>
+                <svg class="ico ico-stop" aria-hidden="true">
+                  <use href="#i-mic-stop" />
+                </svg>
               </button>
               <button
                 type="button"
@@ -185,7 +216,9 @@
                 class="icon-btn clear-btn"
                 title="Clear source text"
               >
-                <svg class="ico" aria-hidden="true"><use href="#i-clear" /></svg>
+                <svg class="ico" aria-hidden="true">
+                  <use href="#i-clear" />
+                </svg>
               </button>
             </div>
           </div>
@@ -246,16 +279,20 @@
                   class="icon-btn"
                   title="Copy translation 1"
                 >
-                <svg class="ico" aria-hidden="true"><use href="#i-copy" /></svg>
-              </button>
+                  <svg class="ico" aria-hidden="true">
+                    <use href="#i-copy" />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   id="speakTarget1"
                   class="icon-btn"
                   title="Play translation 1"
                 >
-                <svg class="ico" aria-hidden="true"><use href="#i-speak" /></svg>
-              </button>
+                  <svg class="ico" aria-hidden="true">
+                    <use href="#i-speak" />
+                  </svg>
+                </button>
               </div>
             </div>
             <textarea
@@ -296,16 +333,20 @@
                   class="icon-btn"
                   title="Copy translation 2"
                 >
-                <svg class="ico" aria-hidden="true"><use href="#i-copy" /></svg>
-              </button>
+                  <svg class="ico" aria-hidden="true">
+                    <use href="#i-copy" />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   id="speakTarget2"
                   class="icon-btn"
                   title="Play translation 2"
                 >
-                <svg class="ico" aria-hidden="true"><use href="#i-speak" /></svg>
-              </button>
+                  <svg class="ico" aria-hidden="true">
+                    <use href="#i-speak" />
+                  </svg>
+                </button>
               </div>
             </div>
             <textarea
@@ -332,8 +373,12 @@
             class="icon-btn big-btn"
             title="Speak"
           >
-            <svg class="ico ico-mic" aria-hidden="true"><use href="#i-mic" /></svg>
-            <svg class="ico ico-stop" aria-hidden="true"><use href="#i-mic-stop" /></svg>
+            <svg class="ico ico-mic" aria-hidden="true">
+              <use href="#i-mic" />
+            </svg>
+            <svg class="ico ico-stop" aria-hidden="true">
+              <use href="#i-mic-stop" />
+            </svg>
           </button>
         </div>
 
