@@ -1,10 +1,10 @@
 // Google Cloud Translate API key (used only when the "google" service is selected)
 const googleApiKey = "YOUR_GOOGLE_API_KEY";
 
-// File locations: saved defaults and the folder with help/help.<lang>.html
+// File locations: saved defaults and the folder with docs/help/help.<lang>.html
 const PATHS = {
-  CONFIG: "script/config.json",
-  HELP_DIR: "help/",
+  CONFIG: "config/config.json",
+  HELP_DIR: "docs/help/",
 };
 
 // Buttons whose visibility is configurable, grouped by main-screen section.
@@ -678,7 +678,7 @@ window.addEventListener("popstate", () => {
 
 /* ---------- Help window content ---------- */
 
-// Loaded help pages by language (help/help.<lang>.html; English is the fallback)
+// Loaded help pages by language (docs/help/help.<lang>.html; English is the fallback)
 const helpCache = {};
 
 async function fetchHelpHtml(lang) {
@@ -1323,7 +1323,7 @@ function saveSettings() {
     presetCount,
     activePreset,
   };
-  localStorage.setItem("translatorSettings", JSON.stringify(settings));
+  localStorage.setItem("DT-settings", JSON.stringify(settings));
 }
 
 function applyState(settings) {
@@ -1380,7 +1380,7 @@ function applyState(settings) {
 function loadSettings() {
   let saved = null;
   try {
-    saved = JSON.parse(localStorage.getItem("translatorSettings"));
+    saved = JSON.parse(localStorage.getItem("DT-settings"));
   } catch {
     saved = null;
   }

@@ -1132,7 +1132,7 @@ button:disabled {
   right: calc(20px + var(--scrollbar-w, 0px));
 }
 
-/* ---------- Help window content (help/help.<lang>.html) ---------- */
+/* ---------- Help window content (docs/help/help.<lang>.html) ---------- */
 .help-content {
   padding: 4px 4px 24px;
   font-size: 16px;

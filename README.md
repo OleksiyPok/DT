@@ -2,7 +2,7 @@
 
 A lightweight, single-page web app that translates text into **two languages at once**. Type, paste or dictate your text once and read both translations side by side.
 
-![Appearance of the application](README/img/app.png)
+![Appearance of the application](docs/readme/img/app.png)
 
 ## Features
 
@@ -37,7 +37,7 @@ Then open <http://localhost:8000>.
 
 ## Translation services
 
-The default service is [MyMemory](https://mymemory.translated.net/) (free, with a daily limit). LibreTranslate and Google Cloud Translate are also supported in developer mode; Google requires your own API key in `script/script.js`.
+The default service is [MyMemory](https://mymemory.translated.net/) (free, with a daily limit). LibreTranslate and Google Cloud Translate are also supported in developer mode; Google requires your own API key in `src/js/app.js`.
 
 ## Author
 

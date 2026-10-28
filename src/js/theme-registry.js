@@ -3,7 +3,7 @@
 (function initThemeRegistry(global) {
   var DEFAULT_THEME = "theme-yellowblue-normal";
   /** Same key that script.js uses in saveSettings()/loadSettings(). */
-  var STORAGE_KEY = "translatorSettings";
+  var STORAGE_KEY = "DT-settings";
 
   // Palettes are listed in colour order (red -> brown -> orange -> yellow -> green -> teal -> blue);
   // the selector in the settings shows them in this order. Grayscale (no colour) comes last.
