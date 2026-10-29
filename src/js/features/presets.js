@@ -1,14 +1,14 @@
 // Configurations (presets): data helpers, main-screen buttons, editors in the settings window.
-import {
-  LANG_CODES,
-  PRESET_LANG_FIELDS,
-  PRESET_MAX,
-} from "../core/config.js";
+import { LANG_CODES, PRESET_LANG_FIELDS, PRESET_MAX } from "../core/config.js";
 import { $ } from "../core/dom.js";
 import { getTexts } from "../core/i18n.js";
 import { state } from "../core/state.js";
 import { saveSettings } from "../core/storage.js";
-import { applyButtonVisibility, normalizeButtonVisibility, syncBtnEditor } from "./buttons.js";
+import {
+  applyButtonVisibility,
+  normalizeButtonVisibility,
+  syncBtnEditor,
+} from "./buttons.js";
 import { translateIfAuto } from "./translate.js";
 
 /* ---------- Data helpers ---------- */
@@ -91,7 +91,10 @@ export function updatePresetTitles(t) {
 export function renderPresetControls() {
   const fill = (container, className, group, onClick) => {
     if (!container) return;
-    container.replaceChildren();
+
+    // Build the complete set outside the visible container.
+    const fragment = document.createDocumentFragment();
+
     for (let n = 1; n <= state.presetCount; n++) {
       const el = document.createElement("button");
       el.type = "button";
@@ -99,8 +102,11 @@ export function renderPresetControls() {
       el.dataset.preset = String(n);
       if (group) el.dataset.group = group;
       el.addEventListener("click", () => onClick(n));
-      container.appendChild(el);
+      fragment.appendChild(el);
     }
+
+    // Replace all buttons in one operation to avoid an intermediate empty row.
+    container.replaceChildren(fragment);
   };
 
   state.editLangPreset = clampPreset(state.editLangPreset);
