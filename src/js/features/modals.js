@@ -8,7 +8,7 @@ import { updateModalSnap } from "./scroll-steps.js";
 
 const DEVELOPER_CLICK_COUNT = 7;
 const DEVELOPER_CLICK_WINDOW = 3000;
-const DEVELOPER_VISIBLE_TIME = 30_000;
+const DEVELOPER_VISIBLE_TIME = 15_000;
 
 // An open window owns one history entry, so the browser / phone "Back" button
 // closes the window instead of leaving the page. Without a window Back works as usual.
