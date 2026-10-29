@@ -5,7 +5,11 @@ import { getDefaults, loadDefaults } from "../core/defaults.js";
 import { $ } from "../core/dom.js";
 import { loadTexts } from "../core/i18n.js";
 import { state } from "../core/state.js";
-import { readSavedSettings, saveSettings } from "../core/storage.js";
+import {
+  readSavedSettings,
+  saveSettings,
+  setDeveloperModeSetting,
+} from "../core/storage.js";
 import { applyThema } from "../core/theme.js";
 import { applyButtonVisibility } from "./buttons.js";
 import {
@@ -24,7 +28,10 @@ import { updateUI } from "./ui.js";
 // Without saved settings (first start, reset) these are the defaults.
 function buildSettings(saved) {
   const base = getDefaults();
-  const src = { ...base, ...(saved && typeof saved === "object" ? saved : {}) };
+  const src = {
+    ...base,
+    ...(saved && typeof saved === "object" ? saved : {}),
+  };
 
   const presetCount = clampCount(src.presetCount, clampCount(base.presetCount));
   const presets = normalizePresets(src.presets, base.presets);
@@ -37,10 +44,12 @@ function buildSettings(saved) {
     presetCount,
     activePreset,
   };
-  // Languages on the main screen: saved ones, otherwise those of the active configuration
+
+  // Languages on the main screen: saved ones, otherwise those of the active configuration.
   Object.values(PRESET_LANG_FIELDS).forEach((field) => {
     settings[field] = pickLang(src[field], presets[activePreset - 1][field]);
   });
+
   return settings;
 }
 
@@ -53,6 +62,7 @@ function applyState(settings) {
   state.activePreset = settings.activePreset;
   state.editLangPreset = state.activePreset;
   state.editBtnPreset = state.activePreset;
+
   renderPresetControls();
 
   Object.values(PRESET_LANG_FIELDS).forEach((field) => {
@@ -63,9 +73,13 @@ function applyState(settings) {
   $("clearOnMic").checked = settings.clearOnMic;
   $("bottomButtons").checked = settings.bottomButtons;
   $("overwriteLangs").checked = settings.overwriteLangs;
+
   applyThema(settings.thema);
 
-  const devMode = settings.developerMode;
+  // Keep the saved developerMode value separate from temporary panel visibility.
+  const devMode = Boolean(settings.developerMode);
+  setDeveloperModeSetting(devMode);
+
   $("developer").style.display = devMode ? "flex" : "none";
   $("serviceRow").style.display = devMode ? "flex" : "none";
 
@@ -74,9 +88,10 @@ function applyState(settings) {
   syncPresetEditor();
 }
 
-// Loads the defaults and the texts of the saved interface language (before the page is filled)
+// Loads the defaults and the texts of the saved interface language (before the page is filled).
 export async function loadInitialData() {
   await loadDefaults();
+
   const saved = readSavedSettings();
   await loadTexts(buildSettings(saved).uiLangSelect);
 }
@@ -86,9 +101,11 @@ export function loadSettings() {
 }
 
 export async function resetSettings() {
-  await loadDefaults(); // config.json may have been edited since the page was opened
+  await loadDefaults(); // config.json may have been edited since the page was opened.
   const settings = buildSettings(null);
+
   await loadTexts(settings.uiLangSelect);
+
   applyState(settings);
   clearTranslations();
   updateUI();

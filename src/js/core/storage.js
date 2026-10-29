@@ -4,11 +4,14 @@ import { $ } from "./dom.js";
 import { state } from "./state.js";
 import { getThemaFromSelects } from "./theme.js";
 
-function isDeveloperPanelVisible() {
-  return getComputedStyle($("developer")).display !== "none";
+// Persistent developerMode setting, independent of temporary panel visibility.
+let developerModeSetting = false;
+
+export function setDeveloperModeSetting(value) {
+  developerModeSetting = Boolean(value);
 }
 
-// Saved settings object, or null if there is none (or it is broken)
+// Saved settings object, or null if there is none (or it is broken).
 export function readSavedSettings() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -30,11 +33,12 @@ export function saveSettings() {
     clearOnMic: $("clearOnMic").checked,
     bottomButtons: $("bottomButtons").checked,
     overwriteLangs: $("overwriteLangs").checked,
-    developerMode: isDeveloperPanelVisible(),
+    developerMode: developerModeSetting,
     thema: getThemaFromSelects(),
     presets: state.presets,
     presetCount: state.presetCount,
     activePreset: state.activePreset,
   };
+
   localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
 }
