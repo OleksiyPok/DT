@@ -192,8 +192,9 @@
 }
 /* Size of the reset button (the square) */
 .reset-settings-btn {
-  width: 52px;
-  height: 52px;
+  margin-left: 10px;
+  width: 42px;
+  height: 42px;
   background: none;
   border: none;
   border-radius: 0;
@@ -204,8 +205,8 @@
 /* The reset icon: a line icon from the sprite, like the other buttons */
 .reset-settings-btn .ico {
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   margin: auto;
   fill: none;
   stroke: currentColor;
