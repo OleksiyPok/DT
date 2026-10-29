@@ -98,6 +98,7 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
+  min-height: calc(36px + var(--block-gap));
   padding: var(--block-gap) 0 0;
 }
 .preset-buttons {
@@ -175,4 +176,3 @@
 .section-block-targets-wrapper .section-block {
   margin-top: 0;
 }
-
