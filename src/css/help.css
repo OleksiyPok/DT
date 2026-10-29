@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 18px;
   padding: 4px 4px 12px;
   margin-bottom: 12px;
   border-bottom: 1px solid var(--border-color);
