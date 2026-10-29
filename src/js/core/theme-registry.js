@@ -1,7 +1,5 @@
 // Theme list and helpers. Pure functions, no DOM access except applyThemeClass.
 
-export const DEFAULT_THEME = "theme-yellowblue-normal";
-
 // Palettes are listed in colour order (red -> brown -> orange -> yellow -> green -> teal -> blue);
 // the selector in the settings shows them in this order. Grayscale (no colour) comes last.
 export const THEME_DEFS = [
@@ -90,7 +88,7 @@ export function getPaletteOptions() {
 }
 
 // Puts the wanted theme class on <html> (unknown value -> fallback) and returns the chosen one.
-export function applyThemeClass(htmlEl, value, fallback = DEFAULT_THEME) {
+export function applyThemeClass(htmlEl, value, fallback) {
   const wanted = String(value || "");
   const chosen = THEME_VALUES.includes(wanted) ? wanted : fallback;
   if (!htmlEl) return chosen;

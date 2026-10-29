@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Для голосового введення потрібне захищене з’єднання (HTTPS) або localhost.",
     "micDenied": "Доступ до мікрофона заборонено. Дозвольте мікрофон у налаштуваннях браузера.",
     "speechRecError": "Помилка голосового введення:",
-    "helpUnavailable": "Довідка недоступна."
+    "helpUnavailable": "Довідка недоступна.",
+    "helpLanguageLabel": "Мова",
+    "helpLanguageApp": "Як у застосунку"
   },
   "languages": {
     "en": "Англійська",

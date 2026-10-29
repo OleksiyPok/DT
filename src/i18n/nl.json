@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Spraakinvoer vereist een beveiligde verbinding (HTTPS) of localhost.",
     "micDenied": "Toegang tot de microfoon is geweigerd. Sta de microfoon toe in de browserinstellingen.",
     "speechRecError": "Fout bij spraakinvoer:",
-    "helpUnavailable": "De help is niet beschikbaar."
+    "helpUnavailable": "De help is niet beschikbaar.",
+    "helpLanguageLabel": "Taal",
+    "helpLanguageApp": "Als app-taal"
   },
   "languages": {
     "en": "Engels",

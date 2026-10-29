@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Voice input needs a secure connection (HTTPS) or localhost.",
     "micDenied": "Microphone access was denied. Please allow the microphone in your browser settings.",
     "speechRecError": "Voice input error:",
-    "helpUnavailable": "Help is not available."
+    "helpUnavailable": "Help is not available.",
+    "helpLanguageLabel": "Language",
+    "helpLanguageApp": "Use app language"
   },
   "languages": {
     "en": "English",

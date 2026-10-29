@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Sesli giriş için güvenli bağlantı (HTTPS) veya localhost gerekir.",
     "micDenied": "Mikrofon erişimi reddedildi. Lütfen tarayıcı ayarlarında mikrofona izin verin.",
     "speechRecError": "Sesli giriş hatası:",
-    "helpUnavailable": "Yardım kullanılamıyor."
+    "helpUnavailable": "Yardım kullanılamıyor.",
+    "helpLanguageLabel": "Dil",
+    "helpLanguageApp": "Uygulama dili"
   },
   "languages": {
     "en": "İngilizce",

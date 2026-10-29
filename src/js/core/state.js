@@ -7,4 +7,5 @@ export const state = {
   activePreset: 1, // configuration applied on the main screen
   editLangPreset: 1, // configuration shown in the "Languages" settings block
   editBtnPreset: 1, // configuration shown in the "Visible buttons" settings block
+  developerMode: false, // saved setting; the secret gesture shows the panel without changing it
 };

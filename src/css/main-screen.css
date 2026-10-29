@@ -64,6 +64,11 @@
   display: block;
   width: 28px;
   height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 /* Icon in a square frame, the same size as the "i" icon */
 .framed-icon {
@@ -94,11 +99,11 @@
 
 /* Segmented switch of configurations: equal segments, the active one is filled */
 .preset-row {
+  --preset-btn-height: 36px;
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  min-height: calc(36px + var(--block-gap));
   padding: var(--block-gap) 0 0;
 }
 .preset-buttons {
@@ -107,6 +112,9 @@
   flex: 1 1 auto;
   min-width: 0;
   gap: 0;
+  /* The buttons are added by the app after config.json is loaded: the space is kept
+     meanwhile, so the content below does not jump */
+  min-height: var(--preset-btn-height);
 }
 .preset-btn,
 .preset-tab {
@@ -123,7 +131,7 @@
   flex: 1 1 0;
   min-width: 0;
   width: auto;
-  height: 36px;
+  height: var(--preset-btn-height);
   font-size: 16px;
   border-radius: 0;
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -176,3 +184,4 @@
 .section-block-targets-wrapper .section-block {
   margin-top: 0;
 }
+

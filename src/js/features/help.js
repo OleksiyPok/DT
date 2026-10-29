@@ -1,4 +1,5 @@
-import { PATHS } from "../core/config.js";
+// Help window: loads docs/help/help.<lang>.html; the help language is chosen in the window itself.
+import { LANG_CODES, PATHS } from "../core/config.js";
 import { $ } from "../core/dom.js";
 import { getTexts } from "../core/i18n.js";
 
@@ -6,40 +7,10 @@ const HELP_LANGUAGE_KEY = "DT-help-language";
 const APP_LANGUAGE = "app";
 const DEFAULT_LANGUAGE = "en";
 
-const HELP_LANGUAGES = [
-  { value: "de", code: "DE" },
-  { value: "en", code: "EN" },
-  { value: "eo", code: "EO" },
-  { value: "es", code: "ES" },
-  { value: "fr", code: "FR" },
-  { value: "it", code: "IT" },
-  { value: "nl", code: "NL" },
-  { value: "pl", code: "PL" },
-  { value: "pt", code: "PT" },
-  { value: "ru", code: "RU" },
-  { value: "tr", code: "TR" },
-  { value: "uk", code: "UK" },
-];
-
-const SELECTOR_TEXT = {
-  en: { label: "Language", app: "Use app language" },
-  uk: { label: "Мова", app: "Як у застосунку" },
-  ru: { label: "Язык", app: "Как в приложении" },
-  de: { label: "Sprache", app: "Wie in der App" },
-  nl: { label: "Taal", app: "Als app-taal" },
-  pl: { label: "Język", app: "Jak w aplikacji" },
-  pt: { label: "Idioma", app: "Como no app" },
-  fr: { label: "Langue", app: "Comme l’application" },
-  tr: { label: "Dil", app: "Uygulama dili" },
-  it: { label: "Lingua", app: "Come nell’app" },
-  es: { label: "Idioma", app: "Como la aplicación" },
-  eo: { label: "Lingvo", app: "Kiel en la aplikaĵo" },
-};
-
 const helpCache = {};
 
 function isSupportedLanguage(lang) {
-  return HELP_LANGUAGES.some((item) => item.value === lang);
+  return LANG_CODES.includes(lang);
 }
 
 function getInterfaceLanguage() {
@@ -99,31 +70,30 @@ async function getHelpHtml(lang) {
 }
 
 function renderLanguageSelector(target, initialSelection) {
-  const interfaceLanguage = getInterfaceLanguage();
-  const texts = SELECTOR_TEXT[interfaceLanguage] || SELECTOR_TEXT.en;
+  const texts = getTexts();
 
   const row = document.createElement("div");
   row.className = "help-language-row";
 
   const label = document.createElement("span");
   label.className = "help-language-label";
-  label.textContent = texts.label;
+  label.textContent = texts.helpLanguageLabel;
 
   const select = document.createElement("select");
   select.id = "helpLanguageSelect";
   select.className = "help-language-select";
-  select.setAttribute("aria-label", texts.label);
-  select.title = texts.label;
+  select.setAttribute("aria-label", texts.helpLanguageLabel);
+  select.title = texts.helpLanguageLabel;
 
   const appOption = document.createElement("option");
   appOption.value = APP_LANGUAGE;
-  appOption.textContent = texts.app;
+  appOption.textContent = texts.helpLanguageApp;
   select.appendChild(appOption);
 
-  HELP_LANGUAGES.forEach(({ value, code }) => {
+  LANG_CODES.forEach((code) => {
     const option = document.createElement("option");
-    option.value = value;
-    option.textContent = code;
+    option.value = code;
+    option.textContent = code.toUpperCase();
     select.appendChild(option);
   });
 
@@ -183,13 +153,7 @@ export async function loadHelp() {
   }
 
   select.addEventListener("change", () => {
-    const selection = select.value;
-
-    if (selection !== APP_LANGUAGE && !isSupportedLanguage(selection)) {
-      return;
-    }
-
-    saveHelpLanguage(selection);
+    saveHelpLanguage(select.value);
     loadSelectedPage();
   });
 

@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "La saisie vocale nécessite une connexion sécurisée (HTTPS) ou localhost.",
     "micDenied": "L’accès au microphone a été refusé. Veuillez autoriser le microphone dans les paramètres du navigateur.",
     "speechRecError": "Erreur de saisie vocale :",
-    "helpUnavailable": "L’aide n’est pas disponible."
+    "helpUnavailable": "L’aide n’est pas disponible.",
+    "helpLanguageLabel": "Langue",
+    "helpLanguageApp": "Comme l’application"
   },
   "languages": {
     "en": "Anglais",

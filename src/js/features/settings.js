@@ -5,13 +5,10 @@ import { getDefaults, loadDefaults } from "../core/defaults.js";
 import { $ } from "../core/dom.js";
 import { loadTexts } from "../core/i18n.js";
 import { state } from "../core/state.js";
-import {
-  readSavedSettings,
-  saveSettings,
-  setDeveloperModeSetting,
-} from "../core/storage.js";
+import { readSavedSettings, saveSettings } from "../core/storage.js";
 import { applyThema } from "../core/theme.js";
 import { applyButtonVisibility } from "./buttons.js";
+import { showDeveloperPanel } from "./developer.js";
 import {
   clampCount,
   clampPreset,
@@ -76,12 +73,8 @@ function applyState(settings) {
 
   applyThema(settings.thema);
 
-  // Keep the saved developerMode value separate from temporary panel visibility.
-  const devMode = Boolean(settings.developerMode);
-  setDeveloperModeSetting(devMode);
-
-  $("developer").style.display = devMode ? "flex" : "none";
-  $("serviceRow").style.display = devMode ? "flex" : "none";
+  state.developerMode = Boolean(settings.developerMode);
+  showDeveloperPanel(state.developerMode);
 
   applyButtonVisibility();
   updatePresetButtons();

@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "La entrada de voz requiere una conexión segura (HTTPS) o localhost.",
     "micDenied": "Se denegó el acceso al micrófono. Permite el micrófono en los ajustes del navegador.",
     "speechRecError": "Error de entrada de voz:",
-    "helpUnavailable": "La ayuda no está disponible."
+    "helpUnavailable": "La ayuda no está disponible.",
+    "helpLanguageLabel": "Idioma",
+    "helpLanguageApp": "Como la aplicación"
   },
   "languages": {
     "en": "Inglés",

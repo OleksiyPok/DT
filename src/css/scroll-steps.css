@@ -20,10 +20,9 @@
 .section-block-source {
   scroll-margin-top: var(--block-gap);
 }
-/* Set by the app (src/js) on small screens: the bottom of the content (the buttons under
-   the translations, or the translations if those buttons are hidden) becomes a step */
-.section-block-targets-wrapper.snap-end,
-.bottom-actions.snap-end {
+/* Set by the app (src/js) on small screens: the bottom of the content (the last visible
+   block: translations, buttons under them or the developer rows) becomes a step */
+.snap-end {
   scroll-snap-align: end;
   scroll-snap-stop: always;
 }

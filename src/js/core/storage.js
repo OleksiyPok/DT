@@ -4,13 +4,6 @@ import { $ } from "./dom.js";
 import { state } from "./state.js";
 import { getThemaFromSelects } from "./theme.js";
 
-// Persistent developerMode setting, independent of temporary panel visibility.
-let developerModeSetting = false;
-
-export function setDeveloperModeSetting(value) {
-  developerModeSetting = Boolean(value);
-}
-
 // Saved settings object, or null if there is none (or it is broken).
 export function readSavedSettings() {
   try {
@@ -33,7 +26,7 @@ export function saveSettings() {
     clearOnMic: $("clearOnMic").checked,
     bottomButtons: $("bottomButtons").checked,
     overwriteLangs: $("overwriteLangs").checked,
-    developerMode: developerModeSetting,
+    developerMode: state.developerMode,
     thema: getThemaFromSelects(),
     presets: state.presets,
     presetCount: state.presetCount,

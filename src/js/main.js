@@ -3,6 +3,7 @@ import { APP_VERSION } from "./core/config.js";
 import { $ } from "./core/dom.js";
 import { renderThemePaletteOptions } from "./core/theme.js";
 import { renderButtonVisibilityOptions } from "./features/buttons.js";
+import { initDeveloper } from "./features/developer.js";
 import { initEvents } from "./features/events.js";
 import { initLiveSelect } from "./features/live-select.js";
 import { initModals } from "./features/modals.js";
@@ -25,6 +26,7 @@ async function init() {
   loadSettings();
   updateUI();
   initModals();
+  initDeveloper();
   initEvents();
   initSnap();
 

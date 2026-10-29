@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Wprowadzanie głosowe wymaga bezpiecznego połączenia (HTTPS) lub localhost.",
     "micDenied": "Odmówiono dostępu do mikrofonu. Zezwól na mikrofon w ustawieniach przeglądarki.",
     "speechRecError": "Błąd wprowadzania głosowego:",
-    "helpUnavailable": "Pomoc jest niedostępna."
+    "helpUnavailable": "Pomoc jest niedostępna.",
+    "helpLanguageLabel": "Język",
+    "helpLanguageApp": "Jak w aplikacji"
   },
   "languages": {
     "en": "Angielski",

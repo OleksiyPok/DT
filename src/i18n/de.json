@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Die Spracheingabe benötigt eine sichere Verbindung (HTTPS) oder localhost.",
     "micDenied": "Der Zugriff auf das Mikrofon wurde verweigert. Bitte erlauben Sie das Mikrofon in den Browsereinstellungen.",
     "speechRecError": "Fehler bei der Spracheingabe:",
-    "helpUnavailable": "Die Hilfe ist nicht verfügbar."
+    "helpUnavailable": "Die Hilfe ist nicht verfügbar.",
+    "helpLanguageLabel": "Sprache",
+    "helpLanguageApp": "Wie in der App"
   },
   "languages": {
     "en": "Englisch",

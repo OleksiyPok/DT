@@ -43,7 +43,9 @@
     "speechRecNeedsHttps": "Voĉa enigo postulas sekuran konekton (HTTPS) aŭ localhost.",
     "micDenied": "Aliro al la mikrofono estis rifuzita. Bonvolu permesi la mikrofonon en la retumilaj agordoj.",
     "speechRecError": "Eraro de voĉa enigo:",
-    "helpUnavailable": "La helpo ne disponeblas."
+    "helpUnavailable": "La helpo ne disponeblas.",
+    "helpLanguageLabel": "Lingvo",
+    "helpLanguageApp": "Kiel en la aplikaĵo"
   },
   "languages": {
     "en": "Angla",

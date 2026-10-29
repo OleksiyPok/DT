@@ -30,16 +30,25 @@ export function updateMainSnap() {
   const container = document.getElementById("scrollContainer");
   const source = document.querySelector(".section-block-source");
   const targets = document.querySelector(".section-block-targets-wrapper");
-  const actions = document.querySelector(".bottom-actions");
   if (!container || !source || !targets) return;
 
-  // The last element of the page: the buttons under the translations (if shown)
-  const last = actions && actions.offsetParent !== null ? actions : targets;
+  // The last visible element of the page: the translations, the buttons under them,
+  // or the developer rows (if shown)
+  const last =
+    [
+      targets,
+      document.querySelector(".bottom-actions"),
+      document.getElementById("serviceRow"),
+      document.getElementById("developer"),
+    ]
+      .filter((el) => el && el.offsetParent !== null)
+      .pop() || targets;
   const sourceStep =
     contentTop(container, source) - snapOffset(container, source);
   const contentBottom = contentTop(container, last) + last.offsetHeight;
-  targets.classList.remove("snap-end");
-  actions?.classList.remove("snap-end");
+  container
+    .querySelectorAll(".snap-end")
+    .forEach((el) => el.classList.remove("snap-end"));
   last.classList.toggle(
     "snap-end",
     contentBottom - sourceStep > container.clientHeight + 1

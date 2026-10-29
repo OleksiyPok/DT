@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="theme-yellowblue-normal">
+<html lang="en" class="theme-warmorange-normal">
   <head>
     <meta
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -66,6 +66,23 @@
       </symbol>
       <symbol id="i-clear" viewBox="0 0 24 24">
         <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-mode-contrast" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" />
+      </symbol>
+      <symbol id="i-mode-normal" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+        />
+      </symbol>
+      <symbol id="i-mode-evening" viewBox="0 0 24 24">
+        <path d="M8 17a4 4 0 0 1 8 0" />
+        <path d="M2 17h20M7 20.5h10M12 7v2M4.9 9.9l1.4 1.4M17.7 11.3l1.4-1.4" />
+      </symbol>
+      <symbol id="i-mode-night" viewBox="0 0 24 24">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
       </symbol>
       <symbol id="i-reset" viewBox="0 0 24 24">
         <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
@@ -398,12 +415,13 @@
         </div>
 
         <div class="developer" id="developer">
-          <button onclick="alert(location.href);" title="Path to this page">
+          <button type="button" id="developerPathBtn" title="Path to this page">
             Path
           </button>
           <button
-            onclick="localStorage.clear(); alert('localStorage cleared');"
-            title="Clear local storage"
+            type="button"
+            id="developerClearBtn"
+            title="Clear the saved settings of this app"
           >
             Clear LS
           </button>
