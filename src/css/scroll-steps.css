@@ -1,0 +1,145 @@
+/* ---------- Scroll steps (scroll snap) ----------
+   Main screen steps: page top, both divider lines, the gap above the source block.
+   Settings steps: top of every block. To use steps only on touch screens,
+   wrap this section in @media (pointer: coarse) { ... } */
+.scroll-container {
+  scroll-snap-type: y mandatory;
+}
+.titles-container,
+.setting-row,
+.preset-row,
+.section-block-source {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+/* Shows the 2nd divider line (bottom border of the row above) */
+.preset-row {
+  scroll-margin-top: 1px;
+}
+/* Shows the gap above the block */
+.section-block-source {
+  scroll-margin-top: var(--block-gap);
+}
+/* Set by the app (src/js) on small screens: the bottom of the content (the buttons under
+   the translations, or the translations if those buttons are hidden) becomes a step */
+.section-block-targets-wrapper.snap-end,
+.bottom-actions.snap-end {
+  scroll-snap-align: end;
+  scroll-snap-stop: always;
+}
+
+/* Empty space at the bottom of a scrolling window (height set in the app (src/js)) */
+.snap-spacer {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Modals: fixed header, only the body scrolls */
+#settingsAppModal .app-modal-content,
+#helpAppModal .app-modal-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.app-modal-body-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.app-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 12px 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: y mandatory;
+}
+#settingsAppModal .settings-app-content {
+  padding-top: 0;
+}
+#settingsAppModal .settings-app-content > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  /* Equals the body's top padding */
+  scroll-margin-top: 12px;
+}
+
+/* Scroll hints in the settings window: triangles up / down on both sides.
+   the app (src/js) toggles .can-up / .can-down */
+.scroll-hint {
+  position: absolute;
+  top: 8px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 10px;
+  pointer-events: none;
+}
+.scroll-hint-left {
+  left: 3px;
+}
+.scroll-hint-right {
+  right: calc(3px + var(--scrollbar-w, 0px));
+}
+.scroll-hint span {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.scroll-hint .hint-up {
+  border-bottom: 6px solid var(--primary);
+}
+.scroll-hint .hint-down {
+  border-top: 6px solid var(--primary);
+}
+.scroll-hint.can-up .hint-up,
+.scroll-hint.can-down .hint-down {
+  opacity: 0.85;
+}
+
+/* Block-number badge: shown by the app (src/js) while scrolling, hidden after 2 seconds */
+.step-badge {
+  position: absolute;
+  z-index: 50;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 26px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--text-inverted);
+  background: var(--text-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow-medium);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.step-badge.show {
+  opacity: 0.9;
+}
+.step-badge .step-den {
+  margin-top: 1px;
+  border-top: 1.5px solid currentColor;
+  padding-top: 1px;
+}
+.step-badge-settings {
+  top: 6px;
+  right: calc(20px + var(--scrollbar-w, 0px));
+}
+

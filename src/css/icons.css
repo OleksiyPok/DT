@@ -1,0 +1,75 @@
+/* ---------- Line icons of the text-block buttons ----------
+   The icons are an SVG sprite at the top of <body> in index.html; the colour is
+   currentColor, so it follows the theme:
+   normal = --text-color, hover = --primary, microphone is on = --danger. */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-btn .ico {
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon-btn:active {
+  color: var(--primary-active);
+}
+/* Hover colour only for a real mouse: on touch screens it would stay after a tap */
+@media (hover: hover) {
+  .icon-btn:hover {
+    color: var(--primary);
+  }
+}
+/* Microphone: the "stop" icon replaces the microphone while recording */
+.icon-btn .ico-stop {
+  display: none;
+}
+.icon-btn.mic-active .ico-mic {
+  display: none;
+}
+.icon-btn.mic-active .ico-stop {
+  display: block;
+}
+.icon-btn.mic-active,
+.icon-btn.mic-active:hover,
+.icon-btn.mic-active:active {
+  color: var(--danger);
+}
+
+/* ---------- Settings gear: flat 2D icon, always the colour of its frame ---------- */
+.gear-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Buttons under the translations (copies of "clear" and "microphone") ----------
+   Mobile: 2x the size of the buttons in the text blocks; 576px and wider: 1.5x.
+   The gap between the buttons is one mobile button and never changes. */
+.bottom-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--control-h) * 2);
+  width: 100%;
+  padding: calc(var(--block-gap) + 4px) 0 16px;
+}
+.bottom-actions .icon-btn {
+  flex: none;
+  width: 45px;
+  max-width: none;
+  height: 45px;
+  border-radius: 10px;
+}
+.bottom-actions .icon-btn .ico {
+  width: 36px;
+  height: 36px;
+  stroke-width: 1.5;
+}
+

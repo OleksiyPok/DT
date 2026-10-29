@@ -1,0 +1,302 @@
+/* ---------- Settings window content: flat panels with an accent bar ---------- */
+.settings-app-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 576px;
+  margin: 0 auto;
+  padding-top: 8px;
+}
+.thema-wrapper,
+.interface-wrapper,
+.mic-wrapper,
+.preset-count-wrapper,
+.preset-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+  background: var(--surface-color);
+  border: none;
+  border-left: 5px solid var(--primary-border);
+  border-radius: 0;
+}
+.settings-app-content select {
+  border-radius: 0;
+  border-color: var(--border-strong);
+  box-shadow: none;
+}
+.thema-group,
+.interface-group,
+.preset-count-group,
+.preset-lang-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.thema-group select,
+.interface-group select,
+.preset-lang-group select {
+  width: 100%;
+  max-width: none;
+  text-align: left;
+}
+
+/* Number of configurations: one compact row with a narrow selector */
+.preset-count-wrapper {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.preset-count-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.preset-count-group select {
+  width: 52px;
+  min-width: 0;
+  padding: 2px 4px;
+  text-align: center;
+}
+
+.mic-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: normal;
+  cursor: pointer;
+}
+.mic-checkbox {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+.preset-title {
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--text-muted);
+  user-select: none;
+}
+.preset-tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  margin-bottom: 4px;
+}
+.preset-tab {
+  flex: 0 1 56px;
+  min-width: 0;
+  width: auto;
+  height: 34px;
+  font-size: 14px;
+  border-radius: 0;
+  border-width: 1px;
+  border-color: var(--border-strong);
+  background: none;
+  box-shadow: none;
+}
+.preset-tab + .preset-tab {
+  margin-left: -1px;
+}
+.preset-tab:hover {
+  background: var(--surface-hover);
+}
+.preset-tab.active {
+  border-width: 1px;
+}
+
+.buttons-settings-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 6px;
+}
+.buttons-settings-title {
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--text-muted);
+  user-select: none;
+}
+.button-visibility-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.button-visibility-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: var(--background-color);
+  border: none;
+  border-radius: 0;
+}
+.button-visibility-title {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--text-color);
+  user-select: none;
+}
+/* Equal columns; a long name wraps inside its own cell */
+.button-visibility-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 6px 12px;
+  align-items: start;
+}
+.button-visibility-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  white-space: normal;
+  cursor: pointer;
+}
+.button-visibility-checkbox {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+.button-visibility-text {
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-color);
+  overflow-wrap: anywhere;
+}
+
+.reset-settings-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  padding-top: 0;
+  opacity: 0.75;
+}
+/* Size of the reset button (the square) */
+.reset-settings-btn {
+  width: 52px;
+  height: 52px;
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+.reset-settings-btn:hover {
+  background: var(--surface-hover);
+}
+/* Size of the reset icon itself */
+.reset-settings-btn .reset-icon {
+  font-size: 30px;
+  line-height: 1;
+  opacity: 0.8;
+}
+.reset-settings-text {
+  font-weight: 600;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.button-container {
+  align-items: center;
+  display: flex;
+  flex-shrink: 1;
+  gap: 8px;
+  width: auto;
+  min-width: 0;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+.row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.controls-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-height: var(--control-h);
+}
+.controls-row select {
+  flex: 0 0 var(--lang-select-w);
+  height: var(--control-h);
+  width: var(--lang-select-w);
+  min-width: 100px;
+  max-width: var(--lang-select-w);
+}
+.translate-control-row {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  height: var(--control-h);
+}
+.auto-translate-label {
+  margin-right: 0;
+}
+.auto-translate-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+.icon-btn {
+  width: var(--control-h);
+  max-width: var(--control-h);
+  height: var(--control-h);
+  font-size: 14px;
+  padding: 4px;
+}
+.icon-btn.mic-active {
+  background-color: var(--danger-bg);
+  border-color: var(--danger);
+  color: var(--danger);
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(244, 67, 54, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
+}
+.translate-btn {
+  flex: 0 0 100px;
+  height: var(--control-h);
+  width: 100px;
+  min-width: 0;
+  max-width: 100px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+

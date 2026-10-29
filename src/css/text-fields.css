@@ -1,0 +1,47 @@
+/* Source textarea with a vertical button column (mic on top, clear at the bottom) */
+.source-input-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+}
+.source-input-row textarea {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  display: block;
+}
+.side-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 0 0 var(--control-h);
+  width: var(--control-h);
+}
+.side-buttons .clear-btn {
+  margin-top: auto;
+}
+
+.source-lang-label,
+.target-lang-1-label,
+.target-lang-2-label {
+  margin-bottom: -5px;
+}
+/* Translation fields: the page background, a touch greyer (follows the theme) */
+.translated-text-1-textarea,
+.translated-text-2-textarea {
+  background-color: var(--background-color);
+  background-color: color-mix(
+    in srgb,
+    var(--background-color) 96%,
+    var(--text-color) 4%
+  );
+}
+.translated-text-1-textarea:focus,
+.translated-text-2-textarea:focus {
+  border-color: var(--border-color);
+  outline: none;
+}
+
