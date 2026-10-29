@@ -53,7 +53,7 @@ export function updateModeButton(mode, t) {
     evening: texts.themaModeEvening,
     night: texts.themaModeNight,
   };
-  const title = `${texts.labelThemaMode}: ${modeTexts[mode] || ""}`;
+  const title = `${texts.themaModeLabel}: ${modeTexts[mode] || ""}`;
   icon.innerHTML = THEME_MODE_ICONS[mode] || "";
   btn.title = title;
   btn.setAttribute("aria-label", title);

@@ -1,6 +1,7 @@
 // Content of the help window: docs/help/help.<lang>.html (English is the fallback).
 import { PATHS } from "../core/config.js";
 import { $ } from "../core/dom.js";
+import { getTexts } from "../core/i18n.js";
 
 const helpCache = {}; // loaded pages by language
 
@@ -29,7 +30,7 @@ export async function loadHelp() {
     }
   }
   if (!html) {
-    target.textContent = "Help is not available.";
+    target.textContent = getTexts().helpUnavailable;
     return;
   }
   target.innerHTML = html;

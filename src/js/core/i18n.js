@@ -23,15 +23,17 @@ export async function loadTexts(lang) {
   await Promise.all([fetchLang("en"), fetchLang(lang)]);
 }
 
-function getEntry(lang) {
-  return cache[lang] || cache.en || {};
-}
-
-// Texts of the given language (default: the one selected in the settings)
+// Texts of the given language (default: the one selected in the settings).
+// A text missing in that language is taken from English.
 export function getTexts(lang = $("uiLangSelect").value) {
-  return getEntry(lang).ui || {};
+  return { ...cache.en?.ui, ...cache[lang]?.ui };
 }
 
 export function getLanguageNames(lang = $("uiLangSelect").value) {
-  return getEntry(lang).languages || {};
+  return { ...cache.en?.languages, ...cache[lang]?.languages };
+}
+
+// Shows a window with a message (key = key in the UI texts); `detail` is added after it
+export function showAlert(key, detail = "") {
+  alert(getTexts()[key] + detail);
 }

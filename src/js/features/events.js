@@ -21,16 +21,12 @@ import {
 } from "./presets.js";
 import { abortRecognition, speakText, startSpeechRecognition } from "./speech.js";
 import { resetSettings } from "./settings.js";
-import { clearSourceText, translateText } from "./translate.js";
+import { clearSourceText, translateIfAuto, translateText } from "./translate.js";
 import { updateTranslateButtonVisibility, updateUI } from "./ui.js";
 
 // Delay of auto-translation while the user types (ms)
 const AUTO_TRANSLATE_DELAY = 700;
 let debounceTimer;
-
-function translateIfAuto() {
-  if (state.autoTranslateChecked) translateText();
-}
 
 /* ---------- Appearance and interface language ---------- */
 
@@ -126,15 +122,14 @@ function bindTranslation() {
     });
   });
 
-  $("autoTranslate").addEventListener("change", (e) => {
-    state.autoTranslateChecked = e.target.checked;
+  $("autoTranslate").addEventListener("change", () => {
     updateTranslateButtonVisibility();
     saveSettings();
     translateIfAuto();
   });
 
   $("sourceText").addEventListener("input", () => {
-    if (state.autoTranslateChecked) {
+    if ($("autoTranslate").checked) {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(translateText, AUTO_TRANSLATE_DELAY);
     }

@@ -84,15 +84,12 @@
   display: block;
   width: 16px;
   height: 16px;
+  color: var(--info-icon-color);
   fill: none;
   stroke: var(--info-icon-color);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-.framed-icon svg .dot {
-  fill: var(--info-icon-color);
-  stroke: none;
 }
 
 /* Segmented switch of configurations: equal segments, the active one is filled */

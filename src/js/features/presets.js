@@ -1,17 +1,15 @@
 // Configurations (presets): data helpers, main-screen buttons, editors in the settings window.
 import {
-  DEFAULT_PRESET_COUNT,
   LANG_CODES,
   PRESET_LANG_FIELDS,
   PRESET_MAX,
-  buildDefaultPresets,
 } from "../core/config.js";
 import { $ } from "../core/dom.js";
 import { getTexts } from "../core/i18n.js";
 import { state } from "../core/state.js";
 import { saveSettings } from "../core/storage.js";
 import { applyButtonVisibility, normalizeButtonVisibility, syncBtnEditor } from "./buttons.js";
-import { translateText } from "./translate.js";
+import { translateIfAuto } from "./translate.js";
 
 /* ---------- Data helpers ---------- */
 
@@ -20,31 +18,35 @@ export function clampPreset(value, max = state.presetCount) {
   return Number.isInteger(n) && n >= 1 && n <= max ? n : 1;
 }
 
-export function clampCount(value) {
+export function clampCount(value, fallback = 1) {
   const n = Number(value);
-  return Number.isInteger(n) && n >= 1 && n <= PRESET_MAX
-    ? n
-    : DEFAULT_PRESET_COUNT;
+  return Number.isInteger(n) && n >= 1 && n <= PRESET_MAX ? n : fallback;
 }
 
 export function pickLang(value, fallback) {
   return LANG_CODES.includes(value) ? value : fallback;
 }
 
+// A configuration from saved data; missing or invalid parts come from `fallback`
+// (the same configuration in config/config.json).
 export function normalizePreset(raw, fallback) {
   const src = raw && typeof raw === "object" ? raw : {};
+  const fb = fallback && typeof fallback === "object" ? fallback : {};
+  const lang = (field, i) =>
+    pickLang(src[field], pickLang(fb[field], LANG_CODES[i]));
   return {
-    sourceLang: pickLang(src.sourceLang, fallback.sourceLang),
-    targetLang1: pickLang(src.targetLang1, fallback.targetLang1),
-    targetLang2: pickLang(src.targetLang2, fallback.targetLang2),
-    buttons: normalizeButtonVisibility(src.buttons),
+    sourceLang: lang("sourceLang", 0),
+    targetLang1: lang("targetLang1", 1),
+    targetLang2: lang("targetLang2", 2),
+    buttons: normalizeButtonVisibility(src.buttons ?? fb.buttons),
   };
 }
 
-export function normalizePresets(raw) {
+export function normalizePresets(raw, fallbacks) {
   const list = Array.isArray(raw) ? raw : [];
-  return buildDefaultPresets().map((fallback, i) =>
-    normalizePreset(list[i], fallback)
+  const defaults = Array.isArray(fallbacks) ? fallbacks : [];
+  return Array.from({ length: PRESET_MAX }, (_, i) =>
+    normalizePreset(list[i], defaults[i])
   );
 }
 
@@ -124,7 +126,7 @@ export function setActivePreset(n) {
   applyButtonVisibility();
   updatePresetButtons();
   saveSettings();
-  if (state.autoTranslateChecked) translateText();
+  translateIfAuto();
 }
 
 /* ---------- Settings window ---------- */

@@ -201,11 +201,17 @@
 .reset-settings-btn:hover {
   background: var(--surface-hover);
 }
-/* Size of the reset icon itself */
-.reset-settings-btn .reset-icon {
-  font-size: 30px;
-  line-height: 1;
-  opacity: 0.8;
+/* The reset icon: a line icon from the sprite, like the other buttons */
+.reset-settings-btn .ico {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .reset-settings-text {
   font-weight: 600;
@@ -299,4 +305,3 @@
   margin-left: auto;
   white-space: nowrap;
 }
-

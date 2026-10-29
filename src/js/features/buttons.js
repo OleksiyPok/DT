@@ -78,7 +78,7 @@ export function updateButtonVisibilityTexts(t) {
       const text = document.querySelector(
         `.button-visibility-text[data-section="${section.key}"][data-button="${btn.key}"]`
       );
-      if (text) text.textContent = `${btn.icon} ${t[btn.textKey] || ""}`;
+      if (text) text.textContent = t[btn.textKey] || "";
     });
   });
 }

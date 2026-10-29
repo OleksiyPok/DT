@@ -1,5 +1,6 @@
 // Speech: reading text aloud (speech synthesis) and voice input (speech recognition).
 import { $ } from "../core/dom.js";
+import { showAlert } from "../core/i18n.js";
 import { clearSourceText } from "./translate.js";
 
 let currentUtterance = null; // text being read aloud right now
@@ -10,7 +11,7 @@ let isRecording = false; // microphone is listening
 
 export function speakText(text, langCode = "en") {
   if (!window.speechSynthesis) {
-    alert("Speech Synthesis not supported in this browser.");
+    showAlert("speechSynthUnsupported");
     return;
   }
 
@@ -43,19 +44,12 @@ function initSpeechRecognition() {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    alert(
-      "Speech recognition is not supported in this browser.\n\n" +
-        "Please use Chrome or Edge on Android."
-    );
+    showAlert("speechRecUnsupported");
     return null;
   }
 
   if (!window.isSecureContext) {
-    alert(
-      "Speech recognition requires a secure connection (HTTPS).\n\n" +
-        "Please serve this app over HTTPS or open it via localhost.\n" +
-        "On Android, install it as a PWA or use a local server."
-    );
+    showAlert("speechRecNeedsHttps");
     return null;
   }
 
@@ -76,15 +70,11 @@ function initSpeechRecognition() {
   rec.onerror = (event) => {
     console.error("Speech recognition error:", event.error);
     if (event.error === "not-allowed") {
-      alert(
-        "Microphone access was denied.\n\n" +
-          "Please allow microphone permission in your browser settings " +
-          "and ensure the page is served over HTTPS."
-      );
+      showAlert("micDenied");
     } else if (event.error === "no-speech") {
     } else if (event.error === "aborted") {
     } else {
-      alert("Speech recognition error: " + event.error);
+      showAlert("speechRecError", " " + event.error);
     }
   };
 
@@ -129,6 +119,6 @@ export function startSpeechRecognition() {
     if ($("clearOnMic").checked) clearSourceText();
   } catch (err) {
     console.error("Failed to start speech recognition:", err);
-    alert("Failed to start speech recognition: " + err.message);
+    showAlert("speechRecError", " " + err.message);
   }
 }

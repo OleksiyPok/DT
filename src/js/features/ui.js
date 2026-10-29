@@ -1,7 +1,6 @@
 // Interface texts: applies the texts of the selected interface language to the page.
 import { $ } from "../core/dom.js";
 import { getLanguageNames, getTexts } from "../core/i18n.js";
-import { state } from "../core/state.js";
 import { updateModeButton } from "../core/theme.js";
 import { updateButtonVisibilityTexts } from "./buttons.js";
 import { refreshLiveLists } from "./live-select.js";
@@ -9,7 +8,7 @@ import { updatePresetTitles } from "./presets.js";
 
 // The "Translate" button is needed only when auto-translate is off
 export function updateTranslateButtonVisibility() {
-  $("manualTranslateBtn").style.display = state.autoTranslateChecked
+  $("manualTranslateBtn").style.display = $("autoTranslate").checked
     ? "none"
     : "";
 }
@@ -36,6 +35,7 @@ function updateLangSelectOptions(lang) {
 export function updateUI() {
   const lang = $("uiLangSelect").value;
   const t = getTexts(lang);
+  document.documentElement.lang = lang;
 
   const setText = (id, value) => {
     const el = $(id);
@@ -57,7 +57,6 @@ export function updateUI() {
     autoLabel.textContent = t.autoTranslateLabel;
   }
 
-  $("autoTranslate").checked = state.autoTranslateChecked;
   updateTranslateButtonVisibility();
   $("uiLangLabel").textContent = t.interfaceLabel;
   document.querySelector(".source-lang-label").textContent = t.sourceLangLabel;
@@ -69,13 +68,13 @@ export function updateUI() {
   $("sourceText").placeholder = t.sourcePlaceholder;
   $("translatedText1").placeholder = t.translation1Placeholder;
   $("translatedText2").placeholder = t.translation2Placeholder;
-  $("manualTranslateBtn").textContent = t.translateButtonText;
+  $("manualTranslateBtn").textContent = t.translateBtnLabel;
 
-  $("copySource").title = t.copyBtnTitle;
-  $("pasteSource").title = t.pasteBtnTitle;
-  $("micSource").title = t.micBtnTitle;
-  $("copyTarget1").title = t.copyBtnTitle;
-  $("copyTarget2").title = t.copyBtnTitle;
+  setTitle("copySource", t.copyBtnTitle);
+  setTitle("pasteSource", t.pasteBtnTitle);
+  setTitle("micSource", t.micBtnTitle);
+  setTitle("copyTarget1", t.copyBtnTitle);
+  setTitle("copyTarget2", t.copyBtnTitle);
   setTitle("clearSource", t.clearBtnTitle);
   setTitle("clearBottom", t.clearBtnTitle);
   setTitle("micBottom", t.micBtnTitle);
@@ -87,16 +86,16 @@ export function updateUI() {
   setTitle("settingsAppBtn", t.settingsBtnTitle);
   setTitle("helpAppCloseBtn", t.closeBtnTitle);
   setTitle("settingsAppCloseBtn", t.closeBtnTitle);
-  setText("labelThemaModeSettings", t.labelThemaMode);
-  setText("labelThema", t.labelThema);
-  setText("labelVisibleButtons", t.labelVisibleButtons);
-  setText("resetSettingsText", t.defaultSettings);
-  setTitle("resetSettingsBtn", t.defaultSettings);
+  setText("labelThemaModeSettings", t.themaModeLabel);
+  setText("labelThema", t.themaLabel);
+  setText("labelVisibleButtons", t.visibleButtonsLabel);
+  setText("resetSettingsText", t.resetSettingsLabel);
+  setTitle("resetSettingsBtn", t.resetSettingsLabel);
 
   setText("labelPresets", t.presetsLabel);
-  setText("labelPresetCount", t.labelPresetCount);
-  setText("labelPresetLanguages", t.labelPresetLanguages);
-  setText("labelOverwriteLangs", t.labelOverwriteLangs);
+  setText("labelPresetCount", t.presetCountLabel);
+  setText("labelPresetLanguages", t.presetLanguagesLabel);
+  setText("labelOverwriteLangs", t.overwriteLangsLabel);
   setText("labelBottomButtons", t.bottomButtonsLabel);
   setText("labelClearOnMic", t.clearOnMicLabel);
   setText("settingsTitle", t.settingsTitle);

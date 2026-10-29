@@ -1,5 +1,6 @@
 // Entry point (loaded as a module, so the page is already parsed here).
-import { state } from "./core/state.js";
+import { APP_VERSION } from "./core/config.js";
+import { $ } from "./core/dom.js";
 import { renderThemePaletteOptions } from "./core/theme.js";
 import { renderButtonVisibilityOptions } from "./features/buttons.js";
 import { initEvents } from "./features/events.js";
@@ -7,13 +8,14 @@ import { initLiveSelect } from "./features/live-select.js";
 import { initModals } from "./features/modals.js";
 import { renderPresetLanguageOptions } from "./features/presets.js";
 import { initSnap } from "./features/scroll-steps.js";
-import { loadSavedTexts, loadSettings } from "./features/settings.js";
-import { translateText } from "./features/translate.js";
+import { loadInitialData, loadSettings } from "./features/settings.js";
+import { translateIfAuto } from "./features/translate.js";
 import { updateUI } from "./features/ui.js";
 
 async function init() {
-  await loadSavedTexts();
+  await loadInitialData();
 
+  $("version").textContent = `version: ${APP_VERSION}`;
   renderThemePaletteOptions();
   ["themaSelect", "themaModeSelectSettings"].forEach(initLiveSelect);
   renderButtonVisibilityOptions();
@@ -24,7 +26,7 @@ async function init() {
   initEvents();
   initSnap();
 
-  if (state.autoTranslateChecked) translateText();
+  translateIfAuto();
 }
 
-init();
+init().catch((err) => console.error("The app failed to start:", err));

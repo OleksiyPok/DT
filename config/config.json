@@ -5,15 +5,142 @@
   "autoTranslate": true,
   "clearOnMic": false,
   "bottomButtons": true,
-  "overwriteLangs": true,
+  "overwriteLangs": false,
   "developerMode": false,
+  "presetCount": 2,
   "activePreset": 1,
   "presets": [
-    { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
-    { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" },
-    { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
-    { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" },
-    { "sourceLang": "nl", "targetLang1": "en", "targetLang2": "uk" },
-    { "sourceLang": "en", "targetLang1": "nl", "targetLang2": "uk" }
+    {
+      "sourceLang": "nl",
+      "targetLang1": "en",
+      "targetLang2": "uk",
+      "buttons": {
+        "source": {
+          "paste": true,
+          "copy": true,
+          "speak": true,
+          "mic": true,
+          "clear": true
+        },
+        "target1": {
+          "copy": true,
+          "speak": true
+        },
+        "target2": {
+          "copy": true,
+          "speak": true
+        }
+      }
+    },
+    {
+      "sourceLang": "en",
+      "targetLang1": "nl",
+      "targetLang2": "uk",
+      "buttons": {
+        "source": {
+          "paste": true,
+          "copy": true,
+          "speak": true,
+          "mic": true,
+          "clear": true
+        },
+        "target1": {
+          "copy": true,
+          "speak": true
+        },
+        "target2": {
+          "copy": true,
+          "speak": true
+        }
+      }
+    },
+    {
+      "sourceLang": "nl",
+      "targetLang1": "en",
+      "targetLang2": "de",
+      "buttons": {
+        "source": {
+          "paste": true,
+          "copy": true,
+          "speak": true,
+          "mic": true,
+          "clear": true
+        },
+        "target1": {
+          "copy": true,
+          "speak": true
+        },
+        "target2": {
+          "copy": true,
+          "speak": true
+        }
+      }
+    },
+    {
+      "sourceLang": "de",
+      "targetLang1": "en",
+      "targetLang2": "nl",
+      "buttons": {
+        "source": {
+          "paste": true,
+          "copy": true,
+          "speak": true,
+          "mic": true,
+          "clear": true
+        },
+        "target1": {
+          "copy": true,
+          "speak": true
+        },
+        "target2": {
+          "copy": true,
+          "speak": true
+        }
+      }
+    },
+    {
+      "sourceLang": "fr",
+      "targetLang1": "en",
+      "targetLang2": "nl",
+      "buttons": {
+        "source": {
+          "paste": true,
+          "copy": true,
+          "speak": true,
+          "mic": true,
+          "clear": true
+        },
+        "target1": {
+          "copy": true,
+          "speak": true
+        },
+        "target2": {
+          "copy": true,
+          "speak": true
+        }
+      }
+    },
+    {
+      "sourceLang": "pl",
+      "targetLang1": "en",
+      "targetLang2": "uk",
+      "buttons": {
+        "source": {
+          "paste": true,
+          "copy": true,
+          "speak": true,
+          "mic": true,
+          "clear": true
+        },
+        "target1": {
+          "copy": true,
+          "speak": true
+        },
+        "target2": {
+          "copy": true,
+          "speak": true
+        }
+      }
+    }
   ]
 }

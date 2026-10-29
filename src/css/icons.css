@@ -42,12 +42,6 @@
   color: var(--danger);
 }
 
-/* ---------- Settings gear: flat 2D icon, always the colour of its frame ---------- */
-.gear-icon svg {
-  width: 16px;
-  height: 16px;
-}
-
 /* ---------- Buttons under the translations (copies of "clear" and "microphone") ----------
    Mobile: 2x the size of the buttons in the text blocks; 576px and wider: 1.5x.
    The gap between the buttons is one mobile button and never changes. */
