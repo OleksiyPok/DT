@@ -12,10 +12,12 @@ import { loadInitialData, loadSettings } from "./features/settings.js";
 import { translateIfAuto } from "./features/translate.js";
 import { updateUI } from "./features/ui.js";
 
+// Show the version immediately, without waiting for configuration and translations.
+$("version").textContent = `version: ${APP_VERSION}`;
+
 async function init() {
   await loadInitialData();
 
-  $("version").textContent = `version: ${APP_VERSION}`;
   renderThemePaletteOptions();
   ["themaSelect", "themaModeSelectSettings"].forEach(initLiveSelect);
   renderButtonVisibilityOptions();
