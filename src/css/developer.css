@@ -5,9 +5,11 @@
   width: 100%;
   margin-top: 8px;
 }
+
 .service-select {
   width: 100%;
 }
+
 .developer {
   display: flex;
   flex-direction: column;
@@ -16,6 +18,7 @@
   gap: 12px;
   margin-top: 14px;
 }
+
 .developer button {
   width: 100%;
   max-width: 120px;
@@ -29,13 +32,28 @@
   transition: background-color 0.2s, border-color 0.2s;
   box-shadow: 0 2px 6px var(--shadow-light);
 }
+
 .developer button:hover {
   background-color: var(--primary-bg-hover);
   border-color: var(--primary-hover);
 }
+
+/* MyMemory daily usage counter */
+.mymemory-usage {
+  width: 100%;
+  padding: 9px 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--primary-border);
+  border-radius: 8px;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  font-size: 0.75em;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 /* Shown by the app (src/js) only in developer mode */
 .service-row,
 .developer {
   display: none;
 }
-
