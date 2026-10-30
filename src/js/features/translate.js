@@ -58,8 +58,10 @@ export async function translateText() {
   $("translatedText2").value = "...";
 
   try {
-    const result1 = await service.translate(text, src, t1);
-    const result2 = await service.translate(text, src, t2);
+    const [result1, result2] = await Promise.all([
+      service.translate(text, src, t1),
+      service.translate(text, src, t2),
+    ]);
     if (request !== lastRequest) return;
     $("translatedText1").value = result1;
     $("translatedText2").value = result2;

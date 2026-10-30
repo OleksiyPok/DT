@@ -1,9 +1,8 @@
 // Help window: loads docs/help/help.<lang>.html; the help language is chosen in the window itself.
-import { LANG_CODES, PATHS } from "../core/config.js";
+import { HELP_LANGUAGE_KEY, LANG_CODES, PATHS } from "../core/config.js";
 import { $ } from "../core/dom.js";
 import { getTexts } from "../core/i18n.js";
 
-const HELP_LANGUAGE_KEY = "DT-help-language";
 const APP_LANGUAGE = "app";
 const DEFAULT_LANGUAGE = "en";
 

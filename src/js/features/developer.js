@@ -4,16 +4,13 @@ import { STORAGE_KEY } from "../core/config.js";
 import { $ } from "../core/dom.js";
 import { state } from "../core/state.js";
 import { closeAllModals } from "./modals.js";
-import { getMyMemoryUsage } from "./mymemory-usage.js";
+import { initMyMemoryUsage } from "./mymemory-usage.js";
 
 const GESTURE_CLICKS = 7;
 const GESTURE_WINDOW_MS = 3000;
 const TEMPORARY_VISIBLE_MS = 30_000;
 
-const MYMEMORY_DAILY_LIMIT = 5000;
-
 let hideTimer = null;
-let midnightTimer = null;
 
 export function showDeveloperPanel(visible) {
   clearTimeout(hideTimer);
@@ -34,70 +31,6 @@ function showTemporarily() {
     () => showDeveloperPanel(state.developerMode),
     TEMPORARY_VISIBLE_MS
   );
-}
-
-function renderMyMemoryUsage() {
-  const container = $("myMemoryUsage");
-  if (!container) return;
-
-  const usage = getMyMemoryUsage();
-
-  const requests = usage.requests.toLocaleString();
-  const characters = usage.characters.toLocaleString();
-  const limit = MYMEMORY_DAILY_LIMIT.toLocaleString();
-
-  container.textContent =
-    `MyMemory today: ${requests} requests · ` +
-    `${characters} / ${limit} characters`;
-}
-
-function scheduleMidnightRefresh() {
-  clearTimeout(midnightTimer);
-
-  const now = new Date();
-  const nextMidnight = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1,
-    0,
-    0,
-    0,
-    0
-  );
-
-  midnightTimer = setTimeout(() => {
-    renderMyMemoryUsage();
-    scheduleMidnightRefresh();
-  }, nextMidnight.getTime() - now.getTime() + 100);
-}
-
-function initMyMemoryUsage() {
-  const container = document.createElement("div");
-
-  container.id = "myMemoryUsage";
-  container.className = "mymemory-usage";
-  container.setAttribute("aria-live", "polite");
-
-  $("developer").prepend(container);
-
-  renderMyMemoryUsage();
-  scheduleMidnightRefresh();
-
-  window.addEventListener("mymemory-usage-change", renderMyMemoryUsage);
-
-  // Update the counter if the date changed while the page was inactive.
-  window.addEventListener("focus", renderMyMemoryUsage);
-
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) renderMyMemoryUsage();
-  });
-
-  // Synchronize changes made in another tab of the same origin.
-  window.addEventListener("storage", (event) => {
-    if (event.key === "DT-MyMemory-usage") {
-      renderMyMemoryUsage();
-    }
-  });
 }
 
 function bindGesture() {

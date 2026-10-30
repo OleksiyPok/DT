@@ -6,10 +6,15 @@
 export const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY";
 
 // Version shown on the main screen
-export const APP_VERSION = "2.5.6";
+export const APP_VERSION = "2.5.7";
 
-// Key of the saved settings in localStorage (keep in sync with theme-boot.js)
+// Keys in localStorage. All of them start with the app name (the first one is also in theme-boot.js)
 export const STORAGE_KEY = "DT-settings";
+export const HELP_LANGUAGE_KEY = "DT-help-language";
+export const MYMEMORY_USAGE_KEY = "DT-MyMemory-usage";
+
+// Characters per day that MyMemory translates without a key (shown in the developer panel)
+export const MYMEMORY_DAILY_LIMIT = 5000;
 
 // File locations: default settings, UI texts (<lang>.json) and help pages (help.<lang>.html)
 export const PATHS = {
