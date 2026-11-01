@@ -1,7 +1,8 @@
 /* ---------- Line icons of the text-block buttons ----------
    The icons are an SVG sprite at the top of <body> in index.html; the colour is
    currentColor, so it follows the theme:
-   normal = --text-color, hover = --primary, microphone is on = --danger. */
+   normal = --text-color, hover = --icon-hover-color, pressed = --icon-active-color,
+   microphone is on = --danger. The variables come from themes.css. */
 .icon-btn {
   display: flex;
   align-items: center;
@@ -18,12 +19,12 @@
   stroke-linejoin: round;
 }
 .icon-btn:active {
-  color: var(--primary-active);
+  color: var(--icon-active-color, var(--primary-active));
 }
 /* Hover colour only for a real mouse: on touch screens it would stay after a tap */
 @media (hover: hover) {
   .icon-btn:hover {
-    color: var(--primary);
+    color: var(--icon-hover-color, var(--primary));
   }
 }
 /* Microphone: the "stop" icon replaces the microphone while recording */
@@ -66,4 +67,3 @@
   height: 36px;
   stroke-width: 1.5;
 }
-
