@@ -10,6 +10,7 @@ import { initModals } from "./features/modals.js";
 import { renderPresetLanguageOptions } from "./features/presets.js";
 import { initSnap } from "./features/scroll-steps.js";
 import { loadInitialData, loadSettings } from "./features/settings.js";
+import { initTextareaSync } from "./features/textarea-sync.js";
 import { translateIfAuto } from "./features/translate.js";
 import { updateUI } from "./features/ui.js";
 
@@ -29,6 +30,7 @@ async function init() {
   initDeveloper();
   initEvents();
   initSnap();
+  initTextareaSync();
 
   translateIfAuto();
 }

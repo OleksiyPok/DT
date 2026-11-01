@@ -45,3 +45,66 @@
   outline: none;
 }
 
+/* ---------- Resize grip of the text fields (see features/textarea-sync.js) ----------
+   The grip is an area in the bottom-right corner of the field: the mouse hits a 20px square,
+   a finger gets a bigger one (--grip-hit). The visible mark stays small. */
+.ta-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
+  --grip-hit: 20px;
+  --grip-mark: 12px;
+}
+.ta-wrap > textarea {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  resize: none; /* instead of the native handle */
+}
+.ta-grip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: var(--grip-hit);
+  height: var(--grip-hit);
+  cursor: ns-resize;
+  touch-action: none; /* the finger drags the grip, the page does not scroll */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.ta-grip::after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: var(--grip-mark);
+  height: var(--grip-mark);
+  opacity: 0.75;
+  background: linear-gradient(
+    135deg,
+    transparent 0 42%,
+    var(--border-strong) 42% 52%,
+    transparent 52% 68%,
+    var(--border-strong) 68% 78%,
+    transparent 78%
+  );
+}
+.ta-grip:hover::after,
+.ta-grip.is-dragging::after {
+  opacity: 1;
+}
+/* Phone / tablet (finger): a bigger touch area and a bit bigger mark */
+@media (pointer: coarse) {
+  .ta-wrap {
+    --grip-hit: 40px;
+    --grip-mark: 16px;
+  }
+  .ta-grip::after {
+    right: 7px;
+    bottom: 7px;
+  }
+}

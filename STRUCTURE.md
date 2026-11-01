@@ -58,6 +58,7 @@ src/
 | `features/developer.js` | панель developer и выбор сервиса (настройка и секретный жест) |
 | `features/mymemory-usage.js` | счётчик запросов и символов MyMemory за день (строка в панели developer) |
 | `features/scroll-steps.js`, `features/live-select.js` | прокрутка по шагам, «живые» списки |
+| `features/textarea-sync.js` | связанная высота трёх текстовых полей (своя ручка растягивания в углу поля) |
 | `features/events.js` | обработчики событий |
 
 ## Шаги работы
