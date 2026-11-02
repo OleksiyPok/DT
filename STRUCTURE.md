@@ -19,7 +19,7 @@ src/
   js/
     theme-boot.js          обычный скрипт: тема до первой отрисовки
     main.js                точка входа
-    core/                  основа: config, state, dom, i18n, storage, theme, theme-registry
+    core/                  основа: config, defaults, state, dom, i18n, storage, theme-registry
     features/              возможности, по одному файлу на задачу
 ```
 
@@ -34,7 +34,7 @@ src/
 - Ключи localStorage: `<APP>-settings` (`DT-settings`, `NLT-settings`) и другие `<APP>-...`; все объявлены в `core/config.js`.
 - Иконки: `assets/icons/icon_<APP>_<ширина>x<высота>.png`.
 - JS: ES-модули, без глобальных переменных. Общее состояние только в `core/state.js`.
-- `core/` не знает о `features/`, кроме `core/theme.js` (список «живых» select).
+- `core/` не знает о `features/`, кроме `core/storage.js` (читает тему из `features/theme.js`).
 - Новый язык: файл `src/i18n/<lang>.json`, справка `docs/help/help.<lang>.html`, код языка в `core/config.js` (`LANG_CODES`) и в `index.html` (списки языков).
 - Порядок CSS задаёт `src/css/main.css`: позже стоящий файл переопределяет раньше стоящий.
 - Приложение нужно открывать по HTTP (модули и `fetch` не работают с `file://`).
@@ -48,7 +48,7 @@ src/
 | `core/state.js` | общее состояние конфигураций |
 | `core/i18n.js` | загрузка и выдача текстов интерфейса, окна с сообщениями |
 | `core/storage.js` | чтение и запись настроек в localStorage |
-| `core/theme.js`, `core/theme-registry.js` | темы и режимы |
+| `features/theme.js`, `core/theme-registry.js` | темы и режимы |
 | `features/ui.js` | подстановка текстов интерфейса на страницу |
 | `features/settings.js` | применение настроек, сброс |
 | `features/presets.js`, `features/buttons.js` | конфигурации и видимость кнопок |

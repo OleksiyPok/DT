@@ -2,7 +2,7 @@
 import { STORAGE_KEY } from "./config.js";
 import { $ } from "./dom.js";
 import { state } from "./state.js";
-import { getThemaFromSelects } from "./theme.js";
+import { getThemaFromSelects } from "../features/theme.js";
 
 // Saved settings object, or null if there is none (or it is broken).
 export function readSavedSettings() {

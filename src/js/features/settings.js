@@ -6,7 +6,7 @@ import { $ } from "../core/dom.js";
 import { loadTexts } from "../core/i18n.js";
 import { state } from "../core/state.js";
 import { readSavedSettings, saveSettings } from "../core/storage.js";
-import { applyThema } from "../core/theme.js";
+import { applyThema } from "./theme.js";
 import { applyButtonVisibility } from "./buttons.js";
 import { showDeveloperPanel } from "./developer.js";
 import {

@@ -8,7 +8,7 @@ import {
   applyThema,
   getThemaFromSelects,
   nextThemaMode,
-} from "../core/theme.js";
+} from "./theme.js";
 import { applyBottomButtons, applyButtonVisibility } from "./buttons.js";
 import { copyTextOf, pasteFromClipboard } from "./clipboard.js";
 import {
@@ -37,7 +37,7 @@ function bindAppearance() {
     saveSettings();
   });
 
-  ["themaSelect", "themaModeSelectSettings"].forEach((id) => {
+  ["themaSelect", "themaModeSelect"].forEach((id) => {
     $(id).addEventListener("change", () => {
       applyThema(getThemaFromSelects());
       saveSettings();

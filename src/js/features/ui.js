@@ -1,7 +1,7 @@
 // Interface texts: applies the texts of the selected interface language to the page.
 import { $ } from "../core/dom.js";
 import { getLanguageNames, getTexts } from "../core/i18n.js";
-import { updateModeButton } from "../core/theme.js";
+import { updateModeButton } from "./theme.js";
 import { updateButtonVisibilityTexts } from "./buttons.js";
 import { refreshLiveLists } from "./live-select.js";
 import { updatePresetTitles } from "./presets.js";
@@ -86,7 +86,7 @@ export function updateUI() {
   setTitle("settingsAppBtn", t.settingsBtnTitle);
   setTitle("helpAppCloseBtn", t.closeBtnTitle);
   setTitle("settingsAppCloseBtn", t.closeBtnTitle);
-  setText("labelThemaModeSettings", t.themaModeLabel);
+  setText("labelThemaMode", t.themaModeLabel);
   setText("labelThema", t.themaLabel);
   setText("labelVisibleButtons", t.visibleButtonsLabel);
   setText("resetSettingsText", t.resetSettingsLabel);
@@ -107,7 +107,7 @@ export function updateUI() {
 
   updateButtonVisibilityTexts(t);
 
-  const modeSelect = $("themaModeSelectSettings");
+  const modeSelect = $("themaModeSelect");
   const modeTexts = {
     contrast: t.themaModeContrast,
     normal: t.themaModeNormal,

@@ -1,7 +1,7 @@
 // Entry point (loaded as a module, so the page is already parsed here).
 import { APP_VERSION } from "./core/config.js";
 import { $ } from "./core/dom.js";
-import { renderThemePaletteOptions } from "./core/theme.js";
+import { renderThemePaletteOptions } from "./features/theme.js";
 import { renderButtonVisibilityOptions } from "./features/buttons.js";
 import { initDeveloper } from "./features/developer.js";
 import { initEvents } from "./features/events.js";
@@ -21,7 +21,7 @@ async function init() {
   await loadInitialData();
 
   renderThemePaletteOptions();
-  ["themaSelect", "themaModeSelectSettings"].forEach(initLiveSelect);
+  ["themaSelect", "themaModeSelect"].forEach(initLiveSelect);
   renderButtonVisibilityOptions();
   renderPresetLanguageOptions();
   loadSettings();
