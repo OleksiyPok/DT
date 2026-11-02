@@ -1,7 +1,7 @@
 // Interface texts: applies the texts of the selected interface language to the page.
 import { $ } from "../core/dom.js";
 import { getLanguageNames, getTexts } from "../core/i18n.js";
-import { updateModeButton } from "../core/theme.js";
+import { updateModeButton } from "./theme.js";
 import { updateButtonVisibilityTexts } from "./buttons.js";
 import { refreshLiveLists } from "./live-select.js";
 import { updatePresetTitles } from "./presets.js";

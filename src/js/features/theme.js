@@ -1,15 +1,15 @@
 // Theme: palette + mode selects, the mode button on the main screen.
-import { getDefaults } from "./defaults.js";
-import { $ } from "./dom.js";
-import { getTexts } from "./i18n.js";
+import { getDefaults } from "../core/defaults.js";
+import { $ } from "../core/dom.js";
+import { getTexts } from "../core/i18n.js";
 import {
   THEME_MODES,
   applyThemeClass,
   composeThema,
   getPaletteOptions,
   parseThema,
-} from "./theme-registry.js";
-import { refreshLiveLists } from "../features/live-select.js";
+} from "../core/theme-registry.js";
+import { refreshLiveLists } from "./live-select.js";
 
 // Theme used when the saved one is missing or unknown: the default from config/config.json
 const defaultThema = () => getDefaults().thema;

@@ -8,7 +8,7 @@ import {
   applyThema,
   getThemaFromSelects,
   nextThemaMode,
-} from "../core/theme.js";
+} from "./theme.js";
 import { applyBottomButtons, applyButtonVisibility } from "./buttons.js";
 import { copyTextOf, pasteFromClipboard } from "./clipboard.js";
 import {
