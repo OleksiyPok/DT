@@ -37,7 +37,7 @@ function bindAppearance() {
     saveSettings();
   });
 
-  ["themaSelect", "themaModeSelectSettings"].forEach((id) => {
+  ["themaSelect", "themaModeSelect"].forEach((id) => {
     $(id).addEventListener("change", () => {
       applyThema(getThemaFromSelects());
       saveSettings();

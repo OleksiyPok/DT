@@ -28,7 +28,7 @@ export function renderThemePaletteOptions() {
 
 export function getThemaFromSelects() {
   const palette = $("themaSelect").value;
-  const mode = $("themaModeSelectSettings").value;
+  const mode = $("themaModeSelect").value;
   return composeThema(palette, mode) || defaultThema();
 }
 
@@ -58,7 +58,7 @@ export function applyThema(value) {
   const parsed = parseThema(chosen);
   if (parsed) {
     $("themaSelect").value = parsed.palette;
-    $("themaModeSelectSettings").value = parsed.mode;
+    $("themaModeSelect").value = parsed.mode;
     updateModeButton(parsed.mode);
     refreshLiveLists();
   }
@@ -67,7 +67,7 @@ export function applyThema(value) {
 
 // The button on the main screen: next mode in the list
 export function nextThemaMode() {
-  const select = $("themaModeSelectSettings");
+  const select = $("themaModeSelect");
   const next =
     THEME_MODES[(THEME_MODES.indexOf(select.value) + 1) % THEME_MODES.length];
   select.value = next;

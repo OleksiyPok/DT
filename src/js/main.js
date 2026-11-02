@@ -21,7 +21,7 @@ async function init() {
   await loadInitialData();
 
   renderThemePaletteOptions();
-  ["themaSelect", "themaModeSelectSettings"].forEach(initLiveSelect);
+  ["themaSelect", "themaModeSelect"].forEach(initLiveSelect);
   renderButtonVisibilityOptions();
   renderPresetLanguageOptions();
   loadSettings();

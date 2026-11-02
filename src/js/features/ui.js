@@ -86,7 +86,7 @@ export function updateUI() {
   setTitle("settingsAppBtn", t.settingsBtnTitle);
   setTitle("helpAppCloseBtn", t.closeBtnTitle);
   setTitle("settingsAppCloseBtn", t.closeBtnTitle);
-  setText("labelThemaModeSettings", t.themaModeLabel);
+  setText("labelThemaMode", t.themaModeLabel);
   setText("labelThema", t.themaLabel);
   setText("labelVisibleButtons", t.visibleButtonsLabel);
   setText("resetSettingsText", t.resetSettingsLabel);
@@ -107,7 +107,7 @@ export function updateUI() {
 
   updateButtonVisibilityTexts(t);
 
-  const modeSelect = $("themaModeSelectSettings");
+  const modeSelect = $("themaModeSelect");
   const modeTexts = {
     contrast: t.themaModeContrast,
     normal: t.themaModeNormal,

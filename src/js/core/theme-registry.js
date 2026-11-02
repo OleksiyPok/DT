@@ -47,7 +47,7 @@ export const THEME_DEFS = [
 
 export const THEME_VALUES = THEME_DEFS.map((x) => x.value);
 
-// Suffix order must stay in sync with <select id="themaModeSelectSettings"> option values.
+// Suffix order must stay in sync with <select id="themaModeSelect"> option values.
 export const THEME_MODES = ["contrast", "normal", "evening", "night"];
 
 export function parseThema(value) {
