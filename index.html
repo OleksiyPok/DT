@@ -438,7 +438,7 @@
     >
       <div class="app-modal-content">
         <div class="app-modal-header">
-          <h2 class="app-modal-title" id="helpTitle">Information</h2>
+          <h2 class="app-modal-title" id="helpTitle" data-app="DT">Information</h2>
           <button
             type="button"
             id="helpAppCloseBtn"
@@ -464,7 +464,7 @@
     >
       <div class="app-modal-content">
         <div class="app-modal-header">
-          <h2 class="app-modal-title" id="settingsTitle">
+          <h2 class="app-modal-title" id="settingsTitle" data-app="DT">
             Application settings
           </h2>
           <button
@@ -499,64 +499,6 @@
           </div>
           <div class="app-modal-body" id="settingsBody">
             <div id="settingsAppContent" class="settings-app-content">
-              <div class="thema-wrapper">
-                <div class="thema-group" id="themaGroup">
-                  <label for="themaSelect" id="labelThema" class="label-thema"
-                    >Theme</label
-                  >
-                  <select
-                    id="themaSelect"
-                    class="thema-select"
-                    title="Select theme"
-                  ></select>
-                </div>
-                <div class="thema-group thema-mode-group" id="themaModeGroup">
-                  <label
-                    for="themaModeSelect"
-                    id="labelThemaMode"
-                    class="label-thema"
-                    >Mode</label
-                  >
-                  <select
-                    id="themaModeSelect"
-                    class="thema-select"
-                    title="Select theme mode"
-                  >
-                    <option value="contrast">Contrast</option>
-                    <option value="normal" selected>Normal</option>
-                    <option value="evening">Evening</option>
-                    <option value="night">Night</option>
-                  </select>
-                </div>
-
-                <div class="interface-group" id="uiLanguageWrapper">
-                  <label
-                    for="uiLangSelect"
-                    id="uiLangLabel"
-                    class="label-interface"
-                    >Interface:</label
-                  >
-                  <select
-                    class="interface-select"
-                    id="uiLangSelect"
-                    title="Select interface language"
-                  >
-                    <option value="de">Deutsch</option>
-                    <option selected value="en">English</option>
-                    <option value="eo">Esperanto</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="it">Italiano</option>
-                    <option value="nl">Nederlands</option>
-                    <option value="pl">Polski</option>
-                    <option value="pt">Português</option>
-                    <option value="ru">Русский</option>
-                    <option value="tr">Türkçe</option>
-                    <option value="uk">Українська</option>
-                  </select>
-                </div>
-              </div>
-
               <div class="preset-count-wrapper" id="presetCountWrapper">
                 <div class="preset-title" id="labelPresets">Configurations</div>
                 <div class="preset-count-group">
@@ -655,6 +597,62 @@
                 </label>
               </div>
 
+              <div class="interface-wrapper">
+                <div class="interface-group" id="uiLanguageWrapper">
+                  <label
+                    for="uiLangSelect"
+                    id="uiLangLabel"
+                    class="label-interface"
+                    >Interface:</label
+                  >
+                  <select
+                    class="interface-select"
+                    id="uiLangSelect"
+                    title="Select interface language"
+                  >
+                    <option value="de">Deutsch</option>
+                    <option selected value="en">English</option>
+                    <option value="eo">Esperanto</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="it">Italiano</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="pl">Polski</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="uk">Українська</option>
+                  </select>
+                </div>
+                <div class="thema-group" id="themaGroup">
+                  <label for="themaSelect" id="labelThema" class="label-thema"
+                    >Theme</label
+                  >
+                  <select
+                    id="themaSelect"
+                    class="thema-select"
+                    title="Select theme"
+                  ></select>
+                </div>
+                <div class="thema-group thema-mode-group" id="themaModeGroup">
+                  <label
+                    for="themaModeSelect"
+                    id="labelThemaMode"
+                    class="label-thema"
+                    >Mode</label
+                  >
+                  <select
+                    id="themaModeSelect"
+                    class="thema-select"
+                    title="Select theme mode"
+                  >
+                    <option value="contrast">Contrast</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="evening">Evening</option>
+                    <option value="night">Night</option>
+                  </select>
+                </div>
+              </div>
               <div class="reset-settings-group" id="resetSettingsGroup">
                 <button
                   type="button"
