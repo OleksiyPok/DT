@@ -6,7 +6,7 @@
 export const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY";
 
 // Version shown on the main screen
-export const APP_VERSION = "2.5.14";
+export const APP_VERSION = "2.5.15";
 
 // Keys in localStorage. All of them start with the app name (the first one is also in theme-boot.js)
 export const STORAGE_KEY = "DT-settings";
@@ -68,9 +68,10 @@ export function buildDefaultButtons() {
 
 // Supported language codes (same order as in the language selects)
 export const LANG_CODES = [
+  "ar",
+  "cs",
   "de",
   "en",
-  "eo",
   "es",
   "fr",
   "it",
