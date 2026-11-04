@@ -182,6 +182,42 @@ button:disabled {
   filter: drop-shadow(1px 1px 2px var(--shadow-light)) var(--logo-filter, brightness(1));
 }
 
+/* Own checkbox in every theme: the native one is always bright white and ignores the theme.
+   Empty: theme background, strong border. Checked: accent fill with a light tick. */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  background: var(--background-color);
+  border: 2px solid var(--border-strong);
+  border-radius: 4px;
+}
+input[type="checkbox"]::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  transform: scale(0);
+  background: var(--primary-text);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transition: transform 0.1s ease-in-out;
+}
+input[type="checkbox"]:checked {
+  background: var(--primary);
+  border-color: var(--primary-active);
+}
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
 .is-hidden {
   display: none !important;
 }
