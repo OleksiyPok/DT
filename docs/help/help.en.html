@@ -1,13 +1,14 @@
 <!--
-  Dual Translator HELP — English version (also the fallback for languages without their own file).
-  Same markup, data-shot names and <li value="N"> numbers as help.ru.html; only the visible text,
-  alt and figcaption are translated. Screenshots live in docs/help/img/NAME.png.
+  DT HELP — English version (also the fallback for languages without their own file).
+  The structure is the same in DT, NLT and CLT: help-about, help-main, help-use, help-settings, help-notes
+  (DT has two more sections: help-voice and help-configs).
+  Screenshots: docs/help/img/NAME.png (NAME is in data-shot); a missing file shows a grey placeholder.
 -->
 
-<div class="help-content" lang="en">
+<div class="help-content" lang="en" dir="ltr">
 
   <section class="help-section" id="help-about">
-    <h2>What is Dual Translator</h2>
+    <h2>Program Purpose</h2>
     <p>
       Dual Translator translates the text you enter into <b>two languages</b> at once.
       You enter the text one time (type it, paste it or dictate it) and the program shows
@@ -19,8 +20,8 @@
       You switch between them with one tap.
     </p>
     <p>
-      The interface is available in: Deutsch, English, Esperanto, Español, Français, Italiano,
-      Nederlands, Polski, Português, Русский, Türkçe, Українська.
+      The interface is available in 13 languages: العربية, Čeština, Deutsch, English, Español, Français,
+      Italiano, Nederlands, Polski, Português, Русский, Türkçe, Українська.
     </p>
   </section>
 
@@ -33,10 +34,10 @@
     </figure>
 
     <ol class="help-legend">
-      <li value="1"><b>Information</b> (<span class="help-framed"><svg class="help-ico" aria-hidden="true"><use href="#i-info" /></svg></span> button): opens this window.</li>
-      <li value="2"><b>Settings</b> (<span class="help-framed"><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg></span> button): themes, interface language, configurations, visible buttons.</li>
-      <li value="3"><b>Mode</b>: colour mode of the chosen theme: Contrast, Normal, Evening or Night. The same selector is in the settings.</li>
-      <li value="4"><b>Configuration buttons</b>: quick switch between saved sets of languages. The button shows the code of the source language (for example NL, EN). The active configuration is highlighted.</li>
+      <li value="1"><span class="help-framed"><svg class="help-ico" aria-hidden="true"><use href="#i-info" /></svg></span> <b>Information</b>: opens this window.</li>
+      <li value="2"><span class="help-framed"><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg></span> <b>Settings</b>: opens the settings window (see "Settings").</li>
+      <li value="3"><svg class="help-ico" aria-hidden="true"><use href="#i-mode-normal" /></svg> <b>Mode</b>: colour mode of the interface: Contrast, Normal, Evening or Night. Each press switches to the next mode.</li>
+      <li value="4"><b>Configuration buttons</b>: quick switch between saved sets of languages (see "Configurations"). The button shows the code of the source language (for example NL, EN). The active configuration is highlighted.</li>
       <li value="5"><b>Source Language</b>: the language of the text you enter.</li>
       <li value="6"><b>Buttons above the text</b>: <svg class="help-ico" aria-hidden="true"><use href="#i-paste" /></svg> paste from the clipboard, <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> copy the source text, <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg> play the source text.</li>
       <li value="7"><b>Input field</b>: enter the source text here.</li>
@@ -48,8 +49,8 @@
     </ol>
   </section>
 
-  <section class="help-section" id="help-translate">
-    <h2>How to translate a text</h2>
+  <section class="help-section" id="help-use">
+    <h2>How to use</h2>
     <ol class="help-steps">
       <li>Choose the <b>source language</b> and the two <b>target languages</b>, or press the button of the configuration you need.</li>
       <li>Type the text, paste it with <svg class="help-ico" aria-hidden="true"><use href="#i-paste" /></svg> or dictate it with the microphone <svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>.</li>
@@ -108,35 +109,31 @@
   <section class="help-section" id="help-settings">
     <h2>Settings</h2>
     <p>
-      The settings window consists of blocks. Scrolling takes you from block to block.
-      While you scroll, a fraction appears in the corner for two seconds: the number of the
-      current block over the total number of blocks.
+      The settings window is opened with the <span class="help-framed"><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg></span> button.
+      It consists of blocks; scrolling takes you from block to block, and a fraction in the corner shows the
+      number of the current block over the total number of blocks. A change is applied at once.
     </p>
 
-    <h3>Theme, mode and interface language</h3>
-    <figure class="help-shot" data-shot="settings-appearance">
-      <img src="docs/help/img/settings-appearance.png" alt="Settings: theme, mode and interface language" loading="lazy" />
-      <figcaption>Appearance</figcaption>
+    <h3>Configurations</h3>
+    <figure class="help-shot" data-shot="settings-presets">
+      <img src="docs/help/img/settings-presets.png" alt="Settings: number of configurations" loading="lazy" />
+      <figcaption>Configurations</figcaption>
     </figure>
     <ol class="help-legend">
-      <li value="1"><b>Theme</b>: colour palette of the program.</li>
-      <li value="2"><b>Mode</b>: Contrast (brighter and sharper), Normal, Evening or Night. Night mode is dark and dim, so you can look at the screen calmly in the dark. It works in sync with the selector on the main screen.</li>
-      <li value="3"><b>Interface</b>: language of the program labels.</li>
-      <li value="4"><b>Block number</b>: the fraction that appears for two seconds while scrolling.</li>
+      <li value="1"><b>Number</b>: how many configuration buttons to show on the main screen, from 1 to 6.</li>
     </ol>
 
-    <h3>Configurations and languages</h3>
-    <figure class="help-shot" data-shot="settings-configs">
-      <img src="docs/help/img/settings-configs.png" alt="Settings: number of configurations and languages of a configuration" loading="lazy" />
-      <figcaption>Configurations and languages</figcaption>
+    <h3>Languages</h3>
+    <figure class="help-shot" data-shot="settings-languages">
+      <img src="docs/help/img/settings-languages.png" alt="Settings: languages of a configuration" loading="lazy" />
+      <figcaption>Languages</figcaption>
     </figure>
     <ol class="help-legend">
-      <li value="1"><b>Number of configurations</b>: how many configuration buttons to show on the main screen (1–6).</li>
-      <li value="2"><b>Configuration tabs</b>: which configuration you are editing. The tabs in the "Languages" and "Visible buttons" blocks duplicate each other: choosing one in either place switches both blocks.</li>
-      <li value="3"><b>Source Language</b> of the chosen configuration.</li>
-      <li value="4"><b>Target Language 1</b> of the chosen configuration.</li>
-      <li value="5"><b>Target Language 2</b> of the chosen configuration.</li>
-      <li value="6"><b>Remember main-screen languages</b>: one box for all configurations. When it is on, languages chosen on the main screen are written into the active configuration.</li>
+      <li value="1"><b>Configuration tabs</b>: which configuration you are editing. The tabs in the "Languages" and "Visible buttons" blocks duplicate each other: choosing one in either place switches both blocks.</li>
+      <li value="2"><b>Source Language</b> of the chosen configuration.</li>
+      <li value="3"><b>Target Language 1</b> of the chosen configuration.</li>
+      <li value="4"><b>Target Language 2</b> of the chosen configuration.</li>
+      <li value="5"><b>Remember main-screen languages</b>: one box for all configurations. When it is on, languages chosen on the main screen are written into the active configuration.</li>
     </ol>
 
     <h3>Visible buttons</h3>
@@ -155,25 +152,43 @@
       you can keep only what you need. Every configuration has its own set of buttons.
     </p>
 
-    <h3>Microphone and reset</h3>
-    <figure class="help-shot" data-shot="settings-bottom">
-      <img src="docs/help/img/settings-bottom.png" alt="Settings: clearing on dictation and reset to defaults" loading="lazy" />
-      <figcaption>Microphone and reset</figcaption>
+    <h3>Microphone</h3>
+    <figure class="help-shot" data-shot="settings-microphone">
+      <img src="docs/help/img/settings-microphone.png" alt="Settings: extra microphone button and clearing on dictation" loading="lazy" />
+      <figcaption>Microphone</figcaption>
     </figure>
     <ol class="help-legend">
-      <li value="1"><b>Clear text when the microphone starts</b>: one box for everything. The input field is cleared before each dictation.</li>
-      <li value="2"><b>Reset defaults</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-reset" /></svg>): returns all settings to their original values.</li>
+      <li value="1"><b>Extra microphone button</b>: shows large Clear and Microphone buttons at the bottom of the main screen.</li>
+      <li value="2"><b>Clear text when the microphone starts</b>: the input field is cleared before each dictation.</li>
+    </ol>
+
+    <h3>Interface, theme and mode</h3>
+    <figure class="help-shot" data-shot="settings-appearance">
+      <img src="docs/help/img/settings-appearance.png" alt="Settings: interface language, theme and mode" loading="lazy" />
+      <figcaption>Interface, theme and mode</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Interface</b>: the language of the program labels.</li>
+      <li value="2"><b>Theme</b>: the colour palette of the program.</li>
+      <li value="3"><b>Mode</b>: Contrast (brighter and sharper), Normal, Evening or Night. Night mode is dark and dim, so you can look at the screen calmly in the dark. It works in sync with the Mode button on the main screen.</li>
+    </ol>
+
+    <h3>Reset defaults</h3>
+    <figure class="help-shot" data-shot="settings-reset">
+      <img src="docs/help/img/settings-reset.png" alt="Settings: reset to default values" loading="lazy" />
+      <figcaption>Reset defaults</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Reset defaults</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-reset" /></svg>): returns all settings to their original values.</li>
     </ol>
   </section>
 
-  <section class="help-section" id="help-tips">
-    <h2>Useful tips</h2>
-    <ul>
-      <li>All settings are saved automatically and are kept after you close the program.</li>
-      <li>The help and settings windows are closed with the ✕ button or the <kbd>Esc</kbd> key.</li>
-      <li>On a phone the main screen and the settings scroll in steps: each swipe moves to the next block.</li>
-      <li>For a language pair you use often, create a separate configuration and keep only the buttons you need.</li>
-    </ul>
+  <section class="help-section" id="help-notes">
+    <h2>Notes</h2>
+    <p class="help-note">All settings are saved in your browser and are kept after you close the program.</p>
+    <p class="help-note">The help and settings windows are closed with the ✕ button or the <kbd>Esc</kbd> key; on a phone, also with the Back button. The <kbd>F1</kbd> key opens this window.</p>
+    <p class="help-note">For a language pair you use often, create a separate configuration and keep only the buttons you need.</p>
+    <p class="help-note">This help can be shown in any language: select it in the field above.</p>
   </section>
 
 </div>

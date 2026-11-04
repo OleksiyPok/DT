@@ -75,5 +75,10 @@ export function initModals() {
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && isAnyModalOpen()) closeAllModals();
+    // F1 opens the help (instead of the browser's own help)
+    if (event.key === "F1") {
+      event.preventDefault();
+      if (!isAnyModalOpen()) $("helpAppBtn").click();
+    }
   });
 }
