@@ -67,21 +67,7 @@ export function buildDefaultButtons() {
 }
 
 // Supported language codes (same order as in the language selects)
-export const LANG_CODES = [
-  "ar",
-  "cs",
-  "de",
-  "en",
-  "es",
-  "fr",
-  "it",
-  "nl",
-  "pl",
-  "pt",
-  "ru",
-  "tr",
-  "uk",
-];
+export const LANG_CODES = ["ar", "cs", "de", "en", "es", "fr", "it", "nl", "pl", "pt", "ru", "tr", "uk"];
 
 // Number of prepared configurations (data is always kept for all of them)
 export const PRESET_MAX = 6;

@@ -9,15 +9,7 @@ import { readSavedSettings, saveSettings } from "../core/storage.js";
 import { applyThema } from "./theme.js";
 import { applyButtonVisibility } from "./buttons.js";
 import { showDeveloperPanel } from "./developer.js";
-import {
-  clampCount,
-  clampPreset,
-  normalizePresets,
-  pickLang,
-  renderPresetControls,
-  syncPresetEditor,
-  updatePresetButtons,
-} from "./presets.js";
+import { clampCount, clampPreset, normalizePresets, pickLang, renderPresetControls, syncPresetEditor, updatePresetButtons } from "./presets.js";
 import { clearTranslations } from "./translate.js";
 import { updateUI } from "./ui.js";
 

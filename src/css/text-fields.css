@@ -33,11 +33,7 @@
 .translated-text-1-textarea,
 .translated-text-2-textarea {
   background-color: var(--background-color);
-  background-color: color-mix(
-    in srgb,
-    var(--background-color) 96%,
-    var(--text-color) 4%
-  );
+  background-color: color-mix(in srgb, var(--background-color) 96%, var(--text-color) 4%);
 }
 .translated-text-1-textarea:focus,
 .translated-text-2-textarea:focus {
@@ -84,14 +80,7 @@
   width: var(--grip-mark);
   height: var(--grip-mark);
   opacity: 0.75;
-  background: linear-gradient(
-    135deg,
-    transparent 0 42%,
-    var(--border-strong) 42% 52%,
-    transparent 52% 68%,
-    var(--border-strong) 68% 78%,
-    transparent 78%
-  );
+  background: linear-gradient(135deg, transparent 0 42%, var(--border-strong) 42% 52%, transparent 52% 68%, var(--border-strong) 68% 78%, transparent 78%);
 }
 .ta-grip:hover::after,
 .ta-grip.is-dragging::after {

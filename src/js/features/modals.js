@@ -32,9 +32,7 @@ function openModal(id) {
 function hideAllModals() {
   closeLiveLists();
 
-  document
-    .querySelectorAll(".app-modal")
-    .forEach((modal) => modal.classList.add("hidden"));
+  document.querySelectorAll(".app-modal").forEach((modal) => modal.classList.add("hidden"));
 }
 
 function isAnyModalOpen() {
@@ -63,9 +61,7 @@ export function initModals() {
     updateModalSnap();
   });
 
-  document
-    .querySelectorAll(".app-modal-close-btn")
-    .forEach((button) => button.addEventListener("click", closeAllModals));
+  document.querySelectorAll(".app-modal-close-btn").forEach((button) => button.addEventListener("click", closeAllModals));
 
   document.querySelectorAll(".app-modal").forEach((modal) => {
     modal.addEventListener("click", (event) => {

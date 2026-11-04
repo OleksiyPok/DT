@@ -27,10 +27,7 @@ function showTemporarily() {
   closeAllModals();
   showDeveloperPanel(true);
 
-  hideTimer = setTimeout(
-    () => showDeveloperPanel(state.developerMode),
-    TEMPORARY_VISIBLE_MS
-  );
+  hideTimer = setTimeout(() => showDeveloperPanel(state.developerMode), TEMPORARY_VISIBLE_MS);
 }
 
 function bindGesture() {

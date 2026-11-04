@@ -9,20 +9,13 @@ export async function translateMyMemory(q, source, target) {
   // Count every outgoing request, including requests that fail.
   recordMyMemoryRequest(q);
 
-  const res = await fetch(
-    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
-      q
-    )}&langpair=${langpair}`
-  );
+  const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${langpair}`);
 
   const data = await res.json();
   const text = data?.responseData?.translatedText;
 
   // On errors (e.g. the daily limit) MyMemory puts a warning into the text field
-  const failed =
-    (data?.responseStatus !== undefined &&
-      Number(data.responseStatus) !== 200) ||
-    /^MYMEMORY WARNING/i.test(text || "");
+  const failed = (data?.responseStatus !== undefined && Number(data.responseStatus) !== 200) || /^MYMEMORY WARNING/i.test(text || "");
 
   if (!text || failed) throw new Error("MyMemory: no translation");
 
@@ -50,14 +43,11 @@ export async function translateGoogle(q, source, target) {
 
   if (source !== "auto") body.source = source;
 
-  const res = await fetch(
-    `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    }
-  );
+  const res = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_API_KEY}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 
   const data = await res.json();
   const text = data?.data?.translations?.[0]?.translatedText;

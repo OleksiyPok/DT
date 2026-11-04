@@ -72,9 +72,7 @@ export function initTextareaSync() {
         id: e.pointerId,
         y: e.clientY,
         // heights of all fields when the drag starts: the ratio is always taken from them
-        start: new Map(
-          Object.values(fields).map((field) => [field, field.offsetHeight])
-        ),
+        start: new Map(Object.values(fields).map((field) => [field, field.offsetHeight])),
       };
       grip.classList.add("is-dragging");
     });
@@ -82,19 +80,13 @@ export function initTextareaSync() {
     grip.addEventListener("pointermove", (e) => {
       if (!drag || e.pointerId !== drag.id) return;
       const startHeight = drag.start.get(el);
-      const height = Math.max(
-        minHeightOf(el),
-        Math.round(startHeight + (e.clientY - drag.y))
-      );
+      const height = Math.max(minHeightOf(el), Math.round(startHeight + (e.clientY - drag.y)));
       el.style.height = `${height}px`;
 
       const ratio = height / startHeight;
       followers(name, fields).forEach((other) => {
         const base = drag.start.get(other);
-        other.style.height = `${Math.max(
-          minHeightOf(other),
-          Math.round(base * ratio)
-        )}px`;
+        other.style.height = `${Math.max(minHeightOf(other), Math.round(base * ratio))}px`;
       });
     });
 

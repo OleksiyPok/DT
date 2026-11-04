@@ -41,31 +41,31 @@ src/
 
 ## Карта модулей DT
 
-| Файл | За что отвечает |
-|---|---|
-| `core/config.js` | константы, пути, версия |
-| `core/defaults.js` | загрузка настроек по умолчанию из `config/config.json` |
-| `core/state.js` | общее состояние конфигураций |
-| `core/i18n.js` | загрузка и выдача текстов интерфейса, окна с сообщениями |
-| `core/storage.js` | чтение и запись настроек в localStorage |
-| `features/theme.js`, `core/theme-registry.js` | темы и режимы |
-| `features/ui.js` | подстановка текстов интерфейса на страницу |
-| `features/settings.js` | применение настроек, сброс |
-| `features/presets.js`, `features/buttons.js` | конфигурации и видимость кнопок |
-| `features/translate.js`, `features/translate-services.js` | перевод и сервисы |
-| `features/speech.js`, `features/clipboard.js` | голос, буфер обмена |
-| `features/modals.js`, `features/help.js` | окна и справка (язык справки выбирается в самом окне) |
-| `features/developer.js` | панель developer и выбор сервиса (настройка и секретный жест) |
-| `features/mymemory-usage.js` | счётчик запросов и символов MyMemory за день (строка в панели developer) |
-| `features/scroll-steps.js`, `features/live-select.js` | прокрутка по шагам, «живые» списки |
-| `features/textarea-sync.js` | связанная высота трёх текстовых полей (своя ручка растягивания в углу поля) |
-| `features/events.js` | обработчики событий |
+| Файл                                                      | За что отвечает                                                             |
+| --------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `core/config.js`                                          | константы, пути, версия                                                     |
+| `core/defaults.js`                                        | загрузка настроек по умолчанию из `config/config.json`                      |
+| `core/state.js`                                           | общее состояние конфигураций                                                |
+| `core/i18n.js`                                            | загрузка и выдача текстов интерфейса, окна с сообщениями                    |
+| `core/storage.js`                                         | чтение и запись настроек в localStorage                                     |
+| `features/theme.js`, `core/theme-registry.js`             | темы и режимы                                                               |
+| `features/ui.js`                                          | подстановка текстов интерфейса на страницу                                  |
+| `features/settings.js`                                    | применение настроек, сброс                                                  |
+| `features/presets.js`, `features/buttons.js`              | конфигурации и видимость кнопок                                             |
+| `features/translate.js`, `features/translate-services.js` | перевод и сервисы                                                           |
+| `features/speech.js`, `features/clipboard.js`             | голос, буфер обмена                                                         |
+| `features/modals.js`, `features/help.js`                  | окна и справка (язык справки выбирается в самом окне)                       |
+| `features/developer.js`                                   | панель developer и выбор сервиса (настройка и секретный жест)               |
+| `features/mymemory-usage.js`                              | счётчик запросов и символов MyMemory за день (строка в панели developer)    |
+| `features/scroll-steps.js`, `features/live-select.js`     | прокрутка по шагам, «живые» списки                                          |
+| `features/textarea-sync.js`                               | связанная высота трёх текстовых полей (своя ручка растягивания в углу поля) |
+| `features/events.js`                                      | обработчики событий                                                         |
 
 ## Шаги работы
 
 1. DT: структура папок, пути, ключ localStorage, иконки. (готово)
 2. DT: код на модули, тексты в JSON по языкам, CSS на файлы. (готово)
-2b. DT: устранены странности и ошибки, единый config.json. (готово)
+   2b. DT: устранены странности и ошибки, единый config.json. (готово)
 3. NLT: структура папок, пути, ключ localStorage, иконки.
 4. NLT: код на модули по тому же стандарту.
 5. NLT: дизайн по образцу DT.

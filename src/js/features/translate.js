@@ -2,11 +2,7 @@
 import { $ } from "../core/dom.js";
 import { getTexts } from "../core/i18n.js";
 import { saveSettings } from "../core/storage.js";
-import {
-  translateGoogle,
-  translateLibre,
-  translateMyMemory,
-} from "./translate-services.js";
+import { translateGoogle, translateLibre, translateMyMemory } from "./translate-services.js";
 
 // Value of <select id="serviceSelect"> -> name and translation function
 const SERVICES = {
@@ -58,10 +54,7 @@ export async function translateText() {
   $("translatedText2").value = "...";
 
   try {
-    const [result1, result2] = await Promise.all([
-      service.translate(text, src, t1),
-      service.translate(text, src, t2),
-    ]);
+    const [result1, result2] = await Promise.all([service.translate(text, src, t1), service.translate(text, src, t2)]);
     if (request !== lastRequest) return;
     $("translatedText1").value = result1;
     $("translatedText2").value = result2;

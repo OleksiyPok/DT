@@ -2,13 +2,7 @@
 import { getDefaults } from "../core/defaults.js";
 import { $ } from "../core/dom.js";
 import { getTexts } from "../core/i18n.js";
-import {
-  THEME_MODES,
-  applyThemeClass,
-  composeThema,
-  getPaletteOptions,
-  parseThema,
-} from "../core/theme-registry.js";
+import { THEME_MODES, applyThemeClass, composeThema, getPaletteOptions, parseThema } from "../core/theme-registry.js";
 import { refreshLiveLists } from "./live-select.js";
 
 // Theme used when the saved one is missing or unknown: the default from config/config.json
@@ -50,11 +44,7 @@ export function updateModeButton(mode, t) {
 }
 
 export function applyThema(value) {
-  const chosen = applyThemeClass(
-    document.documentElement,
-    value,
-    defaultThema()
-  );
+  const chosen = applyThemeClass(document.documentElement, value, defaultThema());
   const parsed = parseThema(chosen);
   if (parsed) {
     $("themaSelect").value = parsed.palette;
@@ -68,8 +58,7 @@ export function applyThema(value) {
 // The button on the main screen: next mode in the list
 export function nextThemaMode() {
   const select = $("themaModeSelect");
-  const next =
-    THEME_MODES[(THEME_MODES.indexOf(select.value) + 1) % THEME_MODES.length];
+  const next = THEME_MODES[(THEME_MODES.indexOf(select.value) + 1) % THEME_MODES.length];
   select.value = next;
   applyThema(getThemaFromSelects());
 }
