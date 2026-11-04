@@ -1,4 +1,4 @@
-# Структура проекта (стандарт для DT и NLT)
+# Структура проекта (стандарт для DT, NLT и CLT)
 
 ```
 index.html
@@ -7,7 +7,7 @@ STRUCTURE.md
 config/
   config.json              ЕДИНСТВЕННОЕ место настроек по умолчанию
 docs/
-  readme/img/              картинки для README
+  readme/                  README.<lang>.md (13 языков) и img/ (картинки для README)
   help/                    help.<lang>.html и help/img/
 assets/
   icons/                   icon_<APP>_<size>.png
@@ -69,3 +69,11 @@ src/
 3. NLT: структура папок, пути, ключ localStorage, иконки.
 4. NLT: код на модули по тому же стандарту.
 5. NLT: дизайн по образцу DT.
+
+## Запуск, настройки и службы перевода (раньше были в README.md)
+
+- Сборка не нужна. Папку отдают по HTTP(S) и открывают `index.html`, например: `python -m http.server 8000`, затем <http://localhost:8000>. Окно справки загружает текст через `fetch`, поэтому из `file://` оно не работает.
+- Голосовой ввод требует браузер с распознаванием речи (Chrome, Edge) и безопасный контекст (HTTPS или `localhost`).
+- Настройки по умолчанию (тема, языки конфигураций, видимые кнопки и т. д.) лежат только в `config/config.json`. Они используются при первом запуске и кнопкой «Reset defaults». Каждая конфигурация перечисляет свои кнопки в `buttons` (секции `source`, `target1`, `target2`); `false` скрывает кнопку по умолчанию.
+- Служба перевода по умолчанию: [MyMemory](https://mymemory.translated.net/) (бесплатно, с дневным лимитом). В режиме developer также доступны LibreTranslate и Google Cloud Translate; для Google нужен свой ключ API в `src/js/core/config.js` (он виден в коде страницы, ограничьте его своим сайтом в Google Cloud). Панель developer показывает, сколько символов MyMemory перевёл за день.
+- Автор: Oleksii Pokormiakho.
