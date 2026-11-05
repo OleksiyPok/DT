@@ -110,8 +110,7 @@ function renderLanguageSelector(target, initialSelection) {
 
 function markMissingImages(page) {
   page.querySelectorAll(".help-shot img").forEach((img) => {
-    const markMissing = () =>
-      img.closest(".help-shot")?.classList.add("missing");
+    const markMissing = () => img.closest(".help-shot")?.classList.add("missing");
 
     img.addEventListener("error", markMissing);
 
@@ -134,8 +133,7 @@ export async function loadHelp() {
     const currentRequestId = ++requestId;
     const selection = select.value;
 
-    const lang =
-      selection === APP_LANGUAGE ? getInterfaceLanguage() : selection;
+    const lang = selection === APP_LANGUAGE ? getInterfaceLanguage() : selection;
 
     const html = await getHelpHtml(lang);
 

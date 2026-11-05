@@ -69,15 +69,11 @@ export function renderButtonVisibilityOptions() {
 
 export function updateButtonVisibilityTexts(t) {
   BUTTON_SECTIONS.forEach((section) => {
-    const title = document.querySelector(
-      `.button-visibility-title[data-section-title="${section.key}"]`
-    );
+    const title = document.querySelector(`.button-visibility-title[data-section-title="${section.key}"]`);
     if (title) title.textContent = t[section.labelKey] || "";
 
     section.buttons.forEach((btn) => {
-      const text = document.querySelector(
-        `.button-visibility-text[data-section="${section.key}"][data-button="${btn.key}"]`
-      );
+      const text = document.querySelector(`.button-visibility-text[data-section="${section.key}"][data-button="${btn.key}"]`);
       if (text) text.textContent = t[btn.textKey] || "";
     });
   });
@@ -88,9 +84,7 @@ export function syncBtnEditor() {
   const p = state.presets[state.editBtnPreset - 1];
   BUTTON_SECTIONS.forEach((section) => {
     section.buttons.forEach((btn) => {
-      const checkbox = document.querySelector(
-        `.button-visibility-checkbox[data-section="${section.key}"][data-button="${btn.key}"]`
-      );
+      const checkbox = document.querySelector(`.button-visibility-checkbox[data-section="${section.key}"][data-button="${btn.key}"]`);
       if (checkbox) checkbox.checked = p.buttons[section.key][btn.key];
     });
   });
@@ -106,12 +100,10 @@ export function applyButtonVisibility() {
     });
   });
 
-  document
-    .querySelectorAll(".side-buttons, .button-container")
-    .forEach((container) => {
-      const hasVisible = !!container.querySelector(".icon-btn:not(.is-hidden)");
-      container.classList.toggle("is-hidden", !hasVisible);
-    });
+  document.querySelectorAll(".side-buttons, .button-container").forEach((container) => {
+    const hasVisible = !!container.querySelector(".icon-btn:not(.is-hidden)");
+    container.classList.toggle("is-hidden", !hasVisible);
+  });
 
   applyBottomButtons();
 

@@ -7,7 +7,6 @@
   var DEFAULT_THEME = "theme-warmorange-normal";
   var THEME_PATTERN = /^theme-[a-z]+-(contrast|normal|evening|night)$/;
 
-  var html = document.documentElement;
   var theme = DEFAULT_THEME;
 
   try {
@@ -21,6 +20,8 @@
   } catch (_e) {
     // Keep the default theme if saved settings cannot be read.
   }
+
+  var html = document.documentElement;
 
   Array.from(html.classList).forEach(function (name) {
     if (name.indexOf("theme-") === 0) {
@@ -38,8 +39,7 @@
     var match = theme.match(/-(contrast|normal|evening|night)$/);
     var mode = match ? match[1] : "normal";
 
-    icon.innerHTML =
-      '<svg aria-hidden="true"><use href="#i-mode-' + mode + '" /></svg>';
+    icon.innerHTML = '<svg aria-hidden="true"><use href="#i-mode-' + mode + '" /></svg>';
   }
 
   if (document.readyState === "loading") {

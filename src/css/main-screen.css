@@ -33,7 +33,9 @@
   border-radius: 6px;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 .help-app-btn,
 .settings-app-btn,
@@ -70,33 +72,6 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-/* Icon in a square frame, the same size as the "i" icon */
-.framed-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--text-color);
-  border: 2px solid var(--info-icon-color);
-  border-radius: 4px;
-}
-
-.framed-icon svg {
-  display: block;
-  width: 16px;
-  height: 16px;
-  color: var(--info-icon-color);
-  fill: none;
-  stroke: var(--info-icon-color);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
 /* Segmented switch of configurations: equal segments, the active one is filled */
 .preset-row {
   --preset-btn-height: 36px;
@@ -134,7 +109,9 @@
   height: var(--preset-btn-height);
   font-size: 16px;
   border-radius: 0;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 .preset-btn + .preset-btn {
   margin-left: -2px;
@@ -184,4 +161,3 @@
 .section-block-targets-wrapper .section-block {
   margin-top: 0;
 }
-

@@ -32,9 +32,7 @@ function openModal(id) {
 function hideAllModals() {
   closeLiveLists();
 
-  document
-    .querySelectorAll(".app-modal")
-    .forEach((modal) => modal.classList.add("hidden"));
+  document.querySelectorAll(".app-modal").forEach((modal) => modal.classList.add("hidden"));
 }
 
 function isAnyModalOpen() {
@@ -63,9 +61,7 @@ export function initModals() {
     updateModalSnap();
   });
 
-  document
-    .querySelectorAll(".app-modal-close-btn")
-    .forEach((button) => button.addEventListener("click", closeAllModals));
+  document.querySelectorAll(".app-modal-close-btn").forEach((button) => button.addEventListener("click", closeAllModals));
 
   document.querySelectorAll(".app-modal").forEach((modal) => {
     modal.addEventListener("click", (event) => {
@@ -75,5 +71,10 @@ export function initModals() {
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && isAnyModalOpen()) closeAllModals();
+    // F1 opens the help (instead of the browser's own help)
+    if (event.key === "F1") {
+      event.preventDefault();
+      if (!isAnyModalOpen()) $("helpAppBtn").click();
+    }
   });
 }

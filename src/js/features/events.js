@@ -4,21 +4,10 @@ import { $ } from "../core/dom.js";
 import { loadTexts } from "../core/i18n.js";
 import { state } from "../core/state.js";
 import { saveSettings } from "../core/storage.js";
-import {
-  applyThema,
-  getThemaFromSelects,
-  nextThemaMode,
-} from "./theme.js";
+import { applyThema, getThemaFromSelects, nextThemaMode } from "./theme.js";
 import { applyBottomButtons, applyButtonVisibility } from "./buttons.js";
 import { copyTextOf, pasteFromClipboard } from "./clipboard.js";
-import {
-  clampCount,
-  renderPresetControls,
-  setActivePreset,
-  syncLangEditor,
-  syncPresetEditor,
-  updatePresetButtons,
-} from "./presets.js";
+import { clampCount, renderPresetControls, setActivePreset, syncLangEditor, syncPresetEditor, updatePresetButtons } from "./presets.js";
 import { abortRecognition, speakText, startSpeechRecognition } from "./speech.js";
 import { resetSettings } from "./settings.js";
 import { clearSourceText, translateIfAuto, translateText } from "./translate.js";
@@ -56,8 +45,7 @@ function bindPresets() {
   $("presetCountSelect").addEventListener("change", (e) => {
     state.presetCount = clampCount(e.target.value);
     renderPresetControls();
-    if (state.activePreset > state.presetCount)
-      setActivePreset(state.presetCount);
+    if (state.activePreset > state.presetCount) setActivePreset(state.presetCount);
     syncPresetEditor();
     saveSettings();
   });
@@ -78,8 +66,7 @@ function bindPresets() {
 
   $("buttonVisibilityGroups").addEventListener("change", (e) => {
     const cb = e.target;
-    if (!cb.classList || !cb.classList.contains("button-visibility-checkbox"))
-      return;
+    if (!cb.classList || !cb.classList.contains("button-visibility-checkbox")) return;
     const { section, button } = cb.dataset;
     const buttons = state.presets[state.editBtnPreset - 1].buttons;
     if (buttons[section] && button in buttons[section]) {
@@ -152,12 +139,8 @@ function bindTextButtons() {
   });
 
   $("copySource").addEventListener("click", () => copyTextOf($("sourceText")));
-  $("copyTarget1").addEventListener("click", () =>
-    copyTextOf($("translatedText1"))
-  );
-  $("copyTarget2").addEventListener("click", () =>
-    copyTextOf($("translatedText2"))
-  );
+  $("copyTarget1").addEventListener("click", () => copyTextOf($("translatedText1")));
+  $("copyTarget2").addEventListener("click", () => copyTextOf($("translatedText2")));
 
   $("pasteSource").addEventListener("click", () => {
     pasteFromClipboard($("sourceText"));

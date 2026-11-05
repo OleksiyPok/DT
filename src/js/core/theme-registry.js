@@ -1,4 +1,19 @@
 // Theme list and helpers. Pure functions, no DOM access except applyThemeClass.
+// The class of <html> before the first paint is set by theme-boot.js (keep DEFAULT_THEME equal to "thema" in config/config.json).
+
+export const DEFAULT_THEME = "theme-warmorange-normal";
+
+// Removed palettes: old saved value -> replacement (same mode)
+const DEPRECATED_THEME_MAP = {
+  "theme-dutchflag-contrast": "theme-delftware-contrast",
+  "theme-dutchflag-normal": "theme-delftware-normal",
+  "theme-dutchflag-evening": "theme-delftware-evening",
+  "theme-dutchflag-night": "theme-delftware-night",
+  "theme-firbrown-contrast": "theme-delftware-contrast",
+  "theme-firbrown-normal": "theme-delftware-normal",
+  "theme-firbrown-evening": "theme-delftware-evening",
+  "theme-firbrown-night": "theme-delftware-night",
+};
 
 // Palettes are listed in colour order (red -> brown -> orange -> yellow -> green -> teal -> blue);
 // the selector in the settings shows them in this order. Grayscale (no colour) comes last.
@@ -47,12 +62,18 @@ export const THEME_DEFS = [
 
 export const THEME_VALUES = THEME_DEFS.map((x) => x.value);
 
-// Suffix order must stay in sync with <select id="themaModeSelect"> option values.
-export const THEME_MODES = ["contrast", "normal", "evening", "night"];
+// Order must stay in sync with <select id="themaModeSelect"> option values
+export const THEME_MODES = Object.freeze(["contrast", "normal", "evening", "night"]);
 
+export function resolveThemaKey(value) {
+  const s = String(value || "");
+  return DEPRECATED_THEME_MAP[s] || s;
+}
+
+// "theme-skycoral-night" -> { palette: "skycoral", mode: "night" }
 export function parseThema(value) {
   const v = String(value || "");
-  if (!v || !v.startsWith("theme-")) return null;
+  if (!v.startsWith("theme-")) return null;
   for (const mode of THEME_MODES) {
     const suffix = "-" + mode;
     if (v.length > suffix.length && v.endsWith(suffix)) {
@@ -66,12 +87,12 @@ export function parseThema(value) {
 export function composeThema(palette, mode) {
   const p = String(palette || "");
   const m = String(mode || "");
-  if (!p || !m || !THEME_MODES.includes(m)) return null;
+  if (!p || !THEME_MODES.includes(m)) return null;
   const candidate = `theme-${p}-${m}`;
   return THEME_VALUES.includes(candidate) ? candidate : null;
 }
 
-// One entry per palette: { palette, label } (the label without the " - Mode" part).
+// One entry per palette: { palette, label } (the label without the " - Mode" part), in the order of THEME_DEFS
 export function getPaletteOptions() {
   const seen = new Set();
   const out = [];
@@ -79,20 +100,18 @@ export function getPaletteOptions() {
     const parsed = parseThema(def.value);
     if (!parsed || seen.has(parsed.palette)) return;
     seen.add(parsed.palette);
-    let label = def.label || parsed.palette;
-    const sep = label.indexOf(" - ");
-    if (sep >= 0) label = label.slice(0, sep).trim();
-    out.push({ palette: parsed.palette, label });
+    const sep = def.label.indexOf(" - ");
+    out.push({ palette: parsed.palette, label: sep >= 0 ? def.label.slice(0, sep).trim() : def.label });
   });
   return out;
 }
 
-// Puts the wanted theme class on <html> (unknown value -> fallback) and returns the chosen one.
-export function applyThemeClass(htmlEl, value, fallback) {
-  const wanted = String(value || "");
+// Puts the wanted theme class on <html> (unknown value -> fallback) and returns the chosen one
+export function applyThemeClass(htmlEl, value, fallback = DEFAULT_THEME) {
+  const wanted = resolveThemaKey(value);
   const chosen = THEME_VALUES.includes(wanted) ? wanted : fallback;
-  if (!htmlEl) return chosen;
-  THEME_VALUES.forEach((v) => htmlEl.classList.remove(v));
+  // Also removes a theme class that is not in the list (set early by theme-boot.js)
+  [...htmlEl.classList].filter((c) => c.startsWith("theme-")).forEach((c) => htmlEl.classList.remove(c));
   htmlEl.classList.add(chosen);
   return chosen;
 }

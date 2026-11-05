@@ -41,8 +41,7 @@ export function speakText(text, langCode = "en") {
 /* ---------- Voice input ---------- */
 
 function initSpeechRecognition() {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     showAlert("speechRecUnsupported");
     return null;
@@ -61,9 +60,7 @@ function initSpeechRecognition() {
   rec.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
     const source = $("sourceText");
-    source.value = source.value.trim()
-      ? source.value.trim() + " " + transcript.trim()
-      : transcript.trim();
+    source.value = source.value.trim() ? source.value.trim() + " " + transcript.trim() : transcript.trim();
     source.dispatchEvent(new Event("input"));
   };
 

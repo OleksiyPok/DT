@@ -6,17 +6,12 @@ export function copyToClipboard(text) {
     showAlert("clipboardUnsupported");
     return;
   }
-  navigator.clipboard
-    .writeText(text)
-    .catch(() => showAlert("clipboardCopyFailed"));
+  navigator.clipboard.writeText(text).catch(() => showAlert("clipboardCopyFailed"));
 }
 
 // Copies the selected part of a textarea, or the whole text if nothing is selected
 export function copyTextOf(textarea) {
-  const selected = textarea.value.substring(
-    textarea.selectionStart,
-    textarea.selectionEnd
-  );
+  const selected = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
   copyToClipboard(selected.length > 0 ? selected : textarea.value);
 }
 
@@ -29,12 +24,7 @@ export function pasteFromClipboard(textarea) {
   navigator.clipboard
     .readText()
     .then((clipText) => {
-      textarea.setRangeText(
-        clipText,
-        textarea.selectionStart,
-        textarea.selectionEnd,
-        "end"
-      );
+      textarea.setRangeText(clipText, textarea.selectionStart, textarea.selectionEnd, "end");
       textarea.dispatchEvent(new Event("input"));
     })
     .catch(() => showAlert("clipboardPasteFailed"));

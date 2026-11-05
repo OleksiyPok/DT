@@ -1,7 +1,7 @@
 /* ---------- Scroll steps (scroll snap) ----------
    Main screen steps: page top, both divider lines, the gap above the source block.
-   Settings steps: top of every block. To use steps only on touch screens,
-   wrap this section in @media (pointer: coarse) { ... } */
+   Settings steps: top of every block. The help text scrolls freely (no steps).
+   To use steps only on touch screens, wrap this section in @media (pointer: coarse) { ... } */
 .scroll-container {
   scroll-snap-type: y mandatory;
 }
@@ -36,28 +36,12 @@
   pointer-events: none;
 }
 
-/* Modals: fixed header, only the body scrolls */
-#settingsAppModal .app-modal-content,
-#helpAppModal .app-modal-content {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  overflow: hidden;
-}
-.app-modal-body-wrap {
-  position: relative;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-.app-modal-body {
-  flex: 1 1 auto;
-  min-height: 0;
-  padding: 12px 16px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+/* The settings body scrolls by steps (the help text scrolls freely) */
+#settingsBody {
   scroll-snap-type: y mandatory;
+}
+.help-body {
+  scroll-snap-type: none;
 }
 #settingsAppModal .settings-app-content {
   padding-top: 0;
@@ -141,4 +125,3 @@
   top: 6px;
   right: calc(20px + var(--scrollbar-w, 0px));
 }
-

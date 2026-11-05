@@ -16,11 +16,7 @@ function todayKey() {
 function readUsage() {
   try {
     const saved = JSON.parse(localStorage.getItem(MYMEMORY_USAGE_KEY));
-    if (
-      saved?.date === todayKey() &&
-      Number.isFinite(saved.requests) &&
-      Number.isFinite(saved.characters)
-    ) {
+    if (saved?.date === todayKey() && Number.isFinite(saved.requests) && Number.isFinite(saved.characters)) {
       return saved;
     }
   } catch (err) {
@@ -45,19 +41,20 @@ export function recordMyMemoryRequest(text) {
 
 function render() {
   const { requests, characters } = readUsage();
-  $("myMemoryUsage").textContent =
-    `MyMemory today: ${requests.toLocaleString()} requests · ` +
-    `${characters.toLocaleString()} / ${MYMEMORY_DAILY_LIMIT.toLocaleString()} characters`;
+  $("myMemoryUsage").textContent = `MyMemory today: ${requests.toLocaleString()} requests · ` + `${characters.toLocaleString()} / ${MYMEMORY_DAILY_LIMIT.toLocaleString()} characters`;
 }
 
 // Zero the line at midnight even if the page stays open
 function scheduleMidnightRefresh() {
   const now = new Date();
   const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-  setTimeout(() => {
-    render();
-    scheduleMidnightRefresh();
-  }, midnight - now + 100);
+  setTimeout(
+    () => {
+      render();
+      scheduleMidnightRefresh();
+    },
+    midnight - now + 100,
+  );
 }
 
 export function initMyMemoryUsage() {
