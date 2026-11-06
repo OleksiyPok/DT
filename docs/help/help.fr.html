@@ -1,0 +1,187 @@
+<div class="help-content" lang="fr" dir="ltr">
+  <section class="help-section" id="help-about">
+    <h2>Objet du programme</h2>
+    <p>Dual Translator traduit le texte saisi simultanément en <b>deux langues</b>. Vous saisissez le texte une seule fois (en le tapant, en le collant ou en le dictant), et le programme affiche deux traductions côte à côte. Chaque résultat peut être copié ou écouté.</p>
+    <p>Pour les combinaisons de langues que vous utilisez souvent, il existe des <b>configurations</b> : chacune mémorise trois langues (la langue source et deux langues cibles) et un ensemble de boutons visibles. Vous passez de l’une à l’autre d’une simple pression.</p>
+    <p>L’interface est disponible en 13 langues : العربية, Čeština, Deutsch, English, Español, Français, Italiano, Nederlands, Polski, Português, Русский, Türkçe, Українська.</p>
+  </section>
+
+  <section class="help-section" id="help-main">
+    <h2>Écran principal</h2>
+
+    <figure class="help-shot" data-shot="main-overview">
+      <img src="docs/help/img/main-overview.png" alt="Écran principal du programme avec les éléments numérotés" loading="lazy" />
+      <figcaption>Écran principal</figcaption>
+    </figure>
+
+    <ol class="help-legend">
+      <li value="1">
+        <span class="help-framed"
+          ><svg class="help-ico" aria-hidden="true"><use href="#i-info" /></svg
+        ></span>
+        <b>Informations</b> : ouvre cette fenêtre.
+      </li>
+      <li value="2">
+        <span class="help-framed"
+          ><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg
+        ></span>
+        <b>Paramètres</b> : ouvre la fenêtre des paramètres (voir « Paramètres »).
+      </li>
+      <li value="3">
+        <svg class="help-ico" aria-hidden="true"><use href="#i-mode-normal" /></svg> <b>Mode</b> : le mode de couleurs de l’interface : Contraste, Normal, Soir ou Nuit. Chaque pression passe au mode suivant.
+      </li>
+      <li value="4"><b>Boutons de configuration</b> : passage rapide entre les jeux de langues enregistrés (voir « Configurations »). Le bouton affiche le code de la langue source (par exemple NL, EN). La configuration active est mise en évidence.</li>
+      <li value="5"><b>Langue source</b> : la langue du texte que vous saisissez.</li>
+      <li value="6">
+        <b>Boutons au-dessus du texte</b> : <svg class="help-ico" aria-hidden="true"><use href="#i-paste" /></svg> coller depuis le presse-papiers, <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> copier le texte source, <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg> écouter le texte source.
+      </li>
+      <li value="7"><b>Champ de saisie</b> : c’est ici que vous saisissez le texte source.</li>
+      <li value="8">
+        <b>Micro</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>, « Reconnaissance vocale ») : dictée dans la langue source. Appuyez de nouveau pour arrêter.
+      </li>
+      <li value="9">
+        <b>Effacer</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-clear" /></svg>) : supprime le texte source et les deux traductions.
+      </li>
+      <li value="10"><b>Traduction automatique</b> : lorsque la case est cochée, la traduction apparaît toute seule dès que vous saisissez du texte ou changez de langue.</li>
+      <li value="11">
+        <b>Langue cible 1</b> et sa traduction. Les boutons <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> et <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg> copient et lisent la traduction.
+      </li>
+      <li value="12"><b>Langue cible 2</b> et la seconde traduction, avec les mêmes boutons.</li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-use">
+    <h2>Mode d’emploi</h2>
+    <ol class="help-steps">
+      <li>Choisissez la <b>langue source</b> et les deux <b>langues cibles</b>, ou appuyez sur le bouton de la configuration souhaitée.</li>
+      <li>
+        Tapez le texte, collez-le avec <svg class="help-ico" aria-hidden="true"><use href="#i-paste" /></svg> ou dictez-le avec le micro <svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>.
+      </li>
+      <li>Si la <b>Traduction automatique</b> est activée, les deux traductions apparaissent seules. Si elle est désactivée, appuyez sur le bouton <b>Traduire</b>.</li>
+      <li>
+        Copiez une traduction avec <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> ou écoutez-la avec <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg>.
+      </li>
+    </ol>
+
+    <figure class="help-shot" data-shot="main-manual">
+      <img src="docs/help/img/main-manual.png" alt="Bloc de la source avec la Traduction automatique désactivée : le bouton « Traduire » est visible" loading="lazy" />
+      <figcaption>Traduction automatique désactivée : le bouton « Traduire » apparaît</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Case « Traduction automatique »</b> : décochez-la pour traduire uniquement avec le bouton.</li>
+      <li value="2"><b>Bouton « Traduire »</b> : visible uniquement lorsque la Traduction automatique est désactivée.</li>
+    </ol>
+
+    <p class="help-note">La traduction est effectuée par un service en ligne ; une connexion à internet est donc nécessaire. Les services gratuits peuvent imposer une limite quotidienne de volume de texte.</p>
+  </section>
+
+  <section class="help-section" id="help-voice">
+    <h2>Saisie vocale et lecture</h2>
+    <ul>
+      <li>
+        <b
+          >Dictée (<svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>).</b
+        >
+        Appuyez sur le bouton et parlez dans la langue source. Le texte reconnu apparaît dans le champ de saisie. Une nouvelle pression arrête l’enregistrement. Le navigateur peut demander l’accès au micro, et dans certains navigateurs la dictée n’est pas disponible.
+      </li>
+      <li>
+        <b
+          >Lecture (<svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg>).</b
+        >
+        Lit à voix haute le texte source ou une traduction avec la voix de votre appareil. Appuyer de nouveau pendant la lecture l’arrête.
+      </li>
+      <li><b>Effacement lors de la dictée.</b> Dans les paramètres, vous pouvez faire vider le champ de saisie chaque fois que vous commencez à dicter.</li>
+    </ul>
+  </section>
+
+  <section class="help-section" id="help-configs">
+    <h2>Configurations</h2>
+    <p>Une configuration mémorise trois langues (la langue source et deux langues cibles) et un ensemble de boutons visibles. Appuyer sur un bouton de configuration de l’écran principal charge immédiatement ses langues et ses boutons. Trois configurations sont disponibles par défaut ; on peut en activer jusqu’à six.</p>
+    <p>Si vous changez les langues directement sur l’écran principal, il s’agit d’un choix temporaire : la configuration enregistrée reste inchangée. Pour que ces changements soient mémorisés dans la configuration active, activez dans les paramètres <b>« Mémoriser les langues de l’écran principal »</b>.</p>
+  </section>
+
+  <section class="help-section" id="help-settings">
+    <h2>Paramètres</h2>
+    <p>
+      La fenêtre des paramètres s’ouvre avec le bouton
+      <span class="help-framed"
+        ><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg></span
+      >. Elle se compose de blocs ; le défilement permet de passer d’un bloc à l’autre, et une fraction dans le coin indique le numéro du bloc actuel sur le nombre total de blocs. Une modification est appliquée immédiatement.
+    </p>
+
+    <h3>Configurations</h3>
+    <figure class="help-shot" data-shot="settings-configs">
+      <img src="docs/help/img/settings-configs.png" alt="Paramètres : nombre de configurations" loading="lazy" />
+      <figcaption>Configurations</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Nombre</b> : combien de boutons de configuration sont affichés sur l’écran principal, de 1 à 6.</li>
+    </ol>
+
+    <h3>Langues</h3>
+    <figure class="help-shot" data-shot="settings-languages">
+      <img src="docs/help/img/settings-languages.png" alt="Paramètres : langues d’une configuration" loading="lazy" />
+      <figcaption>Langues</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Onglets de configuration</b> : la configuration que vous modifiez. Les onglets des blocs « Langues » et « Boutons visibles » se reflètent : un choix à un endroit change les deux blocs.</li>
+      <li value="2"><b>Langue source</b> de la configuration choisie.</li>
+      <li value="3"><b>Langue cible 1</b> de la configuration choisie.</li>
+      <li value="4"><b>Langue cible 2</b> de la configuration choisie.</li>
+      <li value="5"><b>Mémoriser les langues de l’écran principal</b> : une seule case pour toutes les configurations. Lorsqu’elle est cochée, les langues choisies sur l’écran principal sont enregistrées dans la configuration active.</li>
+    </ol>
+
+    <h3>Boutons visibles</h3>
+    <figure class="help-shot" data-shot="settings-buttons">
+      <img src="docs/help/img/settings-buttons.png" alt="Paramètres : choix des boutons visibles d’une configuration" loading="lazy" />
+      <figcaption>Boutons visibles</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Onglets de configuration</b> : les mêmes que dans le bloc « Langues ».</li>
+      <li value="2"><b>Boutons de la source</b> : coller, copier, écouter, micro, effacer.</li>
+      <li value="3"><b>Boutons de la traduction 1</b> : copier, écouter.</li>
+      <li value="4"><b>Boutons de la traduction 2</b> : copier, écouter.</li>
+    </ol>
+    <p>Décochez une case et le bouton disparaît de l’écran principal pour cette configuration. Vous ne gardez ainsi que ce dont vous avez besoin. Chaque configuration a son propre ensemble de boutons.</p>
+
+    <h3>Micro</h3>
+    <figure class="help-shot" data-shot="settings-microphone">
+      <img src="docs/help/img/settings-microphone.png" alt="Paramètres : bouton micro supplémentaire et effacement lors de la dictée" loading="lazy" />
+      <figcaption>Micro</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Bouton micro supplémentaire</b> : affiche de grands boutons « Effacer » et « Micro » en bas de l’écran principal.</li>
+      <li value="2"><b>Effacer le texte au démarrage du micro</b> : le champ de saisie est vidé avant chaque dictée.</li>
+    </ol>
+
+    <h3>Interface, thème et mode</h3>
+    <figure class="help-shot" data-shot="settings-appearance">
+      <img src="docs/help/img/settings-appearance.png" alt="Paramètres : langue de l’interface, thème et mode" loading="lazy" />
+      <figcaption>Interface, thème et mode</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Interface</b> : la langue des libellés du programme.</li>
+      <li value="2"><b>Thème</b> : la palette de couleurs du programme.</li>
+      <li value="3"><b>Mode</b> : Contraste (plus lumineux et plus net), Normal, Soir ou Nuit. Le mode Nuit est sombre et atténué, pour regarder l’écran sans gêne dans l’obscurité. Il fonctionne en synchronisation avec le bouton « Mode » de l’écran principal.</li>
+    </ol>
+
+    <h3>Paramètres par défaut</h3>
+    <figure class="help-shot" data-shot="settings-reset">
+      <img src="docs/help/img/settings-reset.png" alt="Paramètres : retour aux valeurs par défaut" loading="lazy" />
+      <figcaption>Paramètres par défaut</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1">
+        <b>Paramètres par défaut</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-reset" /></svg>) : remet tous les paramètres à leurs valeurs initiales.
+      </li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-notes">
+    <h2>Remarques</h2>
+    <p class="help-note">Tous les paramètres sont enregistrés dans votre navigateur et subsistent après la fermeture du programme.</p>
+    <p class="help-note">Les fenêtres d’aide et de paramètres se ferment avec le bouton ✕ ou la touche <kbd>Échap</kbd> ; sur téléphone, aussi avec le bouton Retour. La touche <kbd>F1</kbd> ouvre cette fenêtre.</p>
+    <p class="help-note">Pour une paire de langues que vous utilisez souvent, créez une configuration dédiée et ne gardez que les boutons nécessaires.</p>
+    <p class="help-note">Cette aide peut s’afficher dans n’importe quelle langue : choisissez-la dans le champ ci-dessus.</p>
+  </section>
+</div>

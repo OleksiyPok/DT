@@ -1,0 +1,187 @@
+<div class="help-content" lang="es" dir="ltr">
+  <section class="help-section" id="help-about">
+    <h2>Finalidad del programa</h2>
+    <p>Dual Translator traduce el texto introducido a <b>dos idiomas</b> a la vez. Usted introduce el texto una sola vez (lo escribe, lo pega o lo dicta) y el programa muestra dos traducciones una junto a otra. Cada resultado se puede copiar o escuchar.</p>
+    <p>Para las combinaciones de idiomas que usa con frecuencia hay <b>configuraciones</b>: cada una guarda tres idiomas (el de origen y dos de destino) y un conjunto de botones visibles. Cambia entre ellas con un toque.</p>
+    <p>La interfaz está disponible en 13 idiomas: العربية, Čeština, Deutsch, English, Español, Français, Italiano, Nederlands, Polski, Português, Русский, Türkçe, Українська.</p>
+  </section>
+
+  <section class="help-section" id="help-main">
+    <h2>Pantalla principal</h2>
+
+    <figure class="help-shot" data-shot="main-overview">
+      <img src="docs/help/img/main-overview.png" alt="Pantalla principal del programa con los elementos numerados" loading="lazy" />
+      <figcaption>Pantalla principal</figcaption>
+    </figure>
+
+    <ol class="help-legend">
+      <li value="1">
+        <span class="help-framed"
+          ><svg class="help-ico" aria-hidden="true"><use href="#i-info" /></svg
+        ></span>
+        <b>Información</b>: abre esta ventana.
+      </li>
+      <li value="2">
+        <span class="help-framed"
+          ><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg
+        ></span>
+        <b>Ajustes</b>: abre la ventana de ajustes (véase «Ajustes»).
+      </li>
+      <li value="3">
+        <svg class="help-ico" aria-hidden="true"><use href="#i-mode-normal" /></svg> <b>Modo</b>: el modo de color de la interfaz: Contraste, Normal, Tarde o Noche. Cada pulsación pasa al modo siguiente.
+      </li>
+      <li value="4"><b>Botones de configuración</b>: cambio rápido entre los conjuntos de idiomas guardados (véase «Configuraciones»). El botón muestra el código del idioma de origen (por ejemplo, NL, EN). La configuración activa aparece resaltada.</li>
+      <li value="5"><b>Idioma de origen</b>: el idioma del texto que introduce.</li>
+      <li value="6">
+        <b>Botones sobre el texto</b>: <svg class="help-ico" aria-hidden="true"><use href="#i-paste" /></svg> pegar desde el portapapeles, <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> copiar el texto de origen, <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg> reproducir el texto de origen.
+      </li>
+      <li value="7"><b>Campo de entrada</b>: aquí se introduce el texto de origen.</li>
+      <li value="8">
+        <b>Micrófono</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>, «Entrada de voz»): dictado en el idioma de origen. Púlselo de nuevo para detenerlo.
+      </li>
+      <li value="9">
+        <b>Borrar</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-clear" /></svg>): elimina el texto de origen y las dos traducciones.
+      </li>
+      <li value="10"><b>Traducción automática</b>: con la casilla marcada, la traducción aparece sola en cuanto introduce texto o cambia un idioma.</li>
+      <li value="11">
+        <b>Idioma de destino 1</b> y su traducción. Los botones <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> y <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg> copian y reproducen la traducción.
+      </li>
+      <li value="12"><b>Idioma de destino 2</b> y la segunda traducción, con los mismos botones.</li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-use">
+    <h2>Cómo se usa</h2>
+    <ol class="help-steps">
+      <li>Elija el <b>idioma de origen</b> y los dos <b>idiomas de destino</b>, o pulse el botón de la configuración que necesite.</li>
+      <li>
+        Escriba el texto, péguelo con <svg class="help-ico" aria-hidden="true"><use href="#i-paste" /></svg> o dicte con el micrófono <svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>.
+      </li>
+      <li>Si la <b>Traducción automática</b> está activada, las dos traducciones aparecen solas. Si está desactivada, pulse el botón <b>Traducir</b>.</li>
+      <li>
+        Copie una traducción con <svg class="help-ico" aria-hidden="true"><use href="#i-copy" /></svg> o escúchela con <svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg>.
+      </li>
+    </ol>
+
+    <figure class="help-shot" data-shot="main-manual">
+      <img src="docs/help/img/main-manual.png" alt="Bloque de origen con la Traducción automática desactivada: se ve el botón «Traducir»" loading="lazy" />
+      <figcaption>Traducción automática desactivada: aparece el botón «Traducir»</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Casilla «Traducción automática»</b>: desmárquela para traducir solo con el botón.</li>
+      <li value="2"><b>Botón «Traducir»</b>: solo es visible mientras la Traducción automática está desactivada.</li>
+    </ol>
+
+    <p class="help-note">La traducción la realiza un servicio en línea, por lo que se necesita conexión a internet. Los servicios gratuitos pueden tener un límite diario de texto.</p>
+  </section>
+
+  <section class="help-section" id="help-voice">
+    <h2>Entrada de voz y reproducción</h2>
+    <ul>
+      <li>
+        <b
+          >Dictado (<svg class="help-ico" aria-hidden="true"><use href="#i-mic" /></svg>).</b
+        >
+        Pulse el botón y hable en el idioma de origen. El texto reconocido aparece en el campo de entrada. Una nueva pulsación detiene la grabación. El navegador puede pedir acceso al micrófono, y en algunos navegadores el dictado no está disponible.
+      </li>
+      <li>
+        <b
+          >Reproducción (<svg class="help-ico" aria-hidden="true"><use href="#i-speak" /></svg>).</b
+        >
+        Lee en voz alta el texto de origen o una traducción con la voz de su dispositivo. Pulsar de nuevo durante la lectura la detiene.
+      </li>
+      <li><b>Borrado al dictar.</b> En los ajustes puede hacer que el campo de entrada se borre cada vez que empiece a dictar.</li>
+    </ul>
+  </section>
+
+  <section class="help-section" id="help-configs">
+    <h2>Configuraciones</h2>
+    <p>Una configuración guarda tres idiomas (el de origen y dos de destino) y un conjunto de botones visibles. Al pulsar un botón de configuración en la pantalla principal se cargan al instante sus idiomas y botones. De forma predeterminada hay tres configuraciones disponibles y se pueden activar hasta seis.</p>
+    <p>Si cambia los idiomas directamente en la pantalla principal, es una elección temporal: la configuración guardada no cambia. Para que esos cambios se recuerden en la configuración activa, active en los ajustes <b>«Recordar los idiomas de la pantalla principal»</b>.</p>
+  </section>
+
+  <section class="help-section" id="help-settings">
+    <h2>Ajustes</h2>
+    <p>
+      La ventana de ajustes se abre con el botón
+      <span class="help-framed"
+        ><svg class="help-ico" aria-hidden="true"><use href="#i-gear" /></svg></span
+      >. Consta de bloques; al desplazarse pasa de un bloque a otro, y una fracción en la esquina muestra el número del bloque actual sobre el total de bloques. Los cambios se aplican al instante.
+    </p>
+
+    <h3>Configuraciones</h3>
+    <figure class="help-shot" data-shot="settings-configs">
+      <img src="docs/help/img/settings-configs.png" alt="Ajustes: número de configuraciones" loading="lazy" />
+      <figcaption>Configuraciones</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Cantidad</b>: cuántos botones de configuración se muestran en la pantalla principal, de 1 a 6.</li>
+    </ol>
+
+    <h3>Idiomas</h3>
+    <figure class="help-shot" data-shot="settings-languages">
+      <img src="docs/help/img/settings-languages.png" alt="Ajustes: idiomas de una configuración" loading="lazy" />
+      <figcaption>Idiomas</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Pestañas de configuración</b>: qué configuración está editando. Las pestañas de los bloques «Idiomas» y «Botones visibles» se reflejan entre sí: elegir en un lugar cambia los dos bloques.</li>
+      <li value="2"><b>Idioma de origen</b> de la configuración elegida.</li>
+      <li value="3"><b>Idioma de destino 1</b> de la configuración elegida.</li>
+      <li value="4"><b>Idioma de destino 2</b> de la configuración elegida.</li>
+      <li value="5"><b>Recordar los idiomas de la pantalla principal</b>: una sola casilla para todas las configuraciones. Si está activada, los idiomas elegidos en la pantalla principal se guardan en la configuración activa.</li>
+    </ol>
+
+    <h3>Botones visibles</h3>
+    <figure class="help-shot" data-shot="settings-buttons">
+      <img src="docs/help/img/settings-buttons.png" alt="Ajustes: selección de los botones visibles de una configuración" loading="lazy" />
+      <figcaption>Botones visibles</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Pestañas de configuración</b>: las mismas que en el bloque «Idiomas».</li>
+      <li value="2"><b>Botones del origen</b>: pegar, copiar, reproducir, micrófono, borrar.</li>
+      <li value="3"><b>Botones de la traducción 1</b>: copiar, reproducir.</li>
+      <li value="4"><b>Botones de la traducción 2</b>: copiar, reproducir.</li>
+    </ol>
+    <p>Desmarque una casilla y el botón desaparecerá de la pantalla principal para esa configuración. Así deja solo lo que necesita. Cada configuración tiene su propio conjunto de botones.</p>
+
+    <h3>Micrófono</h3>
+    <figure class="help-shot" data-shot="settings-microphone">
+      <img src="docs/help/img/settings-microphone.png" alt="Ajustes: botón adicional de micrófono y borrado al dictar" loading="lazy" />
+      <figcaption>Micrófono</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Botón adicional de micrófono</b>: muestra grandes botones «Borrar» y «Micrófono» en la parte inferior de la pantalla principal.</li>
+      <li value="2"><b>Borrar el texto al iniciar el micrófono</b>: el campo de entrada se vacía antes de cada dictado.</li>
+    </ol>
+
+    <h3>Interfaz, tema y modo</h3>
+    <figure class="help-shot" data-shot="settings-appearance">
+      <img src="docs/help/img/settings-appearance.png" alt="Ajustes: idioma de la interfaz, tema y modo" loading="lazy" />
+      <figcaption>Interfaz, tema y modo</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1"><b>Interfaz</b>: el idioma de los textos del programa.</li>
+      <li value="2"><b>Tema</b>: la paleta de colores del programa.</li>
+      <li value="3"><b>Modo</b>: Contraste (más brillante y nítido), Normal, Tarde o Noche. El modo Noche es oscuro y suave, para mirar la pantalla con comodidad en la oscuridad. Funciona de forma sincronizada con el botón «Modo» de la pantalla principal.</li>
+    </ol>
+
+    <h3>Ajustes predeterminados</h3>
+    <figure class="help-shot" data-shot="settings-reset">
+      <img src="docs/help/img/settings-reset.png" alt="Ajustes: restablecimiento de los valores predeterminados" loading="lazy" />
+      <figcaption>Ajustes predeterminados</figcaption>
+    </figure>
+    <ol class="help-legend">
+      <li value="1">
+        <b>Ajustes predeterminados</b> (<svg class="help-ico" aria-hidden="true"><use href="#i-reset" /></svg>): devuelve todos los ajustes a sus valores iniciales.
+      </li>
+    </ol>
+  </section>
+
+  <section class="help-section" id="help-notes">
+    <h2>Notas</h2>
+    <p class="help-note">Todos los ajustes se guardan en su navegador y permanecen después de cerrar el programa.</p>
+    <p class="help-note">Las ventanas de ayuda y de ajustes se cierran con el botón ✕ o con la tecla <kbd>Esc</kbd>; en el teléfono, también con el botón Atrás. La tecla <kbd>F1</kbd> abre esta ventana.</p>
+    <p class="help-note">Para un par de idiomas que use con frecuencia, cree una configuración propia y deje solo los botones necesarios.</p>
+    <p class="help-note">Esta ayuda se puede mostrar en cualquier idioma: elíjalo en el campo de arriba.</p>
+  </section>
+</div>
