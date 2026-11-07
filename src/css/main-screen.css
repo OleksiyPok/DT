@@ -1,3 +1,8 @@
+/* Width of the three language selects on the main screen */
+:root {
+  --lang-select-w: 160px;
+}
+
 /* ---------- Top row: help, settings, theme mode ---------- */
 .setting-row {
   display: flex;

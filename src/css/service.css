@@ -1,0 +1,39 @@
+/* ---------- Translator-only rows: service choice, developer buttons in a column, MyMemory counter ----------
+   Loaded after developer.css (shared by all apps): the rules here override it. */
+.service-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+.service-select {
+  width: 100%;
+}
+.developer {
+  flex-direction: column;
+}
+.developer button {
+  width: 100%;
+  max-width: 120px;
+}
+
+/* MyMemory daily usage counter */
+.mymemory-usage {
+  width: 100%;
+  padding: 9px 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--primary-border);
+  border-radius: 8px;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  font-size: 0.75em;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Shown by the app (src/js) only in developer mode */
+.service-row,
+.developer {
+  display: none;
+}

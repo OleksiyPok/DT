@@ -37,8 +37,9 @@ src/
 - Иконки: `assets/icons/icon_<APP>_<ширина>x<высота>.png`.
 - JS: ES-модули, без глобальных переменных. Модули создаются фабриками `createXxx({...})` в `main.js` и общаются через шину событий (`core/event-bus.js`, имена событий в `core/event-types.js`). Настройки только в `core/state.js`; то, что сейчас показано на странице (конфигурации, редактируемые вкладки), хранится в `view` контекста `ui-elements.js`.
 - `core/` не знает о `features/`.
-- Файлы, общие для всех приложений (`help.js`, `modals.js`, `developer.js`, `theme.js`, `live-select.js`, `ui-mirrors.js`, `scroll-steps.js`, `core/event-bus.js`, `core/i18n.js`, `core/theme-registry.js`, `themes.css`), одинаковы побайтно: их меняют сразу во всех приложениях.
+- Файлы, общие для всех приложений (`help.js`, `modals.js`, `developer.js`, `theme.js`, `live-select.js`, `ui-mirrors.js`, `scroll-steps.js`, `core/event-bus.js`, `core/i18n.js`, `core/theme-registry.js`, `themes.css`, а также `base.css`, `help.css`, `icons.css`, `developer.css`, `live-select.css`, `modals.css`), одинаковы побайтно: их меняют сразу во всех приложениях.
 - Новый язык: файл `src/i18n/<lang>.json`, справка `docs/help/help.<lang>.html`, код языка в `core/config.js` (`LANG_CODES`) и в `index.html` (списки языков).
+- Только для переводчика: `service.css` (строки сервиса и разработчика, счётчик MyMemory; идёт после `developer.css` и переопределяет его), `text-buttons.css` (иконки кнопок текстовых блоков), `text-fields.css`.
 - Порядок CSS задаёт `src/css/main.css`: позже стоящий файл переопределяет раньше стоящий.
 - Приложение нужно открывать по HTTP (модули и `fetch` не работают с `file://`).
 
