@@ -10,6 +10,24 @@ Wpisz, wklej lub podyktuj tekst tylko raz, a następnie czytaj, kopiuj lub słuc
 
 ![Wygląd aplikacji](img/app.png)
 
+## Funkcje
+
+- Tłumaczy jednocześnie na dwa języki; przy włączonym automatycznym tłumaczeniu tłumaczenia pojawiają się w trakcie pisania.
+- Do sześciu konfiguracji: szybkie karty na ekranie głównym, każda zapamiętuje swoje trzy języki i własny zestaw widocznych przycisków.
+- Wprowadzanie głosowe i czytanie na głos tekstu źródłowego oraz obu tłumaczeń, a także przyciski kopiowania, wklejania i czyszczenia.
+- Korzysta z bezpłatnej usługi MyMemory, bez konta (obowiązuje dzienny limit).
+- Działa na telefonach i komputerach, w 13 językach interfejsu, z 10 motywami kolorystycznymi w czterech trybach (normalny, wieczorny, nocny, kontrast).
+
+## Ustawienia
+
+Okno ustawień zawiera konfiguracje (języki i widoczne przyciski dla każdej karty), język interfejsu, motyw i tryb oraz przywracanie ustawień domyślnych.
+
+![Okno ustawień](img/settings.png)
+
+## Jak zacząć
+
+Otwórz aplikację w przeglądarce: https://oleksiypok.github.io/DT/. Nie trzeba niczego instalować, a ustawienia są zapisywane w przeglądarce.
+
 ---
 
 🌐 Dostępne języki:  

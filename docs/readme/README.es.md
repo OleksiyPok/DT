@@ -10,6 +10,24 @@ Escribe, pega o dicta el texto una sola vez y lee, copia o escucha ambas traducc
 
 ![Aspecto de la aplicación](img/app.png)
 
+## Características
+
+- Traduce a dos idiomas a la vez; con la traducción automática activada, las traducciones aparecen mientras escribes.
+- Hasta seis configuraciones: pestañas rápidas en la pantalla principal, cada una con sus tres idiomas y sus propios botones visibles.
+- Entrada de voz y lectura en voz alta del texto original y de ambas traducciones, además de botones de copiar, pegar y borrar.
+- Usa el servicio gratuito MyMemory, sin cuenta (se aplica un límite diario).
+- Funciona en móviles y ordenadores, en 13 idiomas de interfaz, con 10 temas de color en cuatro modos (normal, tarde, noche, contraste).
+
+## Ajustes
+
+La ventana de ajustes incluye las configuraciones (idiomas y botones visibles de cada pestaña), el idioma de la interfaz, el tema y el modo, y el restablecimiento de valores.
+
+![Ventana de ajustes](img/settings.png)
+
+## Primeros pasos
+
+Abre la aplicación en tu navegador: https://oleksiypok.github.io/DT/. No hay que instalar nada y tus ajustes se guardan en el navegador.
+
 ---
 
 🌐 Idiomas disponibles:  

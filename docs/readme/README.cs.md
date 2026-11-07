@@ -10,6 +10,24 @@ Text jednou napište, vložte nebo nadiktujte a oba překlady si přečtěte ved
 
 ![Vzhled aplikace](img/app.png)
 
+## Funkce
+
+- Překládá do dvou jazyků současně; se zapnutým automatickým překladem se překlady objeví už při psaní.
+- Až šest konfigurací: rychlé karty na hlavní obrazovce, každá si pamatuje své tři jazyky a vlastní sadu viditelných tlačítek.
+- Hlasový vstup a předčítání zdrojového textu i obou překladů a také tlačítka pro kopírování, vkládání a vymazání.
+- Používá bezplatnou službu MyMemory, bez účtu (platí denní limit).
+- Funguje na telefonech i počítačích, ve 13 jazycích rozhraní, s 10 barevnými motivy ve čtyřech režimech (normální, večerní, noční, kontrastní).
+
+## Nastavení
+
+Okno nastavení obsahuje konfigurace (jazyky a viditelná tlačítka pro každou kartu), jazyk rozhraní, motiv a režim a obnovení výchozích hodnot.
+
+![Okno nastavení](img/settings.png)
+
+## Jak začít
+
+Otevřete aplikaci v prohlížeči: https://oleksiypok.github.io/DT/. Nic se neinstaluje a nastavení se ukládá v prohlížeči.
+
 ---
 
 🌐 Dostupné jazyky:  
