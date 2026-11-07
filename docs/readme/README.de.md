@@ -8,7 +8,7 @@
 Dies ist eine kompakte, einseitige Anwendung, die Text gleichzeitig in zwei Sprachen übersetzt.  
 Text einmal eingeben, einfügen oder diktieren – und beide Übersetzungen nebeneinander lesen, kopieren oder anhören.
 
-![Aussehen der Anwendung](img/app.png)
+<img src="img/app.png" alt="Aussehen der Anwendung" width="360">
 
 ## Funktionen
 
@@ -22,7 +22,7 @@ Text einmal eingeben, einfügen oder diktieren – und beide Übersetzungen nebe
 
 Das Einstellungsfenster enthält die Konfigurationen (Sprachen und sichtbare Schaltflächen je Tab), die Oberflächensprache, Thema und Modus sowie das Zurücksetzen auf Standardwerte.
 
-![Einstellungsfenster](img/settings.png)
+<img src="img/settings.png" alt="Einstellungsfenster" width="360">
 
 ## Erste Schritte
 

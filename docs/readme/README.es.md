@@ -8,7 +8,7 @@
 Esta es una aplicación compacta de una sola página que traduce texto a dos idiomas a la vez.  
 Escribe, pega o dicta el texto una sola vez y lee, copia o escucha ambas traducciones una junto a la otra.
 
-![Aspecto de la aplicación](img/app.png)
+<img src="img/app.png" alt="Aspecto de la aplicación" width="360">
 
 ## Características
 
@@ -22,7 +22,7 @@ Escribe, pega o dicta el texto una sola vez y lee, copia o escucha ambas traducc
 
 La ventana de ajustes incluye las configuraciones (idiomas y botones visibles de cada pestaña), el idioma de la interfaz, el tema y el modo, y el restablecimiento de valores.
 
-![Ventana de ajustes](img/settings.png)
+<img src="img/settings.png" alt="Ventana de ajustes" width="360">
 
 ## Primeros pasos
 

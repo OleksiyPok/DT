@@ -8,7 +8,7 @@
 Il s'agit d'une application compacte d'une seule page qui traduit un texte dans deux langues à la fois.  
 Saisissez, collez ou dictez le texte une seule fois, puis lisez, copiez ou écoutez les deux traductions côte à côte.
 
-![Aperçu de l'application](img/app.png)
+<img src="img/app.png" alt="Aperçu de l'application" width="360">
 
 ## Fonctionnalités
 
@@ -22,7 +22,7 @@ Saisissez, collez ou dictez le texte une seule fois, puis lisez, copiez ou écou
 
 La fenêtre des paramètres contient les configurations (langues et boutons visibles de chaque onglet), la langue de l’interface, le thème et le mode, ainsi que la réinitialisation.
 
-![Fenêtre des paramètres](img/settings.png)
+<img src="img/settings.png" alt="Fenêtre des paramètres" width="360">
 
 ## Pour commencer
 

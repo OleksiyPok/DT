@@ -8,7 +8,7 @@
 Bu, metni aynı anda iki dile çeviren, tek sayfalık kompakt bir uygulamadır.  
 Metni bir kez yazın, yapıştırın veya sesle girin; iki çeviriyi yan yana okuyun, kopyalayın veya dinleyin.
 
-![Uygulamanın görünümü](img/app.png)
+<img src="img/app.png" alt="Uygulamanın görünümü" width="360">
 
 ## Özellikler
 
@@ -22,7 +22,7 @@ Metni bir kez yazın, yapıştırın veya sesle girin; iki çeviriyi yan yana ok
 
 Ayarlar penceresinde yapılandırmalar (her sekme için diller ve görünür düğmeler), arayüz dili, tema ve mod ile varsayılanlara sıfırlama bulunur.
 
-![Ayarlar penceresi](img/settings.png)
+<img src="img/settings.png" alt="Ayarlar penceresi" width="360">
 
 ## Başlarken
 

@@ -8,7 +8,7 @@
 This is a compact, one-page application that translates text into two languages at once.  
 Type, paste or dictate the text once and read, copy or listen to both translations side by side.
 
-![Appearance of the application](img/app.png)
+<img src="img/app.png" alt="Appearance of the application" width="360">
 
 ## Features
 
@@ -22,7 +22,7 @@ Type, paste or dictate the text once and read, copy or listen to both translatio
 
 The settings window holds the configurations (languages and visible buttons for each tab), the interface language, the theme and mode, and a reset to defaults.
 
-![Settings window](img/settings.png)
+<img src="img/settings.png" alt="Settings window" width="360">
 
 ## Getting started
 

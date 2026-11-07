@@ -8,7 +8,7 @@
 Este é um aplicativo compacto, de página única, que traduz texto para dois idiomas ao mesmo tempo.  
 Digite, cole ou dite o texto uma só vez e leia, copie ou ouça as duas traduções lado a lado.
 
-![Aparência do aplicativo](img/app.png)
+<img src="img/app.png" alt="Aparência do aplicativo" width="360">
 
 ## Funcionalidades
 
@@ -22,7 +22,7 @@ Digite, cole ou dite o texto uma só vez e leia, copie ou ouça as duas traduç�
 
 A janela de definições contém as configurações (idiomas e botões visíveis de cada separador), o idioma da interface, o tema e o modo, e a reposição dos valores predefinidos.
 
-![Janela de definições](img/settings.png)
+<img src="img/settings.png" alt="Janela de definições" width="360">
 
 ## Primeiros passos
 

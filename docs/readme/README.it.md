@@ -8,7 +8,7 @@
 Questa è un'applicazione compatta a pagina singola che traduce il testo in due lingue contemporaneamente.  
 Scrivi, incolla o detta il testo una sola volta e leggi, copia o ascolta entrambe le traduzioni una accanto all'altra.
 
-![Aspetto dell'applicazione](img/app.png)
+<img src="img/app.png" alt="Aspetto dell'applicazione" width="360">
 
 ## Funzionalità
 
@@ -22,7 +22,7 @@ Scrivi, incolla o detta il testo una sola volta e leggi, copia o ascolta entramb
 
 La finestra delle impostazioni contiene le configurazioni (lingue e pulsanti visibili di ogni scheda), la lingua dell’interfaccia, il tema e la modalità e il ripristino dei valori predefiniti.
 
-![Finestra delle impostazioni](img/settings.png)
+<img src="img/settings.png" alt="Finestra delle impostazioni" width="360">
 
 ## Per iniziare
 

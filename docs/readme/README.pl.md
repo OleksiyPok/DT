@@ -8,7 +8,7 @@
 To kompaktowa, jednostronicowa aplikacja, która tłumaczy tekst jednocześnie na dwa języki.  
 Wpisz, wklej lub podyktuj tekst tylko raz, a następnie czytaj, kopiuj lub słuchaj obu tłumaczeń obok siebie.
 
-![Wygląd aplikacji](img/app.png)
+<img src="img/app.png" alt="Wygląd aplikacji" width="360">
 
 ## Funkcje
 
@@ -22,7 +22,7 @@ Wpisz, wklej lub podyktuj tekst tylko raz, a następnie czytaj, kopiuj lub słuc
 
 Okno ustawień zawiera konfiguracje (języki i widoczne przyciski dla każdej karty), język interfejsu, motyw i tryb oraz przywracanie ustawień domyślnych.
 
-![Okno ustawień](img/settings.png)
+<img src="img/settings.png" alt="Okno ustawień" width="360">
 
 ## Jak zacząć
 

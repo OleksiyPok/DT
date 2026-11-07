@@ -8,7 +8,7 @@
 Dit is een compacte applicatie op één pagina die tekst tegelijk in twee talen vertaalt.  
 Typ, plak of dicteer de tekst één keer en lees, kopieer of beluister beide vertalingen naast elkaar.
 
-![Uiterlijk van de applicatie](img/app.png)
+<img src="img/app.png" alt="Uiterlijk van de applicatie" width="360">
 
 ## Functies
 
@@ -22,7 +22,7 @@ Typ, plak of dicteer de tekst één keer en lees, kopieer of beluister beide ver
 
 Het instellingenvenster bevat de configuraties (talen en zichtbare knoppen per tab), de interfacetaal, het thema en de modus, en terugzetten naar de standaardwaarden.
 
-![Instellingenvenster](img/settings.png)
+<img src="img/settings.png" alt="Instellingenvenster" width="360">
 
 ## Aan de slag
 

@@ -8,7 +8,7 @@
 Toto je kompaktní jednostránková aplikace, která překládá text do dvou jazyků najednou.  
 Text jednou napište, vložte nebo nadiktujte a oba překlady si přečtěte vedle sebe, zkopírujte nebo poslechněte.
 
-![Vzhled aplikace](img/app.png)
+<img src="img/app.png" alt="Vzhled aplikace" width="360">
 
 ## Funkce
 
@@ -22,7 +22,7 @@ Text jednou napište, vložte nebo nadiktujte a oba překlady si přečtěte ved
 
 Okno nastavení obsahuje konfigurace (jazyky a viditelná tlačítka pro každou kartu), jazyk rozhraní, motiv a režim a obnovení výchozích hodnot.
 
-![Okno nastavení](img/settings.png)
+<img src="img/settings.png" alt="Okno nastavení" width="360">
 
 ## Jak začít
 
