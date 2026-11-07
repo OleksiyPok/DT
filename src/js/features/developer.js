@@ -1,67 +1,56 @@
-// Developer panel: the "Service" selector and the service buttons at the bottom of the main screen.
-// Shown by the developerMode setting, or temporarily by a secret gesture.
+// Secret gesture: 7 quick clicks on the "Reset defaults" text show the developer panel
+// for 30 seconds (whatever the saved "developerMode" is).
 import { STORAGE_KEY } from "../core/config.js";
-import { $ } from "../core/dom.js";
-import { state } from "../core/state.js";
-import { closeAllModals } from "./modals.js";
-import { initMyMemoryUsage } from "./mymemory-usage.js";
+import { EventTypes } from "../core/event-types.js";
 
 const GESTURE_CLICKS = 7;
 const GESTURE_WINDOW_MS = 3000;
 const TEMPORARY_VISIBLE_MS = 30_000;
 
-let hideTimer = null;
+export function createDeveloper({ bus, ui }) {
+  let savedMode = false;
+  let clicks = [];
+  let hideTimer = null;
 
-export function showDeveloperPanel(visible) {
-  clearTimeout(hideTimer);
-  hideTimer = null;
+  function showPanel(visible) {
+    ui.setDeveloperVisibility({ developerMode: visible });
+  }
 
-  const display = visible ? "flex" : "none";
+  function showTemporarily() {
+    bus.emit(EventTypes.UI_SETTINGS_MODAL_CLOSE);
+    bus.emit(EventTypes.UI_HELP_MODAL_CLOSE);
+    showPanel(true);
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => showPanel(savedMode), TEMPORARY_VISIBLE_MS);
+  }
 
-  $("serviceRow").style.display = display;
-  $("developer").style.display = display;
-}
-
-// Shows the panel without changing the saved developerMode setting
-function showTemporarily() {
-  closeAllModals();
-  showDeveloperPanel(true);
-
-  hideTimer = setTimeout(() => showDeveloperPanel(state.developerMode), TEMPORARY_VISIBLE_MS);
-}
-
-function bindGesture() {
-  let clicks = 0;
-  let firstClickAt = 0;
-
-  $("resetSettingsText").addEventListener("click", () => {
+  function onClick() {
     const now = Date.now();
-
-    if (clicks === 0 || now - firstClickAt > GESTURE_WINDOW_MS) {
-      firstClickAt = now;
-      clicks = 0;
-    }
-
-    clicks += 1;
-
-    if (clicks >= GESTURE_CLICKS) {
-      clicks = 0;
+    clicks = clicks.filter((t) => now - t < GESTURE_WINDOW_MS);
+    clicks.push(now);
+    if (clicks.length >= GESTURE_CLICKS) {
+      clicks = [];
       showTemporarily();
     }
-  });
-}
+  }
 
-export function initDeveloper() {
-  $("developerPathBtn").addEventListener("click", () => {
-    alert(location.href);
-  });
+  // The two buttons of the developer row
+  function setupButtons() {
+    document.getElementById("developerPathBtn")?.addEventListener("click", () => alert(location.href));
+    document.getElementById("developerClearBtn")?.addEventListener("click", () => {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      alert(`${STORAGE_KEY} cleared`);
+    });
+  }
 
-  // Removes only the settings of this app, other localStorage keys stay.
-  $("developerClearBtn").addEventListener("click", () => {
-    localStorage.removeItem(STORAGE_KEY);
-    alert(`${STORAGE_KEY} cleared`);
-  });
+  function init(appCfg) {
+    savedMode = Boolean(appCfg?.developerMode);
+    setupButtons();
+    // The text in the settings window
+    document.getElementById("resetSettingsText")?.addEventListener("click", onClick);
+  }
 
-  initMyMemoryUsage();
-  bindGesture();
+  return { init };
 }

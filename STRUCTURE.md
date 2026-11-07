@@ -18,9 +18,9 @@ src/
     base.css ... themes.css
   js/
     theme-boot.js          обычный скрипт: тема до первой отрисовки
-    main.js                точка входа
-    core/                  основа: config, defaults, state, dom, i18n, storage, theme-registry
-    features/              возможности, по одному файлу на задачу
+    main.js                точка входа: создаёт модули и связывает их
+    core/                  основа: config, event-bus, event-types, i18n, presets, state, theme-registry, utils
+    features/              возможности: app, ui (+ ui-elements, ui-labels, ui-selects, ui-buttons, ui-presets, ui-mirrors, theme, help, modals), translate, speech, clipboard, developer, scroll-steps, main-snap, live-select, textarea-sync, mymemory-usage
 ```
 
 ## Правила
@@ -32,9 +32,12 @@ src/
 - Иконки кнопок и режимов темы: символы в SVG-спрайте в `index.html`, на странице через `<use href="#i-...">`.
 - Нет inline-обработчиков (`onclick`) в HTML: все события вешает код из `features/`.
 - Ключи localStorage: `DT-settings` и другие `<APP>-...`; все объявлены в `core/config.js`.
+- Режим developer (`developerMode`) задаётся только в `config/config.json`; в сохранённых настройках его нет.
+- Клавиши: F1 открывает справку; Esc закрывает открытое окно.
 - Иконки: `assets/icons/icon_<APP>_<ширина>x<высота>.png`.
-- JS: ES-модули, без глобальных переменных. Общее состояние только в `core/state.js`.
-- `core/` не знает о `features/`, кроме `core/storage.js` (читает тему из `features/theme.js`).
+- JS: ES-модули, без глобальных переменных. Модули создаются фабриками `createXxx({...})` в `main.js` и общаются через шину событий (`core/event-bus.js`, имена событий в `core/event-types.js`). Настройки только в `core/state.js`; то, что сейчас показано на странице (конфигурации, редактируемые вкладки), хранится в `view` контекста `ui-elements.js`.
+- `core/` не знает о `features/`.
+- Файлы, общие для всех приложений (`help.js`, `modals.js`, `developer.js`, `theme.js`, `live-select.js`, `ui-mirrors.js`, `scroll-steps.js`, `core/event-bus.js`, `core/i18n.js`, `core/theme-registry.js`, `themes.css`), одинаковы побайтно: их меняют сразу во всех приложениях.
 - Новый язык: файл `src/i18n/<lang>.json`, справка `docs/help/help.<lang>.html`, код языка в `core/config.js` (`LANG_CODES`) и в `index.html` (списки языков).
 - Порядок CSS задаёт `src/css/main.css`: позже стоящий файл переопределяет раньше стоящий.
 - Приложение нужно открывать по HTTP (модули и `fetch` не работают с `file://`).
@@ -43,23 +46,28 @@ src/
 
 | Файл                                                      | За что отвечает                                                             |
 | --------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `core/config.js`                                          | константы, пути, версия                                                     |
-| `core/defaults.js`                                        | загрузка настроек по умолчанию из `config/config.json`                      |
-| `core/state.js`                                           | общее состояние конфигураций                                                |
-| `core/i18n.js`                                            | загрузка и выдача текстов интерфейса, окна с сообщениями                    |
-| `core/storage.js`                                         | чтение и запись настроек в localStorage                                     |
+| `core/config.js`                                          | константы, версия, кнопки конфигураций, загрузка `config/config.json`       |
+| `core/event-bus.js`, `core/event-types.js`                | шина событий и имена событий                                                |
+| `core/state.js`                                           | настройки: проверка, значения по умолчанию, сохранение в localStorage       |
+| `core/presets.js`                                         | проверка данных конфигураций (чистые функции)                               |
+| `core/i18n.js`                                            | загрузка и выдача текстов интерфейса                                        |
+| `core/utils.js`                                           | отладочный вывод                                                            |
+| `features/app.js`                                         | запуск, события настроек, клавиши                                           |
+| `features/ui.js`                                          | страница: связывает ui-модули, обработчики событий                          |
+| `features/ui-elements.js`                                 | элементы страницы и общее состояние ui-модулей                              |
+| `features/ui-labels.js`                                   | подстановка текстов интерфейса                                              |
+| `features/ui-selects.js`                                  | списки языков                                                               |
+| `features/ui-presets.js`, `features/ui-buttons.js`        | конфигурации и видимость кнопок                                             |
+| `features/ui-mirrors.js`                                  | копии блоков (в DT не используются: нет блоков с копиями)                   |
 | `features/theme.js`, `core/theme-registry.js`             | темы и режимы                                                               |
-| `features/ui.js`                                          | подстановка текстов интерфейса на страницу                                  |
-| `features/settings.js`                                    | применение настроек, сброс                                                  |
-| `features/presets.js`, `features/buttons.js`              | конфигурации и видимость кнопок                                             |
 | `features/translate.js`, `features/translate-services.js` | перевод и сервисы                                                           |
 | `features/speech.js`, `features/clipboard.js`             | голос, буфер обмена                                                         |
 | `features/modals.js`, `features/help.js`                  | окна и справка (язык справки выбирается в самом окне)                       |
-| `features/developer.js`                                   | панель developer и выбор сервиса (настройка и секретный жест)               |
+| `features/developer.js`                                   | секретный жест на «Сброс настроек»                                          |
 | `features/mymemory-usage.js`                              | счётчик запросов и символов MyMemory за день (строка в панели developer)    |
-| `features/scroll-steps.js`, `features/live-select.js`     | прокрутка по шагам, «живые» списки                                          |
+| `features/scroll-steps.js`, `features/main-snap.js`       | ступеньки прокрутки: окно настроек и главный экран                          |
+| `features/live-select.js`                                 | «живые» списки темы и режима                                                |
 | `features/textarea-sync.js`                               | связанная высота трёх текстовых полей (своя ручка растягивания в углу поля) |
-| `features/events.js`                                      | обработчики событий                                                         |
 
 ## Запуск, настройки и службы перевода (раньше были в README.md)
 

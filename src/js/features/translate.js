@@ -1,7 +1,5 @@
-// Translate the source text into both target languages; clear the texts.
-import { $ } from "../core/dom.js";
-import { getTexts } from "../core/i18n.js";
-import { saveSettings } from "../core/storage.js";
+// Translation of the source text into both target languages; clearing of the texts.
+import { EventTypes } from "../core/event-types.js";
 import { translateGoogle, translateLibre, translateMyMemory } from "./translate-services.js";
 
 // Value of <select id="serviceSelect"> -> name and translation function
@@ -11,65 +9,75 @@ const SERVICES = {
   google: { name: "Google", translate: translateGoogle },
 };
 
-// Number of the last request. An answer to an older request is ignored,
-// so a slow old answer cannot replace a newer translation.
-let lastRequest = 0;
+export function createTranslate({ bus, ui }) {
+  const E = ui.elements;
 
-function setLoadingState(isLoading) {
-  const translateBtn = $("manualTranslateBtn");
-  translateBtn.disabled = isLoading;
-  translateBtn.textContent = isLoading ? "..." : getTexts().translateBtnLabel;
-}
+  // Number of the last request. An answer to an older request is ignored,
+  // so a slow old answer cannot replace a newer translation.
+  let lastRequest = 0;
 
-// Empties the translations and drops the request that is still running
-export function clearTranslations() {
-  lastRequest++;
-  setLoadingState(false);
-  $("translatedText1").value = "";
-  $("translatedText2").value = "";
-}
+  function setLoadingState(isLoading) {
+    E.manualTranslateBtn.disabled = isLoading;
+    E.manualTranslateBtn.textContent = isLoading ? "..." : ui.getTexts().translateBtnLabel;
+  }
 
-export function clearSourceText() {
-  $("sourceText").value = "";
-  clearTranslations();
-  saveSettings();
-}
+  // Empties the translations and drops the request that is still running
+  function clearTranslations() {
+    lastRequest++;
+    setLoadingState(false);
+    E.translatedText1.value = "";
+    E.translatedText2.value = "";
+  }
 
-export async function translateText() {
-  const text = $("sourceText").value.trim();
-  if (!text) {
+  function clearSourceText() {
+    E.sourceText.value = "";
     clearTranslations();
-    return;
+    bus.emit(EventTypes.SETTINGS_APPLY_TO_UI, { saveFromUI: true });
   }
 
-  const service = SERVICES[$("serviceSelect").value];
-  if (!service) return;
-  const src = $("sourceLang").value;
-  const t1 = $("targetLang1").value;
-  const t2 = $("targetLang2").value;
-  const request = ++lastRequest;
+  async function translateText() {
+    const text = E.sourceText.value.trim();
+    if (!text) {
+      clearTranslations();
+      return;
+    }
 
-  setLoadingState(true);
-  $("translatedText1").value = "...";
-  $("translatedText2").value = "...";
+    const service = SERVICES[E.serviceSelect.value];
+    if (!service) return;
+    const src = E.sourceLang.value;
+    const t1 = E.targetLang1.value;
+    const t2 = E.targetLang2.value;
+    const request = ++lastRequest;
 
-  try {
-    const [result1, result2] = await Promise.all([service.translate(text, src, t1), service.translate(text, src, t2)]);
-    if (request !== lastRequest) return;
-    $("translatedText1").value = result1;
-    $("translatedText2").value = result2;
-  } catch (err) {
-    console.error("Translation failed:", err);
-    if (request !== lastRequest) return;
-    const message = `${getTexts().translationError} (${service.name})`;
-    $("translatedText1").value = message;
-    $("translatedText2").value = message;
-  } finally {
-    if (request === lastRequest) setLoadingState(false);
+    setLoadingState(true);
+    E.translatedText1.value = "...";
+    E.translatedText2.value = "...";
+
+    try {
+      const [result1, result2] = await Promise.all([service.translate(text, src, t1), service.translate(text, src, t2)]);
+      if (request !== lastRequest) return;
+      E.translatedText1.value = result1;
+      E.translatedText2.value = result2;
+    } catch (err) {
+      console.error("Translation failed:", err);
+      if (request !== lastRequest) return;
+      const message = `${ui.getTexts().translationError} (${service.name})`;
+      E.translatedText1.value = message;
+      E.translatedText2.value = message;
+    } finally {
+      if (request === lastRequest) setLoadingState(false);
+    }
   }
-}
 
-// The checkbox "Auto-translate" is the only place where this setting lives
-export function translateIfAuto() {
-  if ($("autoTranslate").checked) translateText();
+  // The checkbox "Auto-translate" is the only place where this setting lives
+  function translateIfAuto() {
+    if (E.autoTranslate.checked) translateText();
+  }
+
+  bus.on(EventTypes.TRANSLATE_RUN, translateText);
+  bus.on(EventTypes.TRANSLATE_IF_AUTO, translateIfAuto);
+  bus.on(EventTypes.TRANSLATE_CLEAR, clearTranslations);
+  bus.on(EventTypes.SOURCE_CLEAR, clearSourceText);
+
+  return { translateText, translateIfAuto, clearTranslations, clearSourceText };
 }

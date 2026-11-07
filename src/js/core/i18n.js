@@ -1,39 +1,44 @@
 // UI texts and language names: src/i18n/<lang>.json = { ui: {...}, languages: {...} }.
 // English is always loaded and used as the fallback.
-import { PATHS } from "./config.js";
-import { $ } from "./dom.js";
+export function createLangLoader({ config }) {
+  const PATH = config.PATHS.UI_TEXTS_DIR;
+  let texts = {};
 
-const cache = {};
+  const FALLBACK_EN = { ui: {}, languages: {} };
 
-async function fetchLang(lang) {
-  if (cache[lang]) return;
-  try {
-    const response = await fetch(`${PATHS.I18N_DIR}${lang}.json`, {
-      cache: "no-cache",
-    });
-    if (!response.ok) throw new Error(`${lang}.json: ${response.status}`);
-    cache[lang] = await response.json();
-  } catch (err) {
-    console.error("Failed to load UI texts:", err);
+  async function loadLang(code) {
+    try {
+      const res = await fetch(`${PATH}/${code}.json`, { cache: "no-cache" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json || typeof json !== "object") throw new Error("Bad JSON");
+      return json;
+    } catch (e) {
+      console.warn(`UI texts load failed for ${code}:`, e);
+      return null;
+    }
   }
-}
 
-// Loads the texts of a language (and English). Call before getTexts().
-export async function loadTexts(lang) {
-  await Promise.all([fetchLang("en"), fetchLang(lang)]);
-}
+  // The languages to load: the given list, by default config.UI_LANGS
+  async function loadAll(allowed = config.UI_LANGS) {
+    texts = {};
+    const langs = Array.isArray(allowed) ? allowed : ["en"];
+    await Promise.all(
+      langs.map(async (code) => {
+        const data = await loadLang(code);
+        if (data) texts[code] = data;
+      }),
+    );
+    if (!texts.en) {
+      texts.en = FALLBACK_EN;
+      console.warn("EN fallback injected.");
+    }
+    return texts;
+  }
 
-// Texts of the given language (default: the one selected in the settings).
-// A text missing in that language is taken from English.
-export function getTexts(lang = $("uiLangSelect").value) {
-  return { ...cache.en?.ui, ...cache[lang]?.ui };
-}
+  // Texts of the language; a text missing in it is taken from English.
+  const getTexts = (lang) => ({ ...(texts.en || FALLBACK_EN).ui, ...texts[lang]?.ui });
+  const getLanguageNames = (lang) => ({ ...(texts.en || FALLBACK_EN).languages, ...texts[lang]?.languages });
 
-export function getLanguageNames(lang = $("uiLangSelect").value) {
-  return { ...cache.en?.languages, ...cache[lang]?.languages };
-}
-
-// Shows a window with a message (key = key in the UI texts); `detail` is added after it
-export function showAlert(key, detail = "") {
-  alert(getTexts()[key] + detail);
+  return { loadLang, loadAll, getTexts, getLanguageNames };
 }

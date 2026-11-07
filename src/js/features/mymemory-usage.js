@@ -1,7 +1,6 @@
 // MyMemory usage counter: requests and source-text characters sent today.
 // Stored separately from the settings; the line is shown in the developer panel.
 import { MYMEMORY_DAILY_LIMIT, MYMEMORY_USAGE_KEY } from "../core/config.js";
-import { $ } from "../core/dom.js";
 
 const CHANGE_EVENT = "mymemory-usage-change";
 
@@ -41,7 +40,8 @@ export function recordMyMemoryRequest(text) {
 
 function render() {
   const { requests, characters } = readUsage();
-  $("myMemoryUsage").textContent = `MyMemory today: ${requests.toLocaleString()} requests · ` + `${characters.toLocaleString()} / ${MYMEMORY_DAILY_LIMIT.toLocaleString()} characters`;
+  const line = document.getElementById("myMemoryUsage");
+  if (line) line.textContent = `MyMemory today: ${requests.toLocaleString()} requests · ` + `${characters.toLocaleString()} / ${MYMEMORY_DAILY_LIMIT.toLocaleString()} characters`;
 }
 
 // Zero the line at midnight even if the page stays open

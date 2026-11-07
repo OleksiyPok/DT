@@ -1,40 +1,25 @@
-// Scroll steps (CSS scroll-snap): spacers, scroll hints and the block-number badge.
+// Scroll steps of the settings window (CSS scroll-snap): spacer, scroll hints and the block-number badge.
 
 /* ---------- Scroll steps (CSS scroll-snap) ---------- */
 
-function contentTop(container, el) {
+export function contentTop(container, el) {
   return el.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
 }
 
-function snapOffset(container, el) {
+export function snapOffset(container, el) {
   return (parseFloat(getComputedStyle(container).scrollPaddingTop) || 0) + (parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
 }
 
-function fitSnapSpacer(container, spacer, lastSnapEl) {
+export function fitSnapSpacer(container, spacer, lastSnapEl) {
   if (!container || !spacer || !lastSnapEl || !container.clientHeight) return;
-  spacer.style.height = "0px";
   const stepPos = contentTop(container, lastSnapEl) - snapOffset(container, lastSnapEl);
   // The real end of the content: scrollHeight is never less than the window height,
   // so on a tall window it can not be used (the last step would stay out of reach).
   const contentEnd = contentTop(container, spacer) + (parseFloat(getComputedStyle(container).paddingBottom) || 0);
-  spacer.style.height = Math.max(0, Math.ceil(stepPos + container.clientHeight - contentEnd)) + "px";
-}
-
-export function updateMainSnap() {
-  const container = document.getElementById("scrollContainer");
-  const source = document.querySelector(".section-block-source");
-  const targets = document.querySelector(".section-block-targets-wrapper");
-  if (!container || !source || !targets) return;
-
-  // The last visible element of the page: the translations, the buttons under them,
-  // or the developer rows (if shown)
-  const last = [targets, document.querySelector(".bottom-actions"), document.getElementById("serviceRow"), document.getElementById("developer")].filter((el) => el && el.offsetParent !== null).pop() || targets;
-  const sourceStep = contentTop(container, source) - snapOffset(container, source);
-  const contentBottom = contentTop(container, last) + last.offsetHeight;
-  container.querySelectorAll(".snap-end").forEach((el) => el.classList.remove("snap-end"));
-  last.classList.toggle("snap-end", contentBottom - sourceStep > container.clientHeight + 1);
-
-  fitSnapSpacer(container, document.getElementById("mainSnapSpacer"), source);
+  // The spacer is not reset to 0 first and is written only when it changes: a temporary shrink of the
+  // scroll range makes Firefox re-snap the page (it jumped to the configuration buttons).
+  const height = Math.max(0, Math.ceil(stepPos + container.clientHeight - contentEnd)) + "px";
+  if (spacer.style.height !== height) spacer.style.height = height;
 }
 
 export function updateModalSnap() {
@@ -95,24 +80,17 @@ function showStepBadge(badgeId, container, steps) {
   stepBadgeTimers[badgeId] = setTimeout(() => badge.classList.remove("show"), STEP_BADGE_MS);
 }
 
-function updateSnap() {
-  updateMainSnap();
-  updateModalSnap();
-}
-
 export function initSnap() {
-  updateSnap();
   const settingsBody = document.getElementById("settingsBody");
-  settingsBody?.addEventListener("scroll", updateScrollHints, {
-    passive: true,
-  });
+  settingsBody?.addEventListener("scroll", updateScrollHints, { passive: true });
   settingsBody?.addEventListener("scroll", () => showStepBadge("stepBadgeSettings", settingsBody, getSettingsSteps()), { passive: true });
 
-  window.addEventListener("resize", updateSnap);
-  window.addEventListener("orientationchange", updateSnap);
-  window.addEventListener("load", updateSnap);
+  window.addEventListener("resize", updateModalSnap);
+  window.addEventListener("orientationchange", updateModalSnap);
+  window.addEventListener("load", updateModalSnap);
   if (window.ResizeObserver) {
-    const ro = new ResizeObserver(updateSnap);
-    [document.querySelector(".layout"), document.getElementById("settingsAppContent"), document.getElementById("settingsBody")].forEach((el) => el && ro.observe(el));
+    const ro = new ResizeObserver(updateModalSnap);
+    [document.getElementById("settingsAppContent"), settingsBody].forEach((el) => el && ro.observe(el));
   }
+  updateModalSnap();
 }

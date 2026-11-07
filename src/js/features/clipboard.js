@@ -1,7 +1,6 @@
 // Clipboard: copy (the selected part, or everything) and paste.
-import { showAlert } from "../core/i18n.js";
-
-export function copyToClipboard(text) {
+// showAlert(key) shows a message of the interface language (see ui-labels.js).
+export function copyToClipboard(text, showAlert) {
   if (!navigator.clipboard) {
     showAlert("clipboardUnsupported");
     return;
@@ -10,13 +9,13 @@ export function copyToClipboard(text) {
 }
 
 // Copies the selected part of a textarea, or the whole text if nothing is selected
-export function copyTextOf(textarea) {
+export function copyTextOf(textarea, showAlert) {
   const selected = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
-  copyToClipboard(selected.length > 0 ? selected : textarea.value);
+  copyToClipboard(selected.length > 0 ? selected : textarea.value, showAlert);
 }
 
 // Inserts the clipboard text at the cursor (replaces the selected text)
-export function pasteFromClipboard(textarea) {
+export function pasteFromClipboard(textarea, showAlert) {
   if (!navigator.clipboard) {
     showAlert("clipboardUnsupported");
     return;

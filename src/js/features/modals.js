@@ -1,80 +1,40 @@
-// Windows: help and settings.
-import { $ } from "../core/dom.js";
-import { state } from "../core/state.js";
-import { loadHelp } from "./help.js";
-import { closeLiveLists } from "./live-select.js";
-import { syncPresetEditor } from "./presets.js";
-import { updateModalSnap } from "./scroll-steps.js";
+// Settings window: the same settings as on the main page (copies, see ui-mirrors.js).
+export function createModals({ elements, mirrors }) {
+  const isSettingsModalOpen = () => !elements.settingsAppModal?.classList.contains("hidden");
 
-// An open window owns one history entry, so the browser / phone "Back" button
-// closes the window instead of leaving the page. Without a window Back works as usual.
-let modalHistoryPushed = false;
+  function openSettingsModal() {
+    mirrors.sync();
+    elements.settingsAppModal?.classList.remove("hidden");
+  }
 
+  const closeSettingsModal = () => elements.settingsAppModal?.classList.add("hidden");
+
+  return { isSettingsModalOpen, openSettingsModal, closeSettingsModal };
+}
+
+// An open window owns one history entry, so the "Back" button of the browser / phone closes the window
+// first (back to the main page) and only the next "Back" leaves the page. Without a window Back works as usual.
 // Closing with the cross, the backdrop or Esc also removes the history entry.
-export function closeAllModals() {
-  hideAllModals();
+export function createModalHistory({ isAnyOpen, closeAll }) {
+  let pushed = false;
 
-  if (modalHistoryPushed) {
-    modalHistoryPushed = false;
-    history.back();
-  }
-}
-
-function openModal(id) {
-  $(id)?.classList.remove("hidden");
-
-  if (!modalHistoryPushed) {
-    history.pushState({ dtModal: true }, "");
-    modalHistoryPushed = true;
-  }
-}
-
-function hideAllModals() {
-  closeLiveLists();
-
-  document.querySelectorAll(".app-modal").forEach((modal) => modal.classList.add("hidden"));
-}
-
-function isAnyModalOpen() {
-  return !!document.querySelector(".app-modal:not(.hidden)");
-}
-
-export function initModals() {
   // "Back" pressed while a window is open: the entry is already gone, just hide the window.
   window.addEventListener("popstate", () => {
-    if (modalHistoryPushed) {
-      modalHistoryPushed = false;
-      hideAllModals();
-    }
+    if (!pushed) return;
+    pushed = false;
+    closeAll();
   });
 
-  $("helpAppBtn").addEventListener("click", () => {
-    openModal("helpAppModal");
-    loadHelp();
-  });
-
-  $("settingsAppBtn").addEventListener("click", () => {
-    state.editLangPreset = state.activePreset;
-    state.editBtnPreset = state.activePreset;
-    syncPresetEditor();
-    openModal("settingsAppModal");
-    updateModalSnap();
-  });
-
-  document.querySelectorAll(".app-modal-close-btn").forEach((button) => button.addEventListener("click", closeAllModals));
-
-  document.querySelectorAll(".app-modal").forEach((modal) => {
-    modal.addEventListener("click", (event) => {
-      if (event.target === modal) closeAllModals();
-    });
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && isAnyModalOpen()) closeAllModals();
-    // F1 opens the help (instead of the browser's own help)
-    if (event.key === "F1") {
-      event.preventDefault();
-      if (!isAnyModalOpen()) $("helpAppBtn").click();
-    }
-  });
+  return {
+    opened() {
+      if (pushed) return;
+      history.pushState({ appModal: true }, "");
+      pushed = true;
+    },
+    closed() {
+      if (!pushed || isAnyOpen()) return;
+      pushed = false;
+      history.back();
+    },
+  };
 }

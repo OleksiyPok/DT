@@ -1,7 +1,7 @@
 {
-  "uiLangSelect": "en",
+  "uiLang": "en",
   "thema": "theme-warmorange-normal",
-  "serviceSelect": "mymemory",
+  "service": "mymemory",
   "autoTranslate": false,
   "clearOnMic": true,
   "bottomButtons": true,

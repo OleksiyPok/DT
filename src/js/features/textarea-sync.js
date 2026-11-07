@@ -9,8 +9,6 @@
 // tiny, absent on many phones and does not report the finger drag reliably. The size of the
 // touch area is set in text-fields.css (--grip-hit).
 
-import { $ } from "../core/dom.js";
-
 const FIELD_IDS = {
   source: "sourceText",
   target1: "translatedText1",
@@ -19,9 +17,9 @@ const FIELD_IDS = {
 
 function getFields() {
   return {
-    source: $(FIELD_IDS.source),
-    target1: $(FIELD_IDS.target1),
-    target2: $(FIELD_IDS.target2),
+    source: document.getElementById(FIELD_IDS.source),
+    target1: document.getElementById(FIELD_IDS.target1),
+    target2: document.getElementById(FIELD_IDS.target2),
   };
 }
 
