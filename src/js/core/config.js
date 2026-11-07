@@ -6,7 +6,7 @@
 export const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY";
 
 // Version shown on the main screen
-export const APP_VERSION = "2.5.37";
+export const APP_VERSION = "2.7.1";
 
 // Keys in localStorage. All of them start with the app name (the first one is also in theme-boot.js)
 export const STORAGE_KEY = "DT-settings";
